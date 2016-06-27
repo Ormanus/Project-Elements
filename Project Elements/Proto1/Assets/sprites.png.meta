@@ -1,0 +1,226 @@
+fileFormatVersion: 2
+guid: 37da73495ea6f5643b73879a61ee2019
+timeCreated: 1466509791
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: sprites_0
+    21300002: Enemy
+    21300004: Enemy1
+    21300006: sprites_1
+    21300008: sprites_2
+    21300010: sprites_3
+    21300012: sprites_4
+    21300014: sprites_5
+    21300016: sprites_6
+    21300018: sprites_7
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: sprites_0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 342
+        width: 32
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 10, y: 18.5}
+        - {x: -10, y: 18.5}
+        - {x: -16, y: 11.5}
+        - {x: -16, y: -9.5}
+        - {x: -15, y: -14.5}
+        - {x: -11, y: -18.5}
+        - {x: -3, y: -18.5}
+        - {x: 15, y: -5.5}
+        - {x: 16, y: -3.5}
+        - {x: 16, y: 12.5}
+    - name: Enemy
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 244
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Enemy1
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 201
+        width: 42
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: sprites_1
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 195
+        width: 42
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 19}
+        - {x: -16, y: 15}
+        - {x: -21, y: 9}
+        - {x: -21, y: -19}
+        - {x: 21, y: -19}
+        - {x: 21, y: 14}
+        - {x: 9, y: 19}
+    - name: sprites_2
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 194
+        width: 43
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9.5, y: 21}
+        - {x: -11.5, y: 21}
+        - {x: -18.5, y: 15}
+        - {x: -21.5, y: 9}
+        - {x: -21.5, y: -21}
+        - {x: 21.5, y: -21}
+        - {x: 21.5, y: 12}
+        - {x: 14.5, y: 19}
+    - name: sprites_3
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 195
+        width: 42
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 19}
+        - {x: -16, y: 15}
+        - {x: -21, y: 9}
+        - {x: -21, y: -19}
+        - {x: 21, y: -19}
+        - {x: 21, y: 14}
+        - {x: 9, y: 19}
+    - name: sprites_4
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 153
+        width: 42
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: sprites_5
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 147
+        width: 42
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -21, y: 19}
+        - {x: -21, y: -19}
+        - {x: 21, y: -19}
+        - {x: 21, y: 19}
+    - name: sprites_6
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 146
+        width: 43
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8.5, y: 21}
+        - {x: -9.5, y: 21}
+        - {x: -21.5, y: 9}
+        - {x: -21.5, y: -20}
+        - {x: -20.5, y: -21}
+        - {x: 8.5, y: -21}
+        - {x: 21.5, y: -15}
+        - {x: 21.5, y: 5}
+        - {x: 17.5, y: 17}
+    - name: sprites_7
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 147
+        width: 42
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -21, y: 19}
+        - {x: -21, y: -19}
+        - {x: 21, y: -19}
+        - {x: 21, y: 19}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
