@@ -5,7 +5,7 @@ public class GameTestSceneSpriteChanger : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		gameObject.GetComponent<SpriteRenderer> ().sprite = Resources.Load (PlayerPrefs.GetString("p4"), typeof(Sprite)) as Sprite;
+		gameObject.GetComponent<SpriteRenderer> ().sprite = Resources.Load (PlayerPrefs.GetString("spritelokaatio"), typeof(Sprite)) as Sprite;
 		PlayerPrefs.SetFloat ("testi", 0.1F);
 	}
 	
