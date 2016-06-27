@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class OptionsSceneScript : MonoBehaviour {
 	public static float hahmoval;//hahmo, jonka valkkaat sliderista
@@ -40,7 +41,9 @@ public class OptionsSceneScript : MonoBehaviour {
 		}
 
 		GUI.Box (new Rect (0, 0, 800, 600), "Choose values",myStyle);
-
+		if (GUI.Button (new Rect (240, 120, 150, 30), "Back")) {
+			SceneManager.LoadScene ("MainMenu");
+		}
 		if (GUI.Button (new Rect (240, 70, 150, 30), "Save")) { 
 
 			PlayerPrefs.SetFloat ("valittuvaik", vaikeustas);
