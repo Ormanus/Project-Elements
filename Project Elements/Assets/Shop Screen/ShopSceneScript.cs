@@ -35,7 +35,10 @@ public class ShopSceneScript : MonoBehaviour {
 		GUI.Box (new Rect (10,40,120,40), GUI.tooltip);
 		*/
 
-		GUI.Button (new Rect (40,25,200,20), new GUIContent ("Osta HP +20", "No joo\n tosi kivahko juttu \n Price 2"));
+		if (GUI.Button (new Rect (40, 25, 200, 20), new GUIContent ("Osta HP +20", "No joo\n tosi kivahko juttu \n Price 2"))) {
+			health = health + 20; 
+			pojot = pojot - 2;
+		}
 		if (!string.IsNullOrEmpty (GUI.tooltip)) {
 			GUI.Box (new Rect (40, 48, 210, 80), GUI.tooltip);
 			GUI.tooltip = null;
