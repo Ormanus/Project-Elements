@@ -21,6 +21,35 @@ public class ShopSceneScript : MonoBehaviour {
 	public GUIStyle headlineStyle = null;
 
 	void OnGUI(){
+		Texture2D tex = new Texture2D(2,2);
+		for(int i = 0; i < tex.width; i++)
+		{
+			for(int j = 0; j < tex.height; j++)
+			{
+				tex.SetPixel(i, j, new Color(1f, 1f, 1f, 0.5f));
+			}
+		}
+		tex.Apply();
+		GUIStyle tempstyle = new GUIStyle();
+		tempstyle.normal.background = tex;
+		GUILayout.BeginArea(new Rect(0,0,Screen.width,Screen.height),tempstyle);
+		GUILayout.EndArea();
+
+		DrawQuad (new Rect (20, 20, 200, 200), Color.black);
+		DrawQuad (new Rect (20, 20, 200, 10), Color.blue);
+		DrawQuad (new Rect (20, 50, 200, 10), Color.blue);
+
+
+
+
+		//GUIUtility.ScaleAroundPivot (Vector2(2, 2), Vector2(328.0, 328.0));
+
+		//GUI.Label (new Rect (200, 200, 256, 256), Color.blue );
+
+
+
+		//GUI.Label (new Rect (25, 25, 100, 30), Color.black);
+
 		headlineStyle.fontSize = 25;
 		headlineStyle.padding = new RectOffset (25, 25, 25, 25); //saadaan otsikko muuttamaan sijaintia
 
@@ -65,6 +94,15 @@ public class ShopSceneScript : MonoBehaviour {
 		health = GUI.HorizontalSlider(new Rect(25, 220, 100, 30), health, 0.0f, 100.0f); GUI.Label (new Rect (25, 203, 100, 20), "health-val");
 		//GUILayout.EndVertical ();
 		//GUI.EndGroup ();
+	}
+	void DrawQuad(Rect position, Color color) {
+	
+		Texture2D texture = new Texture2D(1, 1);//memory eater? that's what they say or not
+		texture.SetPixel(0,0,color);
+		texture.Apply();
+		GUI.skin.box.normal.background = texture;
+		GUI.Box(position, GUIContent.none);
+
 	}
 	
 	// Update is called once per frame
