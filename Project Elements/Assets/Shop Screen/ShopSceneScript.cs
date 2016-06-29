@@ -36,8 +36,8 @@ public class ShopSceneScript : MonoBehaviour {
 		GUILayout.EndArea();
 
 		DrawQuad (new Rect (20, 20, 600, 400), Color.black);
-		DrawQuad (new Rect (20, 20, 200, 10), Color.blue);
-		DrawQuad (new Rect (20, 50, 200, 10), Color.blue);
+		DrawQuad (new Rect (20, 20, 600, 10), Color.blue);
+		DrawQuad (new Rect (20, 50, 600, 10), Color.blue);
 
 		/*GUI.Button(new Rect(10, 80, 100, 20), new GUIContent("I have a tooltip", "The button overrides the box"));
 		GUI.Label(new Rect(10, 40, 100, 40), GUI.tooltip, tempstyle);
@@ -74,11 +74,16 @@ public class ShopSceneScript : MonoBehaviour {
 			GUI.Label (new Rect (180, 284, 100, 20), " " + tradeablepojot + " ");
 		}
 
-		GUI.Box (new Rect (0, 0, 800, 600), "Welcome to shop upgrades etc. between levels.", headlineStyle);
+		GUI.Box (new Rect (702, 0, 800, 600), "Welcome to shop. \n - upgrades etc. \n" +
+			" - between levels place.", headlineStyle);
 		if (GUI.Button (new Rect (20, 450, 150, 30), "Back")) {
 			SceneManager.LoadScene ("MainMenu");
 		}
-		if (GUI.Button (new Rect (420, 450, 150, 30), "Suorita maksu")) { 
+
+		GUI.Label (new Rect (20, 480, 150, 30), "Money:" + pojot);
+		GUI.Label (new Rect (20, 500, 150, 30), "HP:" + health);
+
+		if (GUI.Button (new Rect (420, 450, 150, 30), "Continue")) { 
 
 			PlayerPrefs.SetFloat ("healtti", health);
 			PlayerPrefs.SetFloat ("pojolkm", 20f);
