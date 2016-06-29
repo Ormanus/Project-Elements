@@ -38,7 +38,8 @@ public class ShopSceneScript : MonoBehaviour {
 		DrawQuad (new Rect (20, 20, 600, 400), Color.black);
 		DrawQuad (new Rect (20, 20, 600, 10), Color.blue);
 		DrawQuad (new Rect (20, 50, 600, 10), Color.blue);
-
+		DrawQuad (new Rect (10, 20, 20, 400), Color.blue);
+		DrawQuad (new Rect (580, 20, 20, 400), Color.blue);
 		/*GUI.Button(new Rect(10, 80, 100, 20), new GUIContent("I have a tooltip", "The button overrides the box"));
 		GUI.Label(new Rect(10, 40, 100, 40), GUI.tooltip, tempstyle);
 
@@ -48,8 +49,14 @@ public class ShopSceneScript : MonoBehaviour {
 		*/
 
 		GUI.Button (new Rect (40,10,200,20), new GUIContent ("Osta HP +20", "No joo\n Osta tämä hetimmiten tai ei"));
+		if (!string.IsNullOrEmpty (GUI.tooltip)) {
+			GUI.Box (new Rect (40, 40, 210, 40), GUI.tooltip);
+			GUI.tooltip = null;
+		}
+		
+		GUI.Button (new Rect (240,10,200,20), new GUIContent ("Osta HP +20", "No joo\n Osta tämä hetimmiten tai ei"));
 		if (!string.IsNullOrEmpty(GUI.tooltip))
-			GUI.Box (new Rect (40,40,210,40), GUI.tooltip);
+			GUI.Box (new Rect (240,40,210,40), GUI.tooltip);
 		//GUIUtility.ScaleAroundPivot (Vector2(2, 2), Vector2(328.0, 328.0));
 
 		//GUI.Label (new Rect (200, 200, 256, 256), Color.blue );
@@ -88,12 +95,12 @@ public class ShopSceneScript : MonoBehaviour {
 			PlayerPrefs.SetFloat ("healtti", health);
 			PlayerPrefs.SetFloat ("pojolkm", 20f);
 		}
-		GUILayout.BeginArea (new Rect (10,310,200,300));
-		GUILayout.BeginVertical(GUI.skin.box);
+		//GUILayout.BeginArea (new Rect (10,310,200,300));
+		//GUILayout.BeginVertical(GUI.skin.box);
 		//pojot = GUI.HorizontalSlider(new Rect(25, 150, 100, 30), pojot, 0.0f, 100.0f); GUI.Label (new Rect (25, 127, 132, 20), "Tasotoimipistekertymä");
 		//health = GUI.HorizontalSlider(new Rect(25, 220, 100, 30), health, 0.0f, 100.0f); GUI.Label (new Rect (25, 203, 100, 20), "health-val");
 		//GUILayout.Label ("Trade for gain of health");
-		GUILayout.Label("add health based on your tasopistekertymä");
+		/*GUILayout.Label("add health based on your tasopistekertymä");
 		tradehealth = GUILayout.HorizontalSlider(tradehealth, 0.0F, 100.0F); 
 		if (GUILayout.Button ("get more health"))
 			PlayerPrefs.SetFloat ("healtti", tradehealth + pojot);
@@ -102,7 +109,7 @@ public class ShopSceneScript : MonoBehaviour {
 
 		GUILayout.EndVertical();
 		GUILayout.EndArea ();
-
+		*/
 		//pojot = GUI.HorizontalSlider(new Rect(25, 150, 100, 30), pojot, 0.0f, 100.0f); GUI.Label (new Rect (25, 127, 132, 20), "Tasotoimipistekertymä");
 		//health = GUI.HorizontalSlider(new Rect(25, 220, 100, 30), health, 0.0f, 100.0f); GUI.Label (new Rect (25, 203, 100, 20), "health-val");
 		//GUILayout.EndVertical ();
