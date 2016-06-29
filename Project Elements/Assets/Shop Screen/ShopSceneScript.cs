@@ -39,9 +39,12 @@ public class ShopSceneScript : MonoBehaviour {
 		DrawQuad (new Rect (20, 20, 200, 10), Color.blue);
 		DrawQuad (new Rect (20, 50, 200, 10), Color.blue);
 
+		GUI.Button(new Rect(10, 80, 100, 20), new GUIContent("I have a tooltip", "The button overrides the box"));
+		GUI.Label(new Rect(10, 40, 100, 40), GUI.tooltip, tempstyle);
 
-
-
+		GUI.Button (new Rect (10,10,120,20), new GUIContent ("Click me", "This is the tooltip"));
+		if (!string.IsNullOrEmpty(GUI.tooltip))
+		GUI.Box (new Rect (10,40,120,40), GUI.tooltip);
 		//GUIUtility.ScaleAroundPivot (Vector2(2, 2), Vector2(328.0, 328.0));
 
 		//GUI.Label (new Rect (200, 200, 256, 256), Color.blue );
