@@ -21,19 +21,6 @@ public class ShopSceneScript : MonoBehaviour {
 	public GUIStyle headlineStyle = null;
 
 	void OnGUI(){
-		Texture2D tex = new Texture2D(2,2);
-		for(int i = 0; i < tex.width; i++)
-		{
-			for(int j = 0; j < tex.height; j++)
-			{
-				tex.SetPixel(i, j, new Color(1f, 1f, 1f, 0.5f));
-			}
-		}
-		tex.Apply();
-		GUIStyle tempstyle = new GUIStyle();
-		tempstyle.normal.background = tex;
-		GUILayout.BeginArea(new Rect(0,0,Screen.width,Screen.height),tempstyle);
-		GUILayout.EndArea();
 
 		DrawQuad (new Rect (20, 20, 600, 400), Color.black);
 		DrawQuad (new Rect (20, 20, 600, 10), Color.blue);
@@ -48,15 +35,15 @@ public class ShopSceneScript : MonoBehaviour {
 		GUI.Box (new Rect (10,40,120,40), GUI.tooltip);
 		*/
 
-		GUI.Button (new Rect (40,10,200,20), new GUIContent ("Osta HP +20", "No joo\n Osta tämä hetimmiten tai ei"));
+		GUI.Button (new Rect (40,25,200,20), new GUIContent ("Osta HP +20", "No joo\n tosi kivahko juttu \n Price 2"));
 		if (!string.IsNullOrEmpty (GUI.tooltip)) {
-			GUI.Box (new Rect (40, 40, 210, 40), GUI.tooltip);
+			GUI.Box (new Rect (40, 48, 210, 80), GUI.tooltip);
 			GUI.tooltip = null;
 		}
 		
-		GUI.Button (new Rect (240,10,200,20), new GUIContent ("Osta HP +20", "No joo\n Osta tämä hetimmiten tai ei"));
+		GUI.Button (new Rect (240,25,200,20), new GUIContent ("Osta HP +40", "No joo\n uber great\n Hinta 4"));
 		if (!string.IsNullOrEmpty(GUI.tooltip))
-			GUI.Box (new Rect (240,40,210,40), GUI.tooltip);
+			GUI.Box (new Rect (240,48,210,100), GUI.tooltip);
 		//GUIUtility.ScaleAroundPivot (Vector2(2, 2), Vector2(328.0, 328.0));
 
 		//GUI.Label (new Rect (200, 200, 256, 256), Color.blue );
@@ -68,7 +55,7 @@ public class ShopSceneScript : MonoBehaviour {
 		headlineStyle.fontSize = 25;
 		headlineStyle.padding = new RectOffset (25, 25, 25, 25); //saadaan otsikko muuttamaan sijaintia
 
-		if (health > 1) { //näyttää ruudulla kasvattaessa
+		/*if (health > 1) { //näyttää ruudulla kasvattaessa
 			GUI.Label (new Rect (180, 214, 100, 20), " " + health + " ");
 		}
 		if (pojot > 1) { //näyttää ruudulla kasvattaessa
@@ -79,7 +66,7 @@ public class ShopSceneScript : MonoBehaviour {
 		}
 		if (pojot > 1) { //näyttää ruudulla kasvattaessa
 			GUI.Label (new Rect (180, 284, 100, 20), " " + tradeablepojot + " ");
-		}
+		}*/
 
 		GUI.Box (new Rect (702, 0, 800, 600), "Welcome to shop. \n - upgrades etc. \n" +
 			" - between levels place.", headlineStyle);
