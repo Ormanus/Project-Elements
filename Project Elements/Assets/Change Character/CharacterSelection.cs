@@ -40,18 +40,12 @@ public class CharacterSelection : MonoBehaviour {
 		
 			PlayerPrefs.SetFloat ("talletettuhahmo", hahmoval);
 			PlayerPrefs.SetString ("spritelokaatio", spritensijainti); 
-			StartCoroutine(MyMethod());
 			Application.LoadLevel (1); //Opens the GameTestScene
 
 			  
 		}
 
 		hahmoval = GUI.HorizontalSlider(new Rect(25, 25, 100, 30), hahmoval, 0.0f, 10.0f); GUI.Label (new Rect (25, 0, 100, 20), "Valitse kuvake");
-
-	}
-	IEnumerator MyMethod() {
-		
-		yield return new WaitForSeconds(3);
 
 	}
 	

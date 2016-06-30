@@ -1,34 +1,67 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
+
+
 
 public class GameTestScenePauseMenu : MonoBehaviour {
 
-	bool pau4m = false;
+
+	bool pausemode = false;
 	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+
+
+
+ 
+
+ 
+ 
+     // Use this for initialization
+     void Start () {
+       
+     }
+     
+     // Update is called once per frame
+     void Update () {
 		if (Input.GetKeyDown(KeyCode.P)) {
-			Application.LoadLevelAdditive (1);
+			pausemode = pause ();
+		}
+        
+     }
+ 
+   
+
+	bool pause() {
+		if (Time.timeScale == 0f) {
+			Time.timeScale = 1f;
+			return (false);
+		} else {
+			Time.timeScale = 0f;
+			return (true);
 		}
 	}
-	void OnGUI() {
-		if (GUI.Button (new Rect (Screen.width - 155, 50, 100, 104), "paum4")) {
-			if (pau4m == false) { 
-				pau4m = true;
-				Time.timeScale = 1;
-				return;
-			}
-			if (pau4m == true) {
-				pau4m = false;
-				Time.timeScale = 0;
+ 
 
-				return;
-			}
+ 
+     void OnGUI ()
+	{
+      
+       
+		if (pausemode) {
+			GUILayout.Label ("Game paused");
+			if (GUILayout.Button ("Unpause the game"))
+				pausemode = pause ();
+			//GUILayout.Label ("Main menu");
+			if (GUILayout.Button ("Main menu"))
+				SceneManager.LoadScene ("MainMenu");
 		}
-	}
+	
 
+         
+	}
 }
+ 
+
+
+
