@@ -3,13 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
+struct Door
+{
+    public int width;
+    public int startingPoint;
+    public byte direction;
+};
+
 struct Part
 {
     public GameObject go;
-    public int width;
-    public int height;
+    public int w;
+    public int h;
+    // remove
     public int[] doorStartingPoints;
     public int[] doorWidths;
+    // end remove
+    public Door[] doors;
 };
 
 struct Rectangle
@@ -20,8 +30,12 @@ struct Rectangle
 
 public class GameSceneLevelLoading : MonoBehaviour
 {
+    //remove
     public int width;
     public int height;
+    //end remove
+
+    //public int nRooms; //number of rooms
 
     public GameObject[] enemies;
     public string[] parts;
@@ -29,11 +43,20 @@ public class GameSceneLevelLoading : MonoBehaviour
 
     private Texture2D texture;
     private Rect[] uvs;
-    private Part[] level;
+    private Part[] partData;
+
+    //private Area[] level;
+    //private bool[] levelSpaceMap = new bool[width*height];
+
+    //Texture2D[] animatedTextures;
+    //MeshRenderer[] animatedRenderers;
+    //MeshFilters?
+    //int[] nFrames;
+    //capsulate all in a single struct?
 
     void Start()
     {
-        level = new Part[10]; //array of level parts
+        partData = new Part[10]; //array of level parts
 
         for (int j = 0; j < 1; j++)
         {
@@ -58,7 +81,7 @@ public class GameSceneLevelLoading : MonoBehaviour
             bool[] collisionMap = new bool[w * h];
             for (int i = 0; i < w * h; i++)
             {
-                collisionMap[i] = true;
+                collisionMap[i] = false;
             }
 
             //load maps
@@ -70,9 +93,9 @@ public class GameSceneLevelLoading : MonoBehaviour
                     {
                         short type = (short)(data[x + y * w + i * w * h + 5] - 1);
                         tilemap[x + y * w + i * w * h] = type;
-                        if (type != -1)
+                        if (type > -1)
                         {
-                            collisionMap[x + y * w] = false;
+                            collisionMap[x + y * w] = true;
                         }
                     }
                 }
@@ -178,12 +201,12 @@ public class GameSceneLevelLoading : MonoBehaviour
                     }
                 }
             }
-
             //create texture atlas and add uv coordinates to a rectangle array
-            //texture = textures[0];
             uvs = texture.PackTextures(textures, 4, 1024, false);
 
             //find doors
+
+            //-------- TODO: redo door finding! --------
             int first = -1;
             int doorWidth = 0;
             for (int x = 0; x < w; x++) //top
@@ -277,10 +300,10 @@ public class GameSceneLevelLoading : MonoBehaviour
                 float w0 = rects[i].w;
                 float h0 = rects[i].h;
 
-                vertices[i * 4 + 0] = new Vector3(x, -y, 0.0f);
-                vertices[i * 4 + 1] = new Vector3(x + w0, -y, 0.0f);
-                vertices[i * 4 + 2] = new Vector3(x, -y + h0, 0.0f);
-                vertices[i * 4 + 3] = new Vector3(x + w0, -y + h0, 0.0f);
+                vertices[i * 4 + 0] = new Vector3(x, -y - 1, 0.0f);
+                vertices[i * 4 + 1] = new Vector3(x + w0, -y - 1, 0.0f);
+                vertices[i * 4 + 2] = new Vector3(x, -y + h0 - 1, 0.0f);
+                vertices[i * 4 + 3] = new Vector3(x + w0, -y + h0 - 1, 0.0f);
 
                 triangles[i * 6 + 0] = i * 4 + 2;
                 triangles[i * 6 + 1] = i * 4 + 0;
@@ -304,12 +327,11 @@ public class GameSceneLevelLoading : MonoBehaviour
             mesh.triangles = triangles;
 
             part.go.AddComponent<MeshFilter>().mesh = mesh;
-            //Material mat = new Material(Shader.Find("Sprites/Default"));
             Material mat = new Material(material);
             mat.mainTexture = texture;
-            //mat.SetTexture("_MainTex", texture);
-            //mat.SetTexture("Albedo", texture);
             part.go.AddComponent<MeshRenderer>().material = mat;
+            part.w = w;
+            part.h = h;
 
             //create short copy of collision map
             short[] temp2 = new short[w * h];
@@ -319,33 +341,30 @@ public class GameSceneLevelLoading : MonoBehaviour
             }
 
             //divide to collision boxes and create colliders
-            short area = 0;
+            short area = 2;
             for (int x = 0; x < w; x++)
             {
                 for (int y = 0; y < h; y++)
                 {
                     //rectangle fill
-                    if (temp2[x + y * w] > 0)
+                    if (temp2[x + y * w] == 1)
                     {
+                        print("creating collider");
+
                         Vector2 size = rectangleFill1(0, x, y, w, h, area, temp2);
                         PolygonCollider2D collider = part.go.AddComponent<PolygonCollider2D>();
                         Vector2[] points = new Vector2[4];
-                        points[0] = new Vector2(x, y);
-                        points[1] = new Vector2(x + size.x, y);
-                        points[2] = new Vector2(x + size.x, y + size.y);
-                        points[3] = new Vector2(x, y + size.y);
+                        points[0] = new Vector2(x, -y);
+                        points[1] = new Vector2(x + size.x, -y);
+                        points[2] = new Vector2(x + size.x, -y - size.y);
+                        points[3] = new Vector2(x, -y - size.y);
                         collider.points = points;
 
                         area++;
                     }
                 }
             }
-
-            //assign mesh & collider to a gameobject
-
-            level[j] = part;
-
-            //attach part to the level
+            partData[j] = part;
         }
         //find doors and check for available space
         //place part
@@ -362,16 +381,16 @@ public class GameSceneLevelLoading : MonoBehaviour
         return result;
     }
 
-    // Update is called once per frame
     void Update()
     {
-
+        //TODO: update animated tiles
+        //float dt = Time.deltaTime;
     }
 
     private Vector2 rectangleFill1(int n, int x, int y, int w0, int h0, short value, short[] list)
     {
-        short old = list[x + y * w0 + n*w0*h0];
-        list[x + y * width] = value;
+        short old = list[x + y * w0 + n * w0 * h0];
+        list[x + y * w0 + n * w0 * h0] = value;
 
         bool hd = false;
         bool vd = false;
@@ -403,7 +422,7 @@ public class GameSceneLevelLoading : MonoBehaviour
             {
                 hd = true;
             }
-            if (y + h < height && !vd)
+            if (y + h < h0 && !vd)
             {
                 for (int i = 0; i < w; i++)
                 {
