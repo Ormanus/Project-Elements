@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class ShopSceneScript : MonoBehaviour {
+public class EndScreenSceneScript : MonoBehaviour {
 	//health, ei alus tarv. muuta
 
 	public static float health;
@@ -10,7 +10,6 @@ public class ShopSceneScript : MonoBehaviour {
 	public static float tradehealth;
 	public static float tradeablepojot;
 
-	//public float hSliderValue = 0.0F;
 	// Use this for initialization
 	void Start () {
 		
@@ -22,11 +21,11 @@ public class ShopSceneScript : MonoBehaviour {
 
 	void OnGUI(){
 
-		SquareDraw (new Rect (20, 20, 602, 400), Color.black);
-		SquareDraw (new Rect (20, 20, 602, 10), Color.blue);
-		SquareDraw (new Rect (20, 50, 602, 10), Color.blue);
-		SquareDraw (new Rect (10, 20, 20, 402), Color.blue);
-		SquareDraw (new Rect (582, 20, 20, 400), Color.blue);
+		DrawQuad (new Rect (20, 20, 600, 400), Color.black);
+		DrawQuad (new Rect (20, 20, 600, 10), Color.blue);
+		DrawQuad (new Rect (20, 50, 600, 10), Color.blue);
+		DrawQuad (new Rect (10, 20, 20, 400), Color.blue);
+		DrawQuad (new Rect (580, 20, 20, 400), Color.blue);
 		/*GUI.Button(new Rect(10, 80, 100, 20), new GUIContent("I have a tooltip", "The button overrides the box"));
 		GUI.Label(new Rect(10, 40, 100, 40), GUI.tooltip, tempstyle);
 
@@ -73,14 +72,14 @@ public class ShopSceneScript : MonoBehaviour {
 
 		GUI.Box (new Rect (702, 0, 800, 600), "Welcome to shop. \n - upgrades etc. \n" +
 			" - between levels place.", headlineStyle);
-		if (GUI.Button (new Rect (20, 453, 150, 30), "Back")) {
+		if (GUI.Button (new Rect (20, 450, 150, 30), "Back")) {
 			SceneManager.LoadScene ("MainMenu");
 		}
 
-		GUI.Label (new Rect (20, 484, 150, 30), "Money:" + pojot);
-		GUI.Label (new Rect (20, 505, 150, 30), "HP:" + health);
+		GUI.Label (new Rect (20, 480, 150, 30), "Money:" + pojot);
+		GUI.Label (new Rect (20, 500, 150, 30), "HP:" + health);
 
-		if (GUI.Button (new Rect (420, 452, 150, 30), "Continue")) { 
+		if (GUI.Button (new Rect (420, 450, 150, 30), "Continue")) { 
 
 			PlayerPrefs.SetFloat ("healtti", health);
 			PlayerPrefs.SetFloat ("pojolkm", 20f);
@@ -105,16 +104,13 @@ public class ShopSceneScript : MonoBehaviour {
 		//GUILayout.EndVertical ();
 		//GUI.EndGroup ();
 	}
-	void SquareDraw(Rect pos2, Color col2) {
+	void DrawQuad(Rect position, Color color) {
 	
 		Texture2D texture = new Texture2D(1, 1);//memory eater? that's what they say or not
-
-		texture.SetPixel(0,0,col2);
+		texture.SetPixel(0,0,color);
 		texture.Apply();
-
 		GUI.skin.box.normal.background = texture;
-
-		GUI.Box(pos2, GUIContent.none);
+		GUI.Box(position, GUIContent.none);
 
 	}
 	
