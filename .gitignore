@@ -28,3 +28,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Project Elements/Library/assetDatabase3
+*.dwlt
+Project Elements/Library/CurrentLayout.dwlt
+Project Elements/Library/expandedItems

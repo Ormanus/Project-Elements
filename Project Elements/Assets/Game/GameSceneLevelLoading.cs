@@ -24,9 +24,35 @@ struct Part
 
 struct Rectangle
 {
-    public float x, y, w, h;
+    public float x, y, z, w, h;
     public short type;
 };
+
+struct Animation
+{
+    public Texture2D texture;
+    public int rows;
+    public int columns;
+    public Rect getRect(int index)
+    {
+        //var x0 = (number % GC.tiles[index].columns) * width;
+        //var y0 = (floor(number / GC.tiles[index].columns)) * height;
+        float w0 = 1.0f / columns;
+        float h0 = 1.0f / rows;
+        float x0 = (index % columns) * w0;
+        float y0 = 1.0f - (Mathf.Floor(index / columns)) * h0;
+        return new Rect(x0, y0, w0, h0);
+    }
+}
+
+struct AnimatedMesh
+{
+    public GameObject go;
+    public Animation animation;
+    public MeshRenderer renderer;
+    public MeshFilter filter;
+    public Mesh mesh;
+}
 
 public class GameSceneLevelLoading : MonoBehaviour
 {
@@ -43,28 +69,32 @@ public class GameSceneLevelLoading : MonoBehaviour
 
     private Texture2D texture;
     private Rect[] uvs;
+    private AnimatedMesh[] aniMesh;
     private Part[] partData;
+
+    private int[] tileIndex;
+
+    private Animation[] animations;
+    private int nAnimations;
+
+    private float time;
+    private int animationIndex;
 
     //private Area[] level;
     //private bool[] levelSpaceMap = new bool[width*height];
-
-    //Texture2D[] animatedTextures;
-    //MeshRenderer[] animatedRenderers;
-    //MeshFilters?
-    //int[] nFrames;
-    //capsulate all in a single struct?
 
     void Start()
     {
         partData = new Part[10]; //array of level parts
 
-        for (int j = 0; j < 1; j++)
+        for (int j = 0; j < 1; j++) // TODO: for each parts[]'s value
         {
             //load part data
             Part part = new Part();
             part.doorStartingPoints = new int[4];
             part.doorWidths = new int[4];
             part.go = new GameObject();
+            part.go.transform.parent = gameObject.transform;
 
             //read binary data
             short[] data = toShort(File.ReadAllBytes(Application.dataPath + "/Resources/" + parts[0]));
@@ -145,10 +175,12 @@ public class GameSceneLevelLoading : MonoBehaviour
 
             short[] rows = new short[lines.Length];
             short[] columns = new short[lines.Length];
+            bool[] animated = new bool[lines.Length];
 
             string[] paths = new string[lines.Length / 2];
 
             int numTextures = 0;
+            int numAnimated = 0;
 
             int pathnum = 0;
             for (int i = startLine; i < lines.Length; i++)
@@ -159,15 +191,26 @@ public class GameSceneLevelLoading : MonoBehaviour
 
                 rows[pathnum] = short.Parse(dims.Substring(0, 5));
                 columns[pathnum] = short.Parse(dims.Substring(5, 5));
+                animated[pathnum] = (byte.Parse(dims.Substring(10, 1)) == 1);
 
-                numTextures += rows[pathnum] * columns[pathnum];
+                if(!animated[pathnum])
+                {
+                    numTextures += rows[pathnum] * columns[pathnum];
+                }
+                else
+                {
+                    numAnimated++;
+                }
                 pathnum++;
             }
 
-            texture = new Texture2D(1024, 1024);
+            texture = new Texture2D(2048, 2048);
             Texture2D[] textures = new Texture2D[numTextures];
-
+            animations = new Animation[numAnimated];
+            tileIndex = new int[numTextures + numAnimated];
             numTextures = 0;
+            nAnimations = 0;
+            int tileIndexIndex = 0;
             for (int i = 0; i < pathnum; i++)
             {
                 //load texture file
@@ -175,7 +218,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                 print("loading texture " + i + " @ '" + Application.dataPath + "/Resources/" + paths[i] + "'");
                 byte[] texData = File.ReadAllBytes(Application.dataPath + "/Resources/" + paths[i]);
                 tex.LoadImage(texData);
-                if(tex == null)
+                if (tex == null)
                 {
                     print("file failure");
                     return;
@@ -185,88 +228,100 @@ public class GameSceneLevelLoading : MonoBehaviour
 
                 print("texdims: " + w0 + "x" + h0);
 
-                //divide et impera
                 int w1 = w0 / columns[i];
                 int h1 = h0 / rows[i];
 
-                for (int y = 0; y < rows[i]; y++)
+                if (animated[i]) //save one texture animation
                 {
-                    for (int x = 0; x < columns[i]; x++)
+                    Animation a = new Animation();
+                    a.columns = columns[i];
+                    a.rows = rows[i];
+                    a.texture = tex;
+                    tileIndex[tileIndexIndex++] = nAnimations;
+                    animations[nAnimations++] = a;
+                }
+                else //divide into multiple static textures
+                {
+                    for (int y = 0; y < rows[i]; y++)
                     {
-                        Color[] pixels = tex.GetPixels(x * w1, h0 - (y + 1) * h1, w1, h1);
-                        Texture2D t2 = new Texture2D(w1, h1, TextureFormat.ARGB32, false);
-                        t2.SetPixels(pixels);
-                        t2.Apply();
-                        textures[numTextures++] = t2;
+                        for (int x = 0; x < columns[i]; x++)
+                        {
+                            Color[] pixels = tex.GetPixels(x * w1, h0 - (y + 1) * h1, w1, h1);
+                            Texture2D t2 = new Texture2D(w1, h1, TextureFormat.ARGB32, false);
+                            t2.SetPixels(pixels);
+                            t2.Apply();
+                            tileIndex[tileIndexIndex++] = numTextures;
+                            textures[numTextures++] = t2;
+                        }
                     }
                 }
             }
             //create texture atlas and add uv coordinates to a rectangle array
-            uvs = texture.PackTextures(textures, 4, 1024, false);
-
+            uvs = texture.PackTextures(textures, 2, 2048, false);
             //find doors
 
             //-------- TODO: redo door finding! --------
-            int first = -1;
-            int doorWidth = 0;
-            for (int x = 0; x < w; x++) //top
-            {
-                if (collisionMap[x + 0 * w])
-                {
-                    if(first == -1)
-                    {
-                        first = x;
-                    }
-                    doorWidth=x-first;
-                }
-            }
-            part.doorStartingPoints[1] = first;
-            part.doorWidths[1] = doorWidth;
+            //int first = -1;
+            //int doorWidth = 0;
+            //for (int x = 0; x < w; x++) //top
+            //{
+            //    if (collisionMap[x + 0 * w])
+            //    {
+            //        if(first == -1)
+            //        {
+            //            first = x;
+            //        }
+            //        doorWidth=x-first;
+            //    }
+            //}
+            //part.doorStartingPoints[1] = first;
+            //part.doorWidths[1] = doorWidth;
 
-            for (int x = 0; x < w; x++) //bottom
-            {
-                if (collisionMap[x + (h - 1) * w])
-                {
-                    if (first == -1)
-                    {
-                        first = x;
-                    }
-                    doorWidth = x - first;
-                }
-            }
-            part.doorStartingPoints[3] = first;
-            part.doorWidths[3] = doorWidth;
+            //for (int x = 0; x < w; x++) //bottom
+            //{
+            //    if (collisionMap[x + (h - 1) * w])
+            //    {
+            //        if (first == -1)
+            //        {
+            //            first = x;
+            //        }
+            //        doorWidth = x - first;
+            //    }
+            //}
+            //part.doorStartingPoints[3] = first;
+            //part.doorWidths[3] = doorWidth;
 
-            for (int y = 0; y < h; y++) //right
-            {
-                if (collisionMap[w - 1 + y * w])
-                {
-                    if (first == -1)
-                    {
-                        first = y;
-                    }
-                    doorWidth = y - first;
-                }
-            }
-            part.doorStartingPoints[0] = first;
-            part.doorWidths[0] = doorWidth;
+            //for (int y = 0; y < h; y++) //right
+            //{
+            //    if (collisionMap[w - 1 + y * w])
+            //    {
+            //        if (first == -1)
+            //        {
+            //            first = y;
+            //        }
+            //        doorWidth = y - first;
+            //    }
+            //}
+            //part.doorStartingPoints[0] = first;
+            //part.doorWidths[0] = doorWidth;
 
-            for (int y = 0; y < h; y++) //left
-            {
-                if (collisionMap[0 + y * w])
-                {
-                    if (first == -1)
-                    {
-                        first = y;
-                    }
-                    doorWidth = y - first;
-                }
-            }
-            part.doorStartingPoints[2] = first;
-            part.doorWidths[2] = doorWidth;
+            //for (int y = 0; y < h; y++) //left
+            //{
+            //    if (collisionMap[0 + y * w])
+            //    {
+            //        if (first == -1)
+            //        {
+            //            first = y;
+            //        }
+            //        doorWidth = y - first;
+            //    }
+            //}
+            //part.doorStartingPoints[2] = first;
+            //part.doorWidths[2] = doorWidth;
 
             //divide tilemap to rectangles and create drawable mesh
-            List<Rectangle> rects = new List<Rectangle>();
+            List<Rectangle> staticRects = new List<Rectangle>();
+            List<Rectangle> animatedRects = new List<Rectangle>();
 
             for (int n = num_layers - 1; n >= 0; n--)
             {
@@ -274,64 +329,189 @@ public class GameSceneLevelLoading : MonoBehaviour
                 {
                     for (int y = 0; y < h; y++)
                     {
-                        //rectangle fill
                         if (tilemap[x + y * w + n * w * h] >= 0)
                         {
                             Rectangle rect = new Rectangle();
                             rect.x = x;
                             rect.y = y;
+                            rect.z = n;
                             rect.w = 1;
                             rect.h = 1;
                             rect.type = tilemap[x + y * w + n * w * h];
-                            rects.Add(rect);
+
+                            //chech if current tile is animated
+                            bool isAnimated = false;
+                            int tot = 0;
+                            for(int i = 0; i < pathnum; i++)
+                            {
+                                if(animated[i])
+                                {
+                                    tot++;
+                                }
+                                else
+                                {
+                                    tot += rows[i] * columns[i];
+                                }
+                                if(tot > rect.type)
+                                {
+                                    isAnimated = animated[i];
+                                    break;
+                                }
+                            }
+
+                            //add to a list accordingly
+                            if (isAnimated)
+                            {
+                                print("type " + rect.type + " to animated");
+                                animatedRects.Add(rect);
+                            }
+                            else
+                            {
+                                print("type " + rect.type + " to static");
+                                staticRects.Add(rect);
+                            }
                         }
                     }
                 }
             }
-            //create mesh
-            Vector3[] vertices = new Vector3[rects.Count * 4];
-            Vector2[] uv = new Vector2[rects.Count * 4];
-            int[] triangles = new int[rects.Count * 6];
 
-            for(int i = 0; i < rects.Count; i++)
+            print("animated tot: " + animatedRects.Count);
+
             {
-                float x = rects[i].x;
-                float y = rects[i].y;
-                float w0 = rects[i].w;
-                float h0 = rects[i].h;
+                //create static mesh
+                Vector3[] vertices = new Vector3[staticRects.Count * 4];
+                Vector2[] uv = new Vector2[staticRects.Count * 4];
+                int[] triangles = new int[staticRects.Count * 6];
 
-                vertices[i * 4 + 0] = new Vector3(x, -y - 1, 0.0f);
-                vertices[i * 4 + 1] = new Vector3(x + w0, -y - 1, 0.0f);
-                vertices[i * 4 + 2] = new Vector3(x, -y + h0 - 1, 0.0f);
-                vertices[i * 4 + 3] = new Vector3(x + w0, -y + h0 - 1, 0.0f);
+                for (int i = 0; i < staticRects.Count; i++)
+                {
+                    float x = staticRects[i].x;
+                    float y = staticRects[i].y;
+                    float z = staticRects[i].z;
+                    float w0 = staticRects[i].w;
+                    float h0 = staticRects[i].h;
 
-                triangles[i * 6 + 0] = i * 4 + 2;
-                triangles[i * 6 + 1] = i * 4 + 0;
-                triangles[i * 6 + 2] = i * 4 + 1;
-                triangles[i * 6 + 3] = i * 4 + 1;
-                triangles[i * 6 + 4] = i * 4 + 2;
-                triangles[i * 6 + 5] = i * 4 + 3;
+                    vertices[i * 4 + 0] = new Vector3(x, -y - 1, z);
+                    vertices[i * 4 + 1] = new Vector3(x + w0, -y - 1, z);
+                    vertices[i * 4 + 2] = new Vector3(x, -y + h0 - 1, z);
+                    vertices[i * 4 + 3] = new Vector3(x + w0, -y + h0 - 1, z);
 
-                //get ui coordinates
-                int type = rects[i].type;
+                    triangles[i * 6 + 0] = i * 4 + 2;
+                    triangles[i * 6 + 1] = i * 4 + 0;
+                    triangles[i * 6 + 2] = i * 4 + 1;
+                    triangles[i * 6 + 3] = i * 4 + 1;
+                    triangles[i * 6 + 4] = i * 4 + 2;
+                    triangles[i * 6 + 5] = i * 4 + 3;
 
-                uv[i * 4 + 0] = new Vector2(uvs[type].x, uvs[type].y);
-                uv[i * 4 + 1] = new Vector2(uvs[type].x + uvs[type].width, uvs[type].y);
-                uv[i * 4 + 2] = new Vector2(uvs[type].x, uvs[type].y + uvs[type].height);
-                uv[i * 4 + 3] = new Vector2(uvs[type].x + uvs[type].width, uvs[type].y + uvs[type].height);
+                    //get ui coordinates
+                    Rect uvRect = uvs[tileIndex[staticRects[i].type]];
+
+                    uv[i * 4 + 0] = new Vector2(uvRect.x, uvRect.y);
+                    uv[i * 4 + 1] = new Vector2(uvRect.x + uvRect.width, uvRect.y);
+                    uv[i * 4 + 2] = new Vector2(uvRect.x, uvRect.y + uvRect.height);
+                    uv[i * 4 + 3] = new Vector2(uvRect.x + uvRect.width, uvRect.y + uvRect.height);
+                }
+
+                Mesh mesh = new Mesh();
+                mesh.name = "PartMesh";
+                mesh.vertices = vertices;
+                mesh.uv = uv;
+                mesh.triangles = triangles;
+
+                part.go.AddComponent<MeshFilter>().mesh = mesh;
+                Material mat = new Material(material);
+                mat.mainTexture = texture;
+                part.go.AddComponent<MeshRenderer>().material = mat;
+                part.w = w;
+                part.h = h;
             }
-            Mesh mesh = new Mesh();
-            mesh.name = "PartMesh";
-            mesh.vertices = vertices;
-            mesh.uv = uv;
-            mesh.triangles = triangles;
+            //create animated meshes
 
-            part.go.AddComponent<MeshFilter>().mesh = mesh;
-            Material mat = new Material(material);
-            mat.mainTexture = texture;
-            part.go.AddComponent<MeshRenderer>().material = mat;
-            part.w = w;
-            part.h = h;
+            //collect animations of the same texture together
+            List<Rectangle>[] animationCollection = new List<Rectangle>[animations.Length];
+            for (int i = 0; i < animations.Length; i++) //init
+            {
+                animationCollection[i] = new List<Rectangle>();
+            }
+            for (int i = 0; i < animatedRects.Count; i++)
+            {
+                int index = tileIndex[animatedRects[i].type];
+                animationCollection[index].Add(animatedRects[i]);
+
+                //print("index = " + index + "/" + animations.Length + "; ");
+            }
+
+            print("Collections: " + animationCollection.Length);
+            print("Animations:  " + animations.Length);
+
+            //build meshes
+            int messageNum = 0;
+            aniMesh = new AnimatedMesh[animations.Length];
+            for (int i = 0; i < animations.Length; i++)
+            {
+                print("Meshing things... [" + i + "]");
+                AnimatedMesh am = new AnimatedMesh();
+                am.go = new GameObject();
+                am.go.transform.parent = part.go.transform;
+                am.animation = animations[i];
+
+                //mesh
+                Vector3[] vertices = new Vector3[animationCollection[i].Count * 4];
+                Vector2[] uv = new Vector2[animationCollection[i].Count * 4];
+                int[] triangles = new int[animationCollection[i].Count * 6];
+
+                print(messageNum++ + "Count: " + animationCollection[i].Count);
+
+                for (int k = 0; k < animationCollection[i].Count; k++)
+                {
+                    //print(messageNum++ + "tile [" + k + "]");
+
+                    //int index = tileIndex[animationCollection[i][k].type];
+
+                    //print(messageNum++ + "index [" + index + "]");
+
+                    float x  = animationCollection[i][k].x;
+                    float y  = animationCollection[i][k].y;
+                    float z  = animationCollection[i][k].z;
+                    float w0 = animationCollection[i][k].w;
+                    float h0 = animationCollection[i][k].h;
+
+                    vertices[k * 4 + 0] = new Vector3(x, -y - 1, z);
+                    vertices[k * 4 + 1] = new Vector3(x + w0, -y - 1, z);
+                    vertices[k * 4 + 2] = new Vector3(x, -y + h0 - 1, z);
+                    vertices[k * 4 + 3] = new Vector3(x + w0, -y + h0 - 1, z);
+
+                    triangles[k * 6 + 0] = k * 4 + 2;
+                    triangles[k * 6 + 1] = k * 4 + 0;
+                    triangles[k * 6 + 2] = k * 4 + 1;
+                    triangles[k * 6 + 3] = k * 4 + 1;
+                    triangles[k * 6 + 4] = k * 4 + 2;
+                    triangles[k * 6 + 5] = k * 4 + 3;
+
+                    //get ui coordinates
+                    Rect uvRect = animations[i].getRect(0);
+
+                    uv[k * 4 + 0] = new Vector2(uvRect.x, uvRect.y);
+                    uv[k * 4 + 1] = new Vector2(uvRect.x + uvRect.width, uvRect.y);
+                    uv[k * 4 + 2] = new Vector2(uvRect.x, uvRect.y + uvRect.height);
+                    uv[k * 4 + 3] = new Vector2(uvRect.x + uvRect.width, uvRect.y + uvRect.height);
+                }
+                Mesh m = new Mesh();
+                m.name = "AnimationMesh";
+                m.vertices = vertices;
+                m.uv = uv;
+                m.triangles = triangles;
+
+                am.mesh = m;
+                am.filter = am.go.AddComponent<MeshFilter>();
+                am.filter.mesh = m;
+
+                Material mat = new Material(material);
+                mat.mainTexture = animations[i].texture;
+                am.go.AddComponent<MeshRenderer>().material = mat;
+
+                aniMesh[i] = am;
+            }
 
             //create short copy of collision map
             short[] temp2 = new short[w * h];
@@ -383,8 +563,33 @@ public class GameSceneLevelLoading : MonoBehaviour
 
     void Update()
     {
-        //TODO: update animated tiles
-        //float dt = Time.deltaTime;
+        //Update animated tiles
+        float dt = Time.deltaTime;
+        time += dt;
+        if(time > 1.0f)
+        {
+            time -= 1.0f;
+            animationIndex++;
+        }
+
+        for (int i = 0; i < aniMesh.Length; i++)
+        {
+            Animation ani = aniMesh[i].animation;
+            int index = animationIndex % (ani.columns * ani.rows);
+
+            Vector2[] uv = new Vector2[aniMesh[i].mesh.uv.Length];
+            for (int j = 0; j < uv.Length / 4; j++)
+            {
+                Rect uvRect = animations[i].getRect(index);
+
+                uv[j * 4 + 0] = new Vector2(uvRect.x, uvRect.y);
+                uv[j * 4 + 1] = new Vector2(uvRect.x + uvRect.width, uvRect.y);
+                uv[j * 4 + 2] = new Vector2(uvRect.x, uvRect.y + uvRect.height);
+                uv[j * 4 + 3] = new Vector2(uvRect.x + uvRect.width, uvRect.y + uvRect.height);
+            }
+            aniMesh[i].mesh.uv = uv;
+            aniMesh[i].filter.mesh = aniMesh[i].mesh;
+        }
     }
 
     private Vector2 rectangleFill1(int n, int x, int y, int w0, int h0, short value, short[] list)
