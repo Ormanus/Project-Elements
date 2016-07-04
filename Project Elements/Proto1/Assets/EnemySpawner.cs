@@ -7,10 +7,15 @@ public class EnemySpawner : MonoBehaviour {
 
     public GameObject enemy;
     public Transform spawnpoint;
-    public float aika = 30;
-    public float seuraavaAika = 20;
+    public Transform spawnpoint2;
+    public Transform spawnpoint3;
+    public float aika = 20;
+    public float seuraavaAika = 10;
     Text aikatext;
     public Text aika2;
+    public Text leveltext;
+    public float Spawnaika = 5;
+    public int leveli = -1;
 
     public bool onetime = false;
     // Use this for initialization
@@ -21,8 +26,9 @@ public class EnemySpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        aikatext.text = "Next Break: " + aika.ToString();
-        aika2.text = "Next Level: " + seuraavaAika;
+        aikatext.text = "Next Break: " + aika.ToString("0");
+        aika2.text = "Next Level: " + seuraavaAika.ToString("0");
+        leveltext.text = "Level: " + leveli.ToString();
         if (aika > 0) {
             aika -= Time.deltaTime;
         }
@@ -30,16 +36,16 @@ public class EnemySpawner : MonoBehaviour {
 
         if (aika <= 0)
         {
-            aika = 0;
-            CancelInvoke();
+            aika = 0;           
+            CancelInvoke();         
             if (seuraavaAika > 0) {
                 seuraavaAika -= Time.deltaTime;
             }
 
             if (seuraavaAika <= 0)
             {
-                aika = 30;
-                seuraavaAika = 20;
+                aika = 20;
+                seuraavaAika = 10;
                 onetime = true;
 
             }
@@ -58,11 +64,38 @@ public class EnemySpawner : MonoBehaviour {
 
     void spawnenemy2()
     {
-            InvokeRepeating("SpawnEnemy", 1f, 3f);
+        if (Spawnaika > 0.5f)
+        {
+            Spawnaika -= 0.25f;
+            leveli++;
+        }
+        
+        InvokeRepeating("SpawnEnemy", 1f, Spawnaika);
     }
 
     void SpawnEnemy()
     {
-        Instantiate(enemy,spawnpoint.position,spawnpoint.rotation);
+        int randomspawnpoint;
+
+        randomspawnpoint = Random.Range(1,4);
+
+        switch (randomspawnpoint)
+        {
+            case 1:
+                Instantiate(enemy, spawnpoint.position, spawnpoint.rotation);
+                break;
+
+            case 2:
+                Instantiate(enemy, spawnpoint2.position, spawnpoint2.rotation);
+
+                break;
+
+            case 3:
+                Instantiate(enemy, spawnpoint3.position, spawnpoint3.rotation);
+                break;
+
+        }
+        
+        
     }
 }

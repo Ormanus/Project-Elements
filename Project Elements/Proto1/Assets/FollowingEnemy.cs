@@ -20,12 +20,15 @@ public class FollowingEnemy : MonoBehaviour {
     private float range;
     public static bool follow = false;
     int health = 10;
+    public static int DamageToGiveEnemy = 1;
     public GameObject partikkeli;
     public GameObject partikkeli2;
+    public GameObject EnemyBullet;
 
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("pelaaja");
+        InvokeRepeating("ShootBullet", 1f, 5f);
     }
     void Update()
     {
@@ -34,10 +37,10 @@ public class FollowingEnemy : MonoBehaviour {
         //if (range > minDistance)
         //{
         //if (follow) {
-            Debug.Log(target.transform.position);
+            //Debug.Log(target.transform.position);
 
-            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, target.transform.position - transform.position);
+            //transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+            //transform.rotation = Quaternion.LookRotation(Vector3.forward, target.transform.position - transform.position);
         //}
 
 
@@ -45,20 +48,25 @@ public class FollowingEnemy : MonoBehaviour {
         {
             Instantiate(partikkeli2,transform.position,transform.rotation);
             Destroy(gameObject);
-            
-
+            Points.points++;
         }
         //}
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "bullet")
         {
             Destroy(other.gameObject);
             Instantiate(partikkeli,transform.position,transform.rotation);
-            health -= 1;
+            health -= DamageToGiveEnemy;
         }
+
+    }
+
+    void ShootBullet()
+    {
+        Instantiate(EnemyBullet,transform.position,transform.rotation);
 
     }
 }

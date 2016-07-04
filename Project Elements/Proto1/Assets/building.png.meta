@@ -1,12 +1,14 @@
 fileFormatVersion: 2
 guid: 80174c0fb5657014db23fdc36da349d4
-timeCreated: 1465994665
+timeCreated: 1467025866
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Grass
     21300002: Wall
     21300004: Bullet
+    21300006: Heal
+    21300008: Bullet2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +32,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
-  maxTextureSize: 128
+  maxTextureSize: 2048
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -86,6 +88,28 @@ TextureImporter:
         y: 74
         width: 2
         height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Heal
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 65
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Bullet2
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 116
+        width: 4
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

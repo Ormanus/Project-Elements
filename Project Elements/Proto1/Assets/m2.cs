@@ -10,6 +10,7 @@ public class m2 : MonoBehaviour {
     Vector2 paikka;
     public float speed;
     public GameObject playerdeathparticle;
+    public GameObject playerhitParticle;
     //public static int PelaajanHealth = 10;
 
     Rigidbody2D rb;
@@ -39,35 +40,65 @@ public class m2 : MonoBehaviour {
 
 		Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
-
+             
         paikka = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         //Quaternion q = Quaternion.FromToRotation(target.position, paikka);
 
         rb.velocity = Vector2.zero;
 
+        //if (Input.GetAxisRaw("Horizontal") > 0.5f)
+        //{
+        //    rb.velocity = Vector2.right;
+        //}
+        //if (Input.GetAxisRaw("Horizontal") < -0.5f)
+        //{
+        //    rb.velocity = -Vector2.right;
+        //}
+        //if (Input.GetAxisRaw("Vertical") > 0.5f)
+        //{           
+        //    transform.position = Vector2.MoveTowards(transform.position, paikka, speed);
+        //    //rb.velocity = Vector2.up;
+        //}
+        //if (Input.GetAxisRaw("Vertical") < -0.5f)
+        //{
+        //    //transform.position = Vector2.MoveTowards(transform.position, paikka, speed);
+        //   rb.velocity = -Vector2.up;
+        //}
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Instantiate(objekti,target.position,target.rotation);
+
+        //}
+
         if (Input.GetAxisRaw("Horizontal") > 0.5f)
         {
-            rb.velocity = Vector2.right;
+            //rb.velocity = Vector2.right;
+            transform.Translate(Vector2.right * Time.deltaTime);
         }
         if (Input.GetAxisRaw("Horizontal") < -0.5f)
         {
-            rb.velocity = -Vector2.right;
+            //rb.velocity = -Vector2.right;
+            transform.Translate(-Vector2.right * Time.deltaTime);
         }
         if (Input.GetAxisRaw("Vertical") > 0.5f)
-        {           
-            transform.position = Vector2.MoveTowards(transform.position, paikka, speed);
+        {
+            //transform.position = Vector2.MoveTowards(transform.position, paikka, speed);
+            transform.Translate(Vector2.up * Time.deltaTime);
+
             //rb.velocity = Vector2.up;
         }
         if (Input.GetAxisRaw("Vertical") < -0.5f)
         {
             //transform.position = Vector2.MoveTowards(transform.position, paikka, speed);
-           rb.velocity = -Vector2.up;
+            //rb.velocity = -Vector2.up;
+            transform.Translate(-Vector2.up * Time.deltaTime);
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(objekti,target.position,target.rotation);
+            Instantiate(objekti, target.position, target.rotation);
 
         }
 
@@ -76,6 +107,7 @@ public class m2 : MonoBehaviour {
             //Destroy(gameObject);
             gameObject.SetActive(false);
             Instantiate(playerdeathparticle,transform.position,transform.rotation);
+            Time.timeScale = 0;
             
 
         }
@@ -85,10 +117,22 @@ public class m2 : MonoBehaviour {
         
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.tag == "enemy") {
-            Healthtest.Playerhealth -= 0.25f;
+            Healthtest.Playerhealth -= 0.25f * Time.deltaTime;
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "EnemyBullet")
+        {
+            Healthtest.Playerhealth -= 0.25f;
+            Instantiate(playerhitParticle,transform.position,transform.rotation);
+            Destroy(other.gameObject);
+
+        }
+
     }
 }

@@ -25,6 +25,12 @@ public class Healthtest : MonoBehaviour
             Playerhealth = 0;
         }
 
+        if (Playerhealth > 1)
+        {
+            Playerhealth = 1;
+
+        }
+
         testi.transform.localScale = new Vector3(Playerhealth, 1, 1);
     }
 

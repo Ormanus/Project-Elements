@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 37da73495ea6f5643b73879a61ee2019
-timeCreated: 1466509791
+timeCreated: 1467014155
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -14,6 +14,8 @@ TextureImporter:
     21300014: sprites_5
     21300016: sprites_6
     21300018: sprites_7
+    21300020: Weapon1
+    21300022: Weapon2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -219,6 +221,28 @@ TextureImporter:
         - {x: -21, y: -19}
         - {x: 21, y: -19}
         - {x: 21, y: 19}
+    - name: Weapon1
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 31
+        width: 18
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Weapon2
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 24
+        width: 42
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     outline: []
   spritePackingTag: 
   userData: 

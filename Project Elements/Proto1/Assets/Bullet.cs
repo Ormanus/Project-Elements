@@ -7,9 +7,12 @@ public class Bullet : MonoBehaviour {
     public float amount;
     public Vector3 sp;
     public Vector3 dir;
-
+    //public GameObject ShootDirection;
+    
     // Use this for initialization
     void Start() {
+
+        //ShootDirection = GameObject.FindGameObjectWithTag("ShootDirection");
         rb = GetComponent<Rigidbody2D>();
 
          sp = Camera.main.WorldToScreenPoint(transform.position);
@@ -19,7 +22,7 @@ public class Bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //rb.velocity = rb.velocity = Vector2.up;
+        //rb.velocity = rb.velocity = Vector2.up;      
         rb.AddForce(dir * amount);
         Destroy(gameObject,5);
     }
