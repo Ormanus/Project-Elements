@@ -72,17 +72,17 @@ public class Player : MonoBehaviour {
         if (Input.GetAxisRaw("Horizontal") > 0.5f)
         {
             //rb.velocity = Vector2.right;
-            transform.Translate(Vector2.right * Time.deltaTime*speed);
+            transform.Translate(Vector2.right * Time.deltaTime*speed,Space.World);
         }
         if (Input.GetAxisRaw("Horizontal") < -0.5f)
         {
             //rb.velocity = -Vector2.right;
-            transform.Translate(-Vector2.right * Time.deltaTime*speed);
+            transform.Translate(-Vector2.right * Time.deltaTime*speed,Space.World);
         }
         if (Input.GetAxisRaw("Vertical") > 0.5f)
         {
             //transform.position = Vector2.MoveTowards(transform.position, paikka, speed);
-            transform.Translate(Vector2.up * Time.deltaTime*speed);
+            transform.Translate(Vector2.up * Time.deltaTime*speed,Space.World);
 
             //rb.velocity = Vector2.up;
         }
@@ -90,7 +90,7 @@ public class Player : MonoBehaviour {
         {
             //transform.position = Vector2.MoveTowards(transform.position, paikka, speed);
             //rb.velocity = -Vector2.up;
-            transform.Translate(-Vector2.up * Time.deltaTime*speed);
+            transform.Translate(-Vector2.up * Time.deltaTime*speed,Space.World);
         }
 
         if (Input.GetMouseButtonDown(0))
