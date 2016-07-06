@@ -3,15 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-struct Door
+class Door
 {
     public int width;
     public int startingPoint;
     public byte direction;
 
+    public override bool Equals(object obj)
+    {
+        if(obj == null)
+        {
+            return false;
+        }
+        Door d = obj as Door;
+        if((object)d == null)
+        {
+            return false;
+        }
+        return d.width == width && d.startingPoint == startingPoint && d.direction == direction;
+    }
+
     public static bool operator ==(Door d1, Door d2)
     {
-        return d1.width == d2.width && d1.startingPoint == d2.startingPoint && d1.direction == d2.direction;
+        if((object)d1 == null && (object)d2 == null)
+        {
+            return true;
+        }
+        else if((object)d1 == null || (object)d2 == null)
+        {
+            return false;
+        }
+        else
+        {
+            return d1.width == d2.width && d1.startingPoint == d2.startingPoint && d1.direction == d2.direction;
+        }
     }
 
     public static bool operator !=(Door d1, Door d2)
@@ -47,6 +72,40 @@ struct Rectangle
 {
     public float x, y, z, w, h;
     public short type;
+};
+
+class TempPart
+{
+    public Rect rect;
+    public PartData data;
+    public Door parent;
+    public List<TempPart> children;
+    public void removeChildren()
+    {
+        while (children.Count > 0)
+        {
+            children[0].removeChildren();
+            children.RemoveAt(0);
+        }
+    }
+    public void getChildren(ref List<TempPart> list)
+    {
+        list.AddRange(children);
+        for(int i = 0; i < children.Count; i++)
+        {
+            children[i].getChildren(ref list);
+        }
+    }
+
+    public static bool operator ==(TempPart p1, TempPart p2)
+    {
+        return p1.rect == p2.rect;
+    }
+
+    public static bool operator !=(TempPart p1, TempPart p2)
+    {
+        return !(p1 == p2);
+    }
 };
 
 struct Animation
@@ -103,77 +162,183 @@ public class GameSceneLevelLoading : MonoBehaviour
         aniMesh = new List<AnimatedMesh>[parts.Length];
         partData = new PartData[parts.Length]; //array of level parts
 
-        for (int j = 0; j < 1; j++)
+        for (int j = 0; j < parts.Length; j++)
         {
             partData[j] = loadPart(parts[j]);
+
+            for(int k = 0; k < partData[j].doors.Count; k++)
+            {
+                print("door [" + j + "][" + k + "]");
+            }
         }
 
         //------------------Generate map------------------//
 
         print("generate");
-        //Rect[] map = new Rect[nRooms]; // for collision optimization
+        List<TempPart> lev = new List<TempPart>();
+        TempPart start = new TempPart();
+        start.parent = null;
+        start.data = partData[0];
+        start.rect = new Rect(0, 0, start.data.w, start.data.h);
+        start.children = new List<TempPart>();
+        lev.Add(start);
 
-        List<Part> lev = new List<Part>();
-        lev.Add(placePart(0, 0, partData[0]));
-    }
+        List<Door> unusedDoors = new List<Door>();
+        List<TempPart> doorOwners = new List<TempPart>();
 
-    private bool expand(Part previous, Door door0, List<Part> lev, int count)
-    {
-        //find doors and check for available space
-        //place part if possible
-        //if not possible, return false and remove last part
-        //
-        //do until done
-        //create meshes and colliders
-
-        //make sure that all doors will be used!
-        bool[] usedDoors = new bool[previous.doors.Count];
-        int unused = previous.doors.Count - 1;
-        for(int i = 0; i < previous.doors.Count; i++)
+        for(int i = 0; i < start.data.doors.Count; i++)
         {
-            if(previous.doors[i] == door0)
+            unusedDoors.Add(start.data.doors[i]);
+            doorOwners.Add(start);
+        }
+
+        int messageCount = 0;
+        while(unusedDoors.Count > 0)
+        {
+            print(messageCount++ + " - Unused doors: " + unusedDoors.Count);
+            print(messageCount++ + " - Lev.Count: " + lev.Count + "/" + nRooms);
+            int r = Random.Range(0, unusedDoors.Count - 1);
+
+            print(messageCount++ + " - r = " + r);
+
+            Door[] newDoors;
+            TempPart[] newParts;
+
+            if(expand(doorOwners[r], unusedDoors[r], ref lev, out newDoors, out newParts, (lev.Count >= nRooms)))
             {
-                usedDoors[i] = true;
+                print("Success!");
+                unusedDoors.AddRange(newDoors);
+                doorOwners.AddRange(newParts);
+
+                unusedDoors.RemoveAt(r);
+                doorOwners.RemoveAt(r);
             }
             else
             {
-                usedDoors[i] = false;
+                //remove all
+                print("Failure!");
+                List<TempPart> list = new List<TempPart>();
+                doorOwners[r].getChildren(ref list);
+
+                for(int i = 0; i < doorOwners.Count; i++)
+                {
+                    for(int j = 0; j < list.Count; j++)
+                    {
+                        if(doorOwners[i] == list[j])
+                        {
+                            unusedDoors.RemoveAt(i);
+                            doorOwners.RemoveAt(i);
+                        }
+                    }
+                }
             }
         }
+        //build level
+        for(int i = 0; i < lev.Count; i++)
+        {
+            placePart((int)lev[i].rect.x, (int)lev[i].rect.y, lev[i].data);
+        }
+    }
+
+    private bool expand(TempPart part, Door door0, ref List<TempPart> lev, out Door[] newDoors, out TempPart[] newParts, bool forceOneDoor = false)
+    {
+        print("expanding...");
+        //make sure that all doors will be used!
+        bool[] usedDoors = new bool[part.data.doors.Count];
+        int unused;
+        if (part.parent == null)
+        {
+            for (int i = 0; i < part.data.doors.Count; i++)
+            {
+                usedDoors[i] = false;
+            }
+            unused = part.data.doors.Count;
+        }
+        else
+        { 
+            for (int i = 0; i < part.data.doors.Count; i++)
+            {
+                if (part.data.doors[i] == part.parent)
+                {
+                    usedDoors[i] = true;
+                    break;
+                }
+                else
+                {
+                    usedDoors[i] = false;
+                }
+            }
+            unused = part.data.doors.Count - 1;
+        }
+        List<Door> newDoorsList = new List<Door>();
+        List<TempPart> newPartsList = new List<TempPart>();
+        int newCount = 0;
 
         //find matching doors
         List<KeyValuePair<Door, Door>> doors = new List<KeyValuePair<Door, Door>>();
         List<PartData> doorOwners = new List<PartData>();
 
         //compare doors
-        for(int i = 0; i < partData.Length; i++)
+        for(int j = 0; j < part.data.doors.Count; j++)
         {
-            for(int j = 0; j < previous.doors.Count; j++)
+            if(usedDoors[j] == true)
             {
-                if(usedDoors[j] == true)
+                continue;
+            }
+            for (int i = 0; i < partData.Length; i++)
+            {
+                if(forceOneDoor && partData[i].doors.Count > 1)
                 {
                     continue;
                 }
-                for(int k = 0; k < partData[i].doors.Count; k++)
+                for (int k = 0; k < partData[i].doors.Count; k++)
                 {
-                    if(previous.doors[j].width == partData[i].doors[k].width)
+                    if(part.data.doors[j].width == partData[i].doors[k].width)
                     {
-                        doors.Add(new KeyValuePair<Door, Door>(previous.doors[i], partData[i].doors[k]));
+                        doors.Add(new KeyValuePair<Door, Door>(part.data.doors[j], partData[i].doors[k]));
                         doorOwners.Add(partData[i]);
                     }
                 }
             }
         }
-        Part newPart;
-        while (doors.Count > 0)
+        while (unused > 0 && doors.Count > 0)
         {
-            int r = Random.Range(0, doors.Count - 1);
+            print("doors = " + doors.Count);
+            print("unused = " + unused);
+            int[] selection = new int[doors.Count];
 
-            Door d1 = doors[r].Key;
-            Door d2 = doors[r].Value;
-            PartData p = doorOwners[r];
+            int n = 0;
+            for(int i = 0; i < doors.Count; i++)
+            {
+                int index = -1;
+                for (int j = 0; j < part.data.doors.Count; j++)
+                {
+                    if (part.data.doors[j] == doors[i].Key)
+                    {
+                        index = j;
+                    }
+                }
+                if(index == -1)
+                {
+                    print("Generator logic error: couldn't find unused door index");
+                    newDoors = null;
+                    newParts = null;
+                    return false;
+                }
+                if (!usedDoors[index]) //unnecessary double check? nope.
+                {
+                    selection[n++] = i;
+                }
+            }
 
-            Rect rect = new Rect(previous.x, previous.y, p.w, p.h);
+            int r = Random.Range(0, n - 1);
+            print("r = " + r);
+
+            Door d1 = doors[selection[r]].Key;
+            Door d2 = doors[selection[r]].Value;
+            PartData p = doorOwners[selection[r]];
+
+            Rect rect = new Rect(part.rect.x, part.rect.y, p.w, p.h);
 
             int deltaW = d1.startingPoint - d2.startingPoint;
 
@@ -199,7 +364,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                             break;
                     }
                     rect.y += deltaW;
-                    rect.x += previous.w;
+                    rect.x += part.rect.width;
                     break;
                 case 1:
                     switch (d2.direction)
@@ -256,7 +421,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                             break;
                     }
                     rect.x += deltaW;
-                    rect.y += previous.h;
+                    rect.y += part.rect.height;
                     break;
                 default: print("Generator error: unknown direction!"); break;
             }
@@ -272,19 +437,51 @@ public class GameSceneLevelLoading : MonoBehaviour
             }
             if(!b)
             {
-                //if (expand(newPart, count))
-                //{ return true; }
-                //else
-                //{ doors.RemoveAt(r); }
+                int index = -1;
+                for (int j = 0; j < part.data.doors.Count; j++)
+                {
+                    if (part.data.doors[j] == d1)
+                    {
+                        index = j;
+                    }
+                }
+                usedDoors[selection[index]] = true; //--------------------------------------------index out of range
+                unused--;
+                print("Match found! unused = " + unused);
+                for(int i = 0; i < doors.Count; i++)
+                {
+                    if(doors[i].Key == d1)
+                    {
+                        doors.RemoveAt(i);
+                    } 
+                }
+                TempPart newPart = new TempPart();
+                newPart.parent = d2;
+                newPart.rect = rect;
+                newPart.data = p;
+                newPart.children = new List<TempPart>();
+                part.children.Add(newPart);
+                for(int i = 0; i < newPart.data.doors.Count; i++)
+                {
+                    print("NC: " + newCount++);
+                    newPartsList.Add(newPart);
+                    newDoorsList.Add(newPart.data.doors[i]);
+                }
+                
+                if(unused == 0)
+                {
+                    newDoors = newDoorsList.ToArray();
+                    newParts = newPartsList.ToArray();
+                    return true;
+                }
+            }
+            else
+            {
+                doors.RemoveAt(selection[r]);
             }
         }
-
-        //if(!expand(newPart))
-        {
-            //remove newPart
-            //return false;
-        }
-
+        newDoors = null;
+        newParts = null;
         return false;
     }
 
@@ -304,9 +501,9 @@ public class GameSceneLevelLoading : MonoBehaviour
         return r;
     }
 
-    private bool isColliding(Part p1, Rect p2)
+    private bool isColliding(TempPart p1, Rect p2)
     {
-        return p1.x + p1.w > p2.x && p1.y + p1.h > p1.y && p1.x < p2.x + p2.width && p1.y < p2.y + p2.height;
+        return p1.rect.x + p1.rect.width > p2.x && p1.rect.y + p1.rect.height > p1.rect.y && p1.rect.x < p2.x + p2.width && p1.rect.y < p2.y + p2.height;
     }
 
     private short[] toShort(byte[] bytes)
