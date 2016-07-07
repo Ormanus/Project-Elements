@@ -142,7 +142,7 @@ public class GameSceneLevelLoading : MonoBehaviour
 
     private Texture2D texture;
     private Rect[] uvs;
-    private List<AnimatedMesh>[] aniMesh;
+    private List<List<AnimatedMesh>> aniMesh;
     private GameObject[] level;
     private PartData[] partData;
 
@@ -159,7 +159,7 @@ public class GameSceneLevelLoading : MonoBehaviour
         //TODO: make part enemies parent transform
         //  and free them in the end of the generation (?)
 
-        aniMesh = new List<AnimatedMesh>[parts.Length];
+        aniMesh = new List<List<AnimatedMesh>>();
         partData = new PartData[parts.Length]; //array of level parts
 
         for (int j = 0; j < parts.Length; j++)
@@ -169,6 +169,15 @@ public class GameSceneLevelLoading : MonoBehaviour
             for(int k = 0; k < partData[j].doors.Count; k++)
             {
                 print("door [" + j + "][" + k + "]");
+            }
+        }
+
+        int doorCount = 0;
+        for(int i = 0; i < partData.Length; i++)
+        {
+            for(int j = 0; j < partData[i].doors.Count; j++)
+            {
+                print(doorCount++ + ". door's width: " + partData[i].doors[j].width);
             }
         }
 
@@ -193,7 +202,7 @@ public class GameSceneLevelLoading : MonoBehaviour
         }
 
         int messageCount = 0;
-        while(unusedDoors.Count > 0)
+        while(unusedDoors.Count > 0 && messageCount < 1000)
         {
             print(messageCount++ + " - Unused doors: " + unusedDoors.Count);
             print(messageCount++ + " - Lev.Count: " + lev.Count + "/" + nRooms);
@@ -206,7 +215,7 @@ public class GameSceneLevelLoading : MonoBehaviour
 
             if(expand(doorOwners[r], unusedDoors[r], ref lev, out newDoors, out newParts, (lev.Count >= nRooms)))
             {
-                print("Success!");
+                print(messageCount++ + " Success!");
                 unusedDoors.AddRange(newDoors);
                 doorOwners.AddRange(newParts);
 
@@ -216,11 +225,17 @@ public class GameSceneLevelLoading : MonoBehaviour
             else
             {
                 //remove all
-                print("Failure!");
+                print(messageCount++ + " Failure!");
                 List<TempPart> list = new List<TempPart>();
+                print(messageCount++ + " getting children");
                 doorOwners[r].getChildren(ref list);
 
-                for(int i = 0; i < doorOwners.Count; i++)
+                for(int i = 0; i < newParts.Length; i++)
+                {
+                    lev.Remove(newParts[i]);
+                }
+                print(messageCount++ + " starting remove...");
+                for (int i = 0; i < doorOwners.Count; i++)
                 {
                     for(int j = 0; j < list.Count; j++)
                     {
@@ -228,16 +243,30 @@ public class GameSceneLevelLoading : MonoBehaviour
                         {
                             unusedDoors.RemoveAt(i);
                             doorOwners.RemoveAt(i);
+                            i--;
                         }
                     }
                 }
+                print(messageCount++ + " remove done.");
             }
         }
+        if(messageCount >= 1000)
+        {
+            print(messageCount++ + " Too error!");
+        }
         //build level
+        print(messageCount++ + "building level");
         for(int i = 0; i < lev.Count; i++)
         {
             placePart((int)lev[i].rect.x, (int)lev[i].rect.y, lev[i].data);
         }
+        //DEBUG
+        for(int i = 0; i < lev.Count; i++)
+        {
+            print("LEV_DEBUG[" + i + "]: " + lev[i].rect.x + ", " + lev[i].rect.y + "  " + lev[i].rect.width + "x" + lev[i].rect.height);
+        }
+
+        print(messageCount++ + "end");
     }
 
     private bool expand(TempPart part, Door door0, ref List<TempPart> lev, out Door[] newDoors, out TempPart[] newParts, bool forceOneDoor = false)
@@ -275,10 +304,10 @@ public class GameSceneLevelLoading : MonoBehaviour
         int newCount = 0;
 
         //find matching doors
-        List<KeyValuePair<Door, Door>> doors = new List<KeyValuePair<Door, Door>>();
+        List<KeyValuePair<int, Door>> doors = new List<KeyValuePair<int, Door>>();
         List<PartData> doorOwners = new List<PartData>();
 
-        //compare doors
+        //get compatible doors
         for(int j = 0; j < part.data.doors.Count; j++)
         {
             if(usedDoors[j] == true)
@@ -295,7 +324,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                 {
                     if(part.data.doors[j].width == partData[i].doors[k].width)
                     {
-                        doors.Add(new KeyValuePair<Door, Door>(part.data.doors[j], partData[i].doors[k]));
+                        doors.Add(new KeyValuePair<int, Door>(j, partData[i].doors[k]));
                         doorOwners.Add(partData[i]);
                     }
                 }
@@ -310,41 +339,42 @@ public class GameSceneLevelLoading : MonoBehaviour
             int n = 0;
             for(int i = 0; i < doors.Count; i++)
             {
-                int index = -1;
-                for (int j = 0; j < part.data.doors.Count; j++)
-                {
-                    if (part.data.doors[j] == doors[i].Key)
-                    {
-                        index = j;
-                    }
-                }
-                if(index == -1)
-                {
-                    print("Generator logic error: couldn't find unused door index");
-                    newDoors = null;
-                    newParts = null;
-                    return false;
-                }
-                if (!usedDoors[index]) //unnecessary double check? nope.
+                //int index = -1;
+                //for (int j = 0; j < part.data.doors.Count; j++)
+                //{
+                //    if (part.data.doors[j] == doors[i].Key)
+                //    {
+                //        index = j;
+                //    }
+                //}
+                //if(index == -1)
+                //{
+                //    print("Generator logic error: couldn't find unused door index");
+                //    newDoors = newDoorsList.ToArray();
+                //    newParts = newPartsList.ToArray();
+                //    return false;
+                //}
+                if (!usedDoors[doors[i].Key])
                 {
                     selection[n++] = i;
                 }
             }
 
             int r = Random.Range(0, n - 1);
-            print("r = " + r);
 
-            Door d1 = doors[selection[r]].Key;
+            Door d1 = part.data.doors[doors[selection[r]].Key];// doors[selection[r]].Key;
             Door d2 = doors[selection[r]].Value;
             PartData p = doorOwners[selection[r]];
+            print("r = " + r + "/" + (n - 1) + " & side = " + d1.direction);
 
             Rect rect = new Rect(part.rect.x, part.rect.y, p.w, p.h);
 
             int deltaW = d1.startingPoint - d2.startingPoint;
 
             int start2 = d2.startingPoint;
-            int wallWidth2 = (d2.direction % 2 == 0 ? p.w : p.h);
+            int wallWidth2 = (d2.direction % 2 == 0 ? p.h : p.w);
 
+            print("placing rect");
             switch (d1.direction)
             {
                 case 0:
@@ -426,31 +456,27 @@ public class GameSceneLevelLoading : MonoBehaviour
                 default: print("Generator error: unknown direction!"); break;
             }
             //check if colliding with all
+            print("checking collisions");
             bool b = false;
             for(int i = 0; i < lev.Count; i++)
             {
                 if(isColliding(lev[i], rect))
                 {
+                    //print("collision @ " + i + ": " + rect.x + ", " + rect.y + "  " + rect.width + "x" + rect.height + " & " + lev[i].rect.x + ", " + lev[i].rect.y + "  " + lev[i].rect.width + "x" + lev[i].rect.height);
                     b = true;
                     break;
                 }
             }
             if(!b)
             {
-                int index = -1;
-                for (int j = 0; j < part.data.doors.Count; j++)
-                {
-                    if (part.data.doors[j] == d1)
-                    {
-                        index = j;
-                    }
-                }
-                usedDoors[selection[index]] = true; //--------------------------------------------index out of range
+                usedDoors[doors[r].Key] = true;
                 unused--;
                 print("Match found! unused = " + unused);
-                for(int i = 0; i < doors.Count; i++)
+                print("New part data: " + rect.x + ", " + rect.y + "  " + rect.width + "x" + rect.height);
+                int del = doors[selection[r]].Key;
+                for (int i = 0; i < doors.Count; i++)
                 {
-                    if(doors[i].Key == d1)
+                    if(doors[i].Key == del)
                     {
                         doors.RemoveAt(i);
                     } 
@@ -461,11 +487,15 @@ public class GameSceneLevelLoading : MonoBehaviour
                 newPart.data = p;
                 newPart.children = new List<TempPart>();
                 part.children.Add(newPart);
+                lev.Add(newPart);
                 for(int i = 0; i < newPart.data.doors.Count; i++)
                 {
-                    print("NC: " + newCount++);
-                    newPartsList.Add(newPart);
-                    newDoorsList.Add(newPart.data.doors[i]);
+                    if(newPart.data.doors[i] != d2)
+                    {
+                        print("NC: " + newCount++);
+                        newPartsList.Add(newPart);
+                        newDoorsList.Add(newPart.data.doors[i]);
+                    }
                 }
                 
                 if(unused == 0)
@@ -480,8 +510,8 @@ public class GameSceneLevelLoading : MonoBehaviour
                 doors.RemoveAt(selection[r]);
             }
         }
-        newDoors = null;
-        newParts = null;
+        newDoors = newDoorsList.ToArray();
+        newParts = newPartsList.ToArray();
         return false;
     }
 
@@ -503,7 +533,16 @@ public class GameSceneLevelLoading : MonoBehaviour
 
     private bool isColliding(TempPart p1, Rect p2)
     {
-        return p1.rect.x + p1.rect.width > p2.x && p1.rect.y + p1.rect.height > p1.rect.y && p1.rect.x < p2.x + p2.width && p1.rect.y < p2.y + p2.height;
+        p2.x += 0.01f;
+        p2.y += 0.01f;
+        p2.width -= 0.02f;
+        p2.height -= 0.02f;
+        bool result = (p1.rect.x + p1.rect.width > p2.x && p1.rect.y + p1.rect.height > p2.y && p1.rect.x < p2.x + p2.width && p1.rect.y < p2.y + p2.height);
+        if(result)
+        {
+            print("collision: " + p2.x + ", " + p2.y + "  " + p2.width + "x" + p2.height + " & " + p1.rect.x + ", " + p1.rect.y + "  " + p1.rect.width + "x" + p1.rect.height);
+        }
+        return result;
     }
 
     private short[] toShort(byte[] bytes)
@@ -526,8 +565,11 @@ public class GameSceneLevelLoading : MonoBehaviour
             time -= 1.0f;
             animationIndex++;
 
-            for (int i = 0; i < aniMesh.Length; i++)
+            print(aniMesh);
+            for (int i = 0; i < aniMesh.Count; i++)
             {
+                print("aniMesh " + i + "/" + aniMesh.Count);
+                print("aniMesh " + i + " = " + aniMesh[i]);
                 for (int k = 0; k < aniMesh[i].Count; k++)
                 {
                     Animation ani = aniMesh[i][k].animation;
@@ -748,9 +790,12 @@ public class GameSceneLevelLoading : MonoBehaviour
                 door = false;
             }
         }
+        first = -1;
+        doorWidth = 0;
+        door = false;
         for (int x = 0; x < w; x++) //bottom
         {
-            if (collisionMap[x + (h - 1) * w])
+            if (!collisionMap[x + (h - 1) * w])
             {
                 door = true;
                 if (first == -1)
@@ -764,7 +809,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                 if (door)
                 {
                     Door d = new Door();
-                    d.direction = 1;
+                    d.direction = 3;
                     d.width = doorWidth;
                     d.startingPoint = first;
                     part.doors.Add(d);
@@ -774,9 +819,12 @@ public class GameSceneLevelLoading : MonoBehaviour
                 door = false;
             }
         }
+        first = -1;
+        doorWidth = 0;
+        door = false;
         for (int y = 0; y < h; y++) //right
         {
-            if (collisionMap[w - 1 + y * w])
+            if (!collisionMap[w - 1 + y * w])
             {
                 door = true;
                 if (first == -1)
@@ -790,7 +838,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                 if (door)
                 {
                     Door d = new Door();
-                    d.direction = 1;
+                    d.direction = 0;
                     d.width = doorWidth;
                     d.startingPoint = first;
                     part.doors.Add(d);
@@ -800,9 +848,12 @@ public class GameSceneLevelLoading : MonoBehaviour
                 door = false;
             }
         }
+        first = -1;
+        doorWidth = 0;
+        door = false;
         for (int y = 0; y < h; y++) //left
         {
-            if (collisionMap[0 + y * w])
+            if (!collisionMap[0 + y * w])
             {
                 door = true;
                 if (first == -1)
@@ -816,7 +867,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                 if (door)
                 {
                     Door d = new Door();
-                    d.direction = 1;
+                    d.direction = 2;
                     d.width = doorWidth;
                     d.startingPoint = first;
                     part.doors.Add(d);
@@ -1061,7 +1112,7 @@ public class GameSceneLevelLoading : MonoBehaviour
         }
 
         //build meshes
-        aniMesh[aniMesh.Length - 1] = new List<AnimatedMesh>();
+        aniMesh.Add( new List<AnimatedMesh>());
         for (int i = 0; i < animations.Length; i++)
         {
             print("animated meshing");
@@ -1118,9 +1169,9 @@ public class GameSceneLevelLoading : MonoBehaviour
             am.go.AddComponent<MeshRenderer>().material = mat;
 
             print("animated meshed");
-            aniMesh[aniMesh.Length - 1].Add(am);
+            aniMesh[aniMesh.Count - 1].Add(am);
         }
-        print("aniMesh.Length = " + aniMesh.Length);
+        print("aniMesh.Count = " + aniMesh.Count);
 
         //create short copy of collision map
         short[] temp2 = new short[w * h];
