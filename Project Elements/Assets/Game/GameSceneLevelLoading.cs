@@ -6,7 +6,7 @@ using System.IO;
 class Door
 {
     public int width;
-    public int startingPoint;
+    public float startingPoint;
     public byte direction;
 
     public override bool Equals(object obj)
@@ -45,6 +45,37 @@ class Door
     }
 };
 
+class LevelDoor
+{
+    public LevelDoor(TempPart part, Door door)
+    {
+        owner = part;
+        data = door;
+        switch(door.direction + part.orientation)
+        {
+            case 0:
+                x = part.rect.x + part.rect.width;
+                y = part.rect.y + door.startingPoint;
+                break;
+            case 1:
+                x = part.rect.x + door.startingPoint;
+                y = part.rect.y;
+                break;
+            case 2:
+                x = part.rect.x;
+                y = part.rect.y + door.startingPoint;
+                break;
+            case 3:
+                x = part.rect.x + door.startingPoint;
+                y = part.rect.y + part.rect.height;
+                break;
+        }
+    }
+    public Door data;
+    public float x, y;
+    public TempPart owner;
+};
+
 struct PartData
 {
     public int w, h, d;
@@ -65,7 +96,6 @@ struct Part
     public int y;
     public int w;
     public int h;
-    public List<Door> doors;
 };
 
 struct Rectangle
@@ -77,8 +107,10 @@ struct Rectangle
 class TempPart
 {
     public Rect rect;
+    public int orientation;
     public PartData data;
-    public Door parent;
+    public LevelDoor parent;
+    public List<LevelDoor> doors;
     public List<TempPart> children;
     public void removeChildren()
     {
@@ -165,20 +197,6 @@ public class GameSceneLevelLoading : MonoBehaviour
         for (int j = 0; j < parts.Length; j++)
         {
             partData[j] = loadPart(parts[j]);
-
-            for(int k = 0; k < partData[j].doors.Count; k++)
-            {
-                print("door [" + j + "][" + k + "]");
-            }
-        }
-
-        int doorCount = 0;
-        for(int i = 0; i < partData.Length; i++)
-        {
-            for(int j = 0; j < partData[i].doors.Count; j++)
-            {
-                print(doorCount++ + ". door's width: " + partData[i].doors[j].width);
-            }
         }
 
         //------------------Generate map------------------//
@@ -192,13 +210,11 @@ public class GameSceneLevelLoading : MonoBehaviour
         start.children = new List<TempPart>();
         lev.Add(start);
 
-        List<Door> unusedDoors = new List<Door>();
-        List<TempPart> doorOwners = new List<TempPart>();
+        List<LevelDoor> unusedDoors = new List<LevelDoor>();
 
         for(int i = 0; i < start.data.doors.Count; i++)
         {
-            unusedDoors.Add(start.data.doors[i]);
-            doorOwners.Add(start);
+            unusedDoors.Add(new LevelDoor(start, start.data.doors[i]));
         }
 
         int messageCount = 0;
@@ -210,17 +226,13 @@ public class GameSceneLevelLoading : MonoBehaviour
 
             print(messageCount++ + " - r = " + r);
 
-            Door[] newDoors;
-            TempPart[] newParts;
+            LevelDoor[] newDoors;
 
-            if(expand(doorOwners[r], unusedDoors[r], ref lev, out newDoors, out newParts, (lev.Count >= nRooms)))
+            if(expand(unusedDoors[r], ref lev, out newDoors, (lev.Count >= nRooms)))
             {
                 print(messageCount++ + " Success!");
+                unusedDoors.Remove(unusedDoors[r]);
                 unusedDoors.AddRange(newDoors);
-                doorOwners.AddRange(newParts);
-
-                unusedDoors.RemoveAt(r);
-                doorOwners.RemoveAt(r);
             }
             else
             {
@@ -228,24 +240,33 @@ public class GameSceneLevelLoading : MonoBehaviour
                 print(messageCount++ + " Failure!");
                 List<TempPart> list = new List<TempPart>();
                 print(messageCount++ + " getting children");
-                doorOwners[r].getChildren(ref list);
+                unusedDoors[r].owner.getChildren(ref list);
 
-                for(int i = 0; i < newParts.Length; i++)
-                {
-                    lev.Remove(newParts[i]);
-                }
                 print(messageCount++ + " starting remove...");
-                for (int i = 0; i < doorOwners.Count; i++)
+                lev.Remove(newDoors[0].owner);
+                for (int i = 0; i < list.Count; i++)
                 {
-                    for(int j = 0; j < list.Count; j++)
+                    if(list[i] == start)
                     {
-                        if(doorOwners[i] == list[j])
+                        continue;
+                    }
+                    for (int j = 0; j < lev.Count; j++)
+                    {
+                        if(list[i] == lev[j])
                         {
-                            unusedDoors.RemoveAt(i);
-                            doorOwners.RemoveAt(i);
-                            i--;
+                            for (int k = 0; k < unusedDoors.Count; k++)
+                            {
+                                if (unusedDoors[k].owner == lev[j])
+                                {
+                                    unusedDoors.RemoveAt(k);
+                                    k--;
+                                }
+                            }
+                            break;
                         }
                     }
+                    lev.Remove(list[i]);
+                    i--;
                 }
                 print(messageCount++ + " remove done.");
             }
@@ -269,251 +290,324 @@ public class GameSceneLevelLoading : MonoBehaviour
         print(messageCount++ + "end");
     }
 
-    private bool expand(TempPart part, Door door0, ref List<TempPart> lev, out Door[] newDoors, out TempPart[] newParts, bool forceOneDoor = false)
+    private bool expand(LevelDoor door, ref List<TempPart> lev, out LevelDoor[] newDoors, bool forceOneDoor = false)
     {
         print("expanding...");
-        //make sure that all doors will be used!
-        bool[] usedDoors = new bool[part.data.doors.Count];
-        int unused;
-        if (part.parent == null)
-        {
-            for (int i = 0; i < part.data.doors.Count; i++)
-            {
-                usedDoors[i] = false;
-            }
-            unused = part.data.doors.Count;
-        }
-        else
-        { 
-            for (int i = 0; i < part.data.doors.Count; i++)
-            {
-                if (part.data.doors[i] == part.parent)
-                {
-                    usedDoors[i] = true;
-                    break;
-                }
-                else
-                {
-                    usedDoors[i] = false;
-                }
-            }
-            unused = part.data.doors.Count - 1;
-        }
-        List<Door> newDoorsList = new List<Door>();
-        List<TempPart> newPartsList = new List<TempPart>();
-        int newCount = 0;
+        List<LevelDoor> newDoorList = new List<LevelDoor>();
 
         //find matching doors
-        List<KeyValuePair<int, Door>> doors = new List<KeyValuePair<int, Door>>();
-        List<PartData> doorOwners = new List<PartData>();
+        List<KeyValuePair<PartData, Door>> doors = new List<KeyValuePair<PartData, Door>>();
 
-        //get compatible doors
-        for(int j = 0; j < part.data.doors.Count; j++)
+        for(int i = 0; i < partData.Length; i++)
         {
-            if(usedDoors[j] == true)
+            if (forceOneDoor && partData[i].doors.Count > 1)
             {
                 continue;
             }
-            for (int i = 0; i < partData.Length; i++)
+            for(int j = 0; j < partData[i].doors.Count; j++)
             {
-                if(forceOneDoor && partData[i].doors.Count > 1)
+                if(door.data.width == partData[i].doors[j].width)
                 {
-                    continue;
-                }
-                for (int k = 0; k < partData[i].doors.Count; k++)
-                {
-                    if(part.data.doors[j].width == partData[i].doors[k].width)
-                    {
-                        doors.Add(new KeyValuePair<int, Door>(j, partData[i].doors[k]));
-                        doorOwners.Add(partData[i]);
-                    }
+                    doors.Add(new KeyValuePair<PartData, Door>(partData[i], partData[i].doors[j]));
                 }
             }
         }
-        while (unused > 0 && doors.Count > 0)
+
+        while (doors.Count > 0)
         {
-            print("doors = " + doors.Count);
-            print("unused = " + unused);
-            int[] selection = new int[doors.Count];
+            int r = Random.Range(0, doors.Count - 1);
 
-            int n = 0;
-            for(int i = 0; i < doors.Count; i++)
-            {
-                //int index = -1;
-                //for (int j = 0; j < part.data.doors.Count; j++)
-                //{
-                //    if (part.data.doors[j] == doors[i].Key)
-                //    {
-                //        index = j;
-                //    }
-                //}
-                //if(index == -1)
-                //{
-                //    print("Generator logic error: couldn't find unused door index");
-                //    newDoors = newDoorsList.ToArray();
-                //    newParts = newPartsList.ToArray();
-                //    return false;
-                //}
-                if (!usedDoors[doors[i].Key])
-                {
-                    selection[n++] = i;
-                }
-            }
+            Vector2 doorCenter = new Vector2();
 
-            int r = Random.Range(0, n - 1);
+            Vector2 pos = new Vector2();
+            Vector2 size = new Vector2();
+            size.x = doors[r].Key.w;
+            size.y = doors[r].Key.h;
+            int orientation;
 
-            Door d1 = part.data.doors[doors[selection[r]].Key];// doors[selection[r]].Key;
-            Door d2 = doors[selection[r]].Value;
-            PartData p = doorOwners[selection[r]];
-            print("r = " + r + "/" + (n - 1) + " & side = " + d1.direction);
-
-            Rect rect = new Rect(part.rect.x, part.rect.y, p.w, p.h);
-
-            int deltaW = d1.startingPoint - d2.startingPoint;
-
-            int start2 = d2.startingPoint;
-            int wallWidth2 = (d2.direction % 2 == 0 ? p.h : p.w);
-
-            print("placing rect");
-            switch (d1.direction)
+            switch (door.data.direction + door.owner.orientation)
             {
                 case 0:
-                    switch (d2.direction)
-                    {
-                        case 0:
-                            deltaW = wallWidth2 - deltaW;
-                            break;
-                        case 1:
-                            rect = rotate(rect, 1);
-                            deltaW = wallWidth2 - deltaW;
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            rect = rotate(rect, 1);
-                            break;
-                    }
-                    rect.y += deltaW;
-                    rect.x += part.rect.width;
+
+                    doorCenter.x += door.owner.rect.width;
+                    doorCenter.y += door.data.startingPoint;
                     break;
                 case 1:
-                    switch (d2.direction)
-                    {
-                        case 0:
-                            rect = rotate(rect, 1);
-                            deltaW = wallWidth2 - deltaW;
-                            break;
-                        case 1:
-                            deltaW = wallWidth2 - deltaW;
-                            break;
-                        case 2:
-                            rect = rotate(rect, 1);
-                            break;
-                        case 3:
-                            break;
-                    }
-                    rect.x += deltaW;
-                    rect.y -= rect.height;
+                    doorCenter.x += door.data.startingPoint;
                     break;
                 case 2:
-                    switch (d2.direction)
-                    {
-                        case 0:
-                            break;
-                        case 1:
-                            rect = rotate(rect, 1);
-                            break;
-                        case 2:
-                            deltaW = wallWidth2 - deltaW;
-                            break;
-                        case 3:
-                            rect = rotate(rect, 1);
-                            deltaW = wallWidth2 - deltaW;
-                            break;
-                    }
-                    rect.y += deltaW;
-                    rect.x -= rect.width;
+                    doorCenter.y += door.data.startingPoint;
                     break;
                 case 3:
-                    switch (d2.direction)
-                    {
-                        case 0:
-                            rect = rotate(rect, 1);
-                            break;
-                        case 1:
-                            break;
-                        case 2:
-                            rect = rotate(rect, 1);
-                            deltaW = wallWidth2 - deltaW;
-                            break;
-                        case 3:
-                            deltaW = wallWidth2 - deltaW;
-                            break;
-                    }
-                    rect.x += deltaW;
-                    rect.y += part.rect.height;
+                    doorCenter.x += door.data.startingPoint;
+                    doorCenter.y += door.owner.rect.height;
                     break;
-                default: print("Generator error: unknown direction!"); break;
             }
-            //check if colliding with all
-            print("checking collisions");
-            bool b = false;
-            for(int i = 0; i < lev.Count; i++)
+
+            switch(doors[r].Value.direction)
             {
-                if(isColliding(lev[i], rect))
-                {
-                    //print("collision @ " + i + ": " + rect.x + ", " + rect.y + "  " + rect.width + "x" + rect.height + " & " + lev[i].rect.x + ", " + lev[i].rect.y + "  " + lev[i].rect.width + "x" + lev[i].rect.height);
-                    b = true;
+                case 0:
+                    pos.x = doorCenter.x - doors[r].Key.w;
+                    pos.y = doorCenter.y - doors[r].Value.startingPoint;
                     break;
-                }
+                case 1:
+                    pos.x = doorCenter.x;
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
             }
-            if(!b)
-            {
-                usedDoors[doors[r].Key] = true;
-                unused--;
-                print("Match found! unused = " + unused);
-                print("New part data: " + rect.x + ", " + rect.y + "  " + rect.width + "x" + rect.height);
-                int del = doors[selection[r]].Key;
-                for (int i = 0; i < doors.Count; i++)
-                {
-                    if(doors[i].Key == del)
-                    {
-                        doors.RemoveAt(i);
-                    } 
-                }
-                TempPart newPart = new TempPart();
-                newPart.parent = d2;
-                newPart.rect = rect;
-                newPart.data = p;
-                newPart.children = new List<TempPart>();
-                part.children.Add(newPart);
-                lev.Add(newPart);
-                for(int i = 0; i < newPart.data.doors.Count; i++)
-                {
-                    if(newPart.data.doors[i] != d2)
-                    {
-                        print("NC: " + newCount++);
-                        newPartsList.Add(newPart);
-                        newDoorsList.Add(newPart.data.doors[i]);
-                    }
-                }
-                
-                if(unused == 0)
-                {
-                    newDoors = newDoorsList.ToArray();
-                    newParts = newPartsList.ToArray();
-                    return true;
-                }
-            }
-            else
-            {
-                doors.RemoveAt(selection[r]);
-            }
+
+            orientation = (door.data.direction + door.owner.orientation - doors[r].Value.direction + 4) % 4;
         }
-        newDoors = newDoorsList.ToArray();
-        newParts = newPartsList.ToArray();
-        return false;
     }
+
+    //private bool expand(TempPart part, Door door0, ref List<TempPart> lev, out Door[] newDoors, out TempPart[] newParts, bool forceOneDoor = false)
+    //{
+    //    print("expanding...");
+    //    //make sure that all doors will be used!
+    //    bool[] usedDoors = new bool[part.data.doors.Count];
+    //    int unused;
+    //    if (part.parent == null)
+    //    {
+    //        for (int i = 0; i < part.data.doors.Count; i++)
+    //        {
+    //            usedDoors[i] = false;
+    //        }
+    //        unused = part.data.doors.Count;
+    //    }
+    //    else
+    //    { 
+    //        for (int i = 0; i < part.data.doors.Count; i++)
+    //        {
+    //            if (part.data.doors[i] == part.parent)
+    //            {
+    //                usedDoors[i] = true;
+    //                break;
+    //            }
+    //            else
+    //            {
+    //                usedDoors[i] = false;
+    //            }
+    //        }
+    //        unused = part.data.doors.Count - 1;
+    //    }
+    //    List<Door> newDoorsList = new List<Door>();
+    //    List<TempPart> newPartsList = new List<TempPart>();
+    //    int newCount = 0;
+
+    //    //find matching doors
+    //    List<KeyValuePair<int, Door>> doors = new List<KeyValuePair<int, Door>>();
+    //    List<PartData> doorOwners = new List<PartData>();
+
+    //    //get compatible doors
+    //    for(int j = 0; j < part.data.doors.Count; j++)
+    //    {
+    //        if(usedDoors[j] == true)
+    //        {
+    //            continue;
+    //        }
+    //        for (int i = 0; i < partData.Length; i++)
+    //        {
+    //            if(forceOneDoor && partData[i].doors.Count > 1)
+    //            {
+    //                continue;
+    //            }
+    //            for (int k = 0; k < partData[i].doors.Count; k++)
+    //            {
+    //                if(part.data.doors[j].width == partData[i].doors[k].width)
+    //                {
+    //                    doors.Add(new KeyValuePair<int, Door>(j, partData[i].doors[k]));
+    //                    doorOwners.Add(partData[i]);
+    //                }
+    //            }
+    //        }
+    //    }
+    //    while (unused > 0 && doors.Count > 0)
+    //    {
+    //        print("doors = " + doors.Count);
+    //        print("unused = " + unused);
+    //        int[] selection = new int[doors.Count];
+
+    //        int n = 0;
+    //        for(int i = 0; i < doors.Count; i++)
+    //        {
+    //            //int index = -1;
+    //            //for (int j = 0; j < part.data.doors.Count; j++)
+    //            //{
+    //            //    if (part.data.doors[j] == doors[i].Key)
+    //            //    {
+    //            //        index = j;
+    //            //    }
+    //            //}
+    //            //if(index == -1)
+    //            //{
+    //            //    print("Generator logic error: couldn't find unused door index");
+    //            //    newDoors = newDoorsList.ToArray();
+    //            //    newParts = newPartsList.ToArray();
+    //            //    return false;
+    //            //}
+    //            if (!usedDoors[doors[i].Key])
+    //            {
+    //                selection[n++] = i;
+    //            }
+    //        }
+
+    //        int r = Random.Range(0, n - 1);
+
+    //        Door d1 = part.data.doors[doors[selection[r]].Key];// doors[selection[r]].Key;
+    //        Door d2 = doors[selection[r]].Value;
+    //        PartData p = doorOwners[selection[r]];
+    //        print("r = " + r + "/" + (n - 1) + " & side = " + d1.direction);
+
+    //        Rect rect = new Rect(part.rect.x, part.rect.y, p.w, p.h);
+
+    //        int deltaW = d1.startingPoint - d2.startingPoint;
+
+    //        int start2 = d2.startingPoint;
+    //        int wallWidth2 = (d2.direction % 2 == 0 ? p.h : p.w);
+
+    //        print("placing rect");
+    //        switch (d1.direction)
+    //        {
+    //            case 0:
+    //                switch (d2.direction)
+    //                {
+    //                    case 0:
+    //                        deltaW = wallWidth2 - deltaW;
+    //                        break;
+    //                    case 1:
+    //                        rect = rotate(rect, 1);
+    //                        deltaW = wallWidth2 - deltaW;
+    //                        break;
+    //                    case 2:
+    //                        break;
+    //                    case 3:
+    //                        rect = rotate(rect, 1);
+    //                        break;
+    //                }
+    //                rect.y += deltaW;
+    //                rect.x += part.rect.width;
+    //                break;
+    //            case 1:
+    //                switch (d2.direction)
+    //                {
+    //                    case 0:
+    //                        rect = rotate(rect, 1);
+    //                        deltaW = wallWidth2 - deltaW;
+    //                        break;
+    //                    case 1:
+    //                        deltaW = wallWidth2 - deltaW;
+    //                        break;
+    //                    case 2:
+    //                        rect = rotate(rect, 1);
+    //                        break;
+    //                    case 3:
+    //                        break;
+    //                }
+    //                rect.x += deltaW;
+    //                rect.y -= rect.height;
+    //                break;
+    //            case 2:
+    //                switch (d2.direction)
+    //                {
+    //                    case 0:
+    //                        break;
+    //                    case 1:
+    //                        rect = rotate(rect, 1);
+    //                        break;
+    //                    case 2:
+    //                        deltaW = wallWidth2 - deltaW;
+    //                        break;
+    //                    case 3:
+    //                        rect = rotate(rect, 1);
+    //                        deltaW = wallWidth2 - deltaW;
+    //                        break;
+    //                }
+    //                rect.y += deltaW;
+    //                rect.x -= rect.width;
+    //                break;
+    //            case 3:
+    //                switch (d2.direction)
+    //                {
+    //                    case 0:
+    //                        rect = rotate(rect, 1);
+    //                        break;
+    //                    case 1:
+    //                        break;
+    //                    case 2:
+    //                        rect = rotate(rect, 1);
+    //                        deltaW = wallWidth2 - deltaW;
+    //                        break;
+    //                    case 3:
+    //                        deltaW = wallWidth2 - deltaW;
+    //                        break;
+    //                }
+    //                rect.x += deltaW;
+    //                rect.y += part.rect.height;
+    //                break;
+    //            default: print("Generator error: unknown direction!"); break;
+    //        }
+    //        //check if colliding with all
+    //        print("checking collisions");
+    //        bool b = false;
+    //        for(int i = 0; i < lev.Count; i++)
+    //        {
+    //            if(isColliding(lev[i], rect))
+    //            {
+    //                //print("collision @ " + i + ": " + rect.x + ", " + rect.y + "  " + rect.width + "x" + rect.height + " & " + lev[i].rect.x + ", " + lev[i].rect.y + "  " + lev[i].rect.width + "x" + lev[i].rect.height);
+    //                b = true;
+    //                break;
+    //            }
+    //        }
+    //        if(!b)
+    //        {
+    //            usedDoors[doors[r].Key] = true;
+    //            unused--;
+    //            print("Match found! unused = " + unused);
+    //            print("New part data: " + rect.x + ", " + rect.y + "  " + rect.width + "x" + rect.height);
+    //            int del = doors[selection[r]].Key;
+    //            for (int i = 0; i < doors.Count; i++)
+    //            {
+    //                if(doors[i].Key == del)
+    //                {
+    //                    doors.RemoveAt(i);
+    //                } 
+    //            }
+    //            TempPart newPart = new TempPart();
+    //            newPart.parent = d2;
+    //            newPart.rect = rect;
+    //            newPart.data = p;
+    //            newPart.children = new List<TempPart>();
+    //            part.children.Add(newPart);
+    //            lev.Add(newPart);
+    //            for(int i = 0; i < newPart.data.doors.Count; i++)
+    //            {
+    //                if(newPart.data.doors[i] != d2)
+    //                {
+    //                    print("NC: " + newCount++);
+    //                    newPartsList.Add(newPart);
+    //                    newDoorsList.Add(newPart.data.doors[i]);
+    //                }
+    //            }
+
+    //            if(unused == 0)
+    //            {
+    //                newDoors = newDoorsList.ToArray();
+    //                newParts = newPartsList.ToArray();
+    //                return true;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            doors.RemoveAt(selection[r]);
+    //        }
+    //    }
+    //    newDoors = newDoorsList.ToArray();
+    //    newParts = newPartsList.ToArray();
+    //    return false;
+    //}
 
     private Rect rotate(Rect r, int degrees90)
     {
@@ -782,7 +876,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                     Door d = new Door();
                     d.direction = 1;
                     d.width = doorWidth;
-                    d.startingPoint = first;
+                    d.startingPoint = first + doorWidth / 2;
                     part.doors.Add(d);
                     first = -1;
                     doorWidth = 0;
@@ -811,7 +905,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                     Door d = new Door();
                     d.direction = 3;
                     d.width = doorWidth;
-                    d.startingPoint = first;
+                    d.startingPoint = first + doorWidth / 2; ;
                     part.doors.Add(d);
                     first = -1;
                     doorWidth = 0;
@@ -840,7 +934,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                     Door d = new Door();
                     d.direction = 0;
                     d.width = doorWidth;
-                    d.startingPoint = first;
+                    d.startingPoint = first + doorWidth / 2; ;
                     part.doors.Add(d);
                     first = -1;
                     doorWidth = 0;
@@ -869,7 +963,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                     Door d = new Door();
                     d.direction = 2;
                     d.width = doorWidth;
-                    d.startingPoint = first;
+                    d.startingPoint = first + doorWidth / 2; ;
                     part.doors.Add(d);
                     first = -1;
                     doorWidth = 0;
