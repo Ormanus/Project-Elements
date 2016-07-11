@@ -229,7 +229,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                 {
                     short type = (short)(data[x + y * w + i * w * h + 5] - 1);
                     tilemap[x + y * w + i * w * h] = type;
-                    if (type > -1)
+                    if (type > -1 && i != num_layers - 1)
                     {
                         collisionMap[x + y * w] = true;
                     }
@@ -422,11 +422,11 @@ public class GameSceneLevelLoading : MonoBehaviour
                     if (partData.tilemap[x + y * w + n * w * h] >= 0)
                     {
                         Rectangle rect = new Rectangle();
-                        rect.x = x;
-                        rect.y = y;
+                        rect.x = x - 0.01f;
+                        rect.y = y - 0.01f;
                         rect.z = n;
-                        rect.w = 1;
-                        rect.h = 1;
+                        rect.w = 1.02f;
+                        rect.h = 1.02f;
                         rect.type = partData.tilemap[x + y * w + n * w * h];
 
                         //chech if current tile is animated
