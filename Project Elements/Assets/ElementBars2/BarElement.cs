@@ -67,18 +67,24 @@ public class BarElement : MonoBehaviour {
 
 
         }
-		Debug.Log (aikaaon);
+        //tässä yritetään timeria
+		//Debug.Log (aikaaon);
         if (aikaaon == 1 || aikaaon > 1)
         {
+
+            Invoke("deleteclones", 0);
             if (!kerran)
             {
-                Invoke("createanobject", 4);
+                
+                //Invoke("createanobject", 0);
                 kerran = true;
-                Invoke("deleteclones", 2);
-                aikaaon = 0f;
+                
+                //aikaaon = 0f;
             }
             aikaaon = 0f;
+            
         }
+        
 
 		GetComponent<Renderer> ().material.SetFloat ("_Cutoff", aikaaon);//Mathf.InverseLerp(0, Screen.width, (int)aikaaon)); 
         if (Input.GetKeyDown(KeyCode.Keypad9))
