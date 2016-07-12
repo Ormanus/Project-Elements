@@ -63,6 +63,7 @@ public class GameSceneLevelLoading : MonoBehaviour
     public GameObject[] enemies;
     public string part;
     public Material material;
+    public GameObject AStar;
 
     private Texture2D texture;
     private Rect[] uvs;
@@ -622,7 +623,8 @@ public class GameSceneLevelLoading : MonoBehaviour
             }
         }
         part.go.transform.position = new Vector3(x0, y0);
-
+        part.go.layer = 8;
+        AStar.GetComponent<AstarPath>().Scan();
         return part;
     }
 }
