@@ -79,8 +79,11 @@ public class GameSceneLevelLoading : MonoBehaviour
     private float time;
     private int animationIndex;
 
+    private Transform player;
+
     void Start()
     {
+        player = GameObject.Find("Player").transform;
         aniMesh = new List<List<AnimatedMesh>>();
         placePart(0, 0, loadPart(part));
     }
@@ -315,10 +318,18 @@ public class GameSceneLevelLoading : MonoBehaviour
             int amount = Random.Range((int)partData.enemyRanges[j].x, (int)partData.enemyRanges[j].y);
             for (int k = 0; k < amount; k++)
             {
-                GameObject o = Instantiate(enemies[partData.enemyTypes[j]]);
-                float x = x0 + Random.Range(0, partData.enemyAreas[j].width);
-                float y = y0 + Random.Range(0, partData.enemyAreas[j].height);
-                o.transform.position = new Vector3(x, -y, 0);
+                float x = x0 + partData.enemyAreas[j].x + Random.Range(0, partData.enemyAreas[j].width);
+                float y = y0 + partData.enemyAreas[j].y + Random.Range(0, partData.enemyAreas[j].height);
+                if (partData.enemyTypes[j] != 0)
+                {
+                    GameObject o = Instantiate(enemies[partData.enemyTypes[j] - 1]);
+                    o.transform.position = new Vector3(x, -y, 0);
+                }
+                else
+                {
+                    player.position = new Vector3(x, -y, 0);
+                    print("Player position set.");
+                }
             }
         }
 
