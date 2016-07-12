@@ -1,27 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bullet : MonoBehaviour {
+public class EnemyBullet : MonoBehaviour {
 
     Rigidbody2D rb;
-    public float amount;
-    //public Vector3 sp;
-    //public Vector3 dir;
+    public Transform target;
+    public float speed;
 
-    public Transform Bulletspawn;
-    public Vector2 shoot;
-    //public GameObject ShootDirection;
-    
     // Use this for initialization
     void Start() {
 
         //ShootDirection = GameObject.FindGameObjectWithTag("ShootDirection");
+        target = GameObject.Find("Player").transform;
 
-        Bulletspawn = GameObject.Find("BulletSpawn").transform;
+        Vector2 delta = target.transform.position - gameObject.transform.position;
 
-        shoot = Bulletspawn.transform.up;
+        Vector2 velocity = delta.normalized * speed;
 
         rb = GetComponent<Rigidbody2D>();
+
+        rb.velocity = velocity;
 
         Destroy(gameObject, 5);
         // sp = Camera.main.WorldToScreenPoint(transform.position);
@@ -32,7 +30,7 @@ public class Bullet : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //rb.velocity = rb.velocity = Vector2.up;      
-        rb.AddForce(shoot*amount);
+        //rb.velocity = 
        
     }
 }

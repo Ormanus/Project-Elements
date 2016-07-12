@@ -365,7 +365,8 @@ public class AILerp : MonoBehaviour {
 	}
 
 	protected virtual void Update () {
-		if (canMove) {
+        float distance = Vector2.Distance(target.transform.position, gameObject.transform.position);
+		if (canMove && distance > 3.0f) {
 			Vector3 direction;
 			Vector3 nextPos = CalculateNextPosition(out direction);
 
@@ -386,6 +387,10 @@ public class AILerp : MonoBehaviour {
 
 			tr.position = nextPos;
 		}
+        else
+        {
+            previousMovementStartTime = Time.time;
+        }
 	}
 
 	/** Calculate the AI's next position (one frame in the future).

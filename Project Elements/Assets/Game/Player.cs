@@ -121,13 +121,11 @@ public class Player : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag == "EnemyBullet")
+        if (other.gameObject.tag == "enemyBullet")
         {
             PlayerHealth.Playerhealth -= 0.25f;
             Instantiate(playerhitParticle,transform.position,transform.rotation);
             Destroy(other.gameObject);
-
         }
-
     }
 }
