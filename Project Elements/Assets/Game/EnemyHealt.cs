@@ -6,6 +6,7 @@ public class EnemyHealt : MonoBehaviour {
 
     public float EnemyHealtti = 1;
      Image HealthImage;
+    public GameObject EnemyHitParticle;
         
     // Use this for initialization
     void Start () {
@@ -28,6 +29,7 @@ public class EnemyHealt : MonoBehaviour {
 
         if (EnemyHealtti <= 0)
         {
+            Instantiate(EnemyHitParticle,transform.position,transform.rotation);
             Destroy(gameObject);
 
         }

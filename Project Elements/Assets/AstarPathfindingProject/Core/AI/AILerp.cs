@@ -389,7 +389,7 @@ public class AILerp : MonoBehaviour {
 		}
         else
         {
-            previousMovementStartTime = Time.time;
+            //previousMovementStartTime = Time.time;
         }
 	}
 
