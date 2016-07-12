@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class CharacterSelection : MonoBehaviour {
 	public static float hahmoval;//hahmo, jonka valkkaat sliderista
@@ -39,8 +40,9 @@ public class CharacterSelection : MonoBehaviour {
 
 		
 			PlayerPrefs.SetFloat ("talletettuhahmo", hahmoval);
-			PlayerPrefs.SetString ("spritelokaatio", spritensijainti); 
-			Application.LoadLevel (1); //Opens the GameTestScene
+			PlayerPrefs.SetString ("spritelokaatio", spritensijainti);
+            SceneManager.LoadScene("GameTestScene");
+			//Application.LoadLevel (1); //Opens the GameTestScene
 
 			  
 		}
