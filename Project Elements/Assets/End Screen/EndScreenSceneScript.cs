@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 public class EndScreenSceneScript : MonoBehaviour {
 	public float currentHealth;
 	void Start() {
-		PlayerPrefs.SetFloat ("healtti", 3000);
-	}
+        //PlayerPrefs.SetFloat ("healtti", 3000);
+        currentHealth = PlayerPrefs.GetFloat("healtti");
+    }
 	void Update() {
-		currentHealth = PlayerPrefs.GetFloat("healtti");
 
 	}
 	void endGame(){
@@ -24,12 +24,6 @@ public class EndScreenSceneScript : MonoBehaviour {
 			//GUILayout.Label ("Main menu");
 			if (GUILayout.Button ("Quit to main menu"))
 				SceneManager.LoadScene ("MainMenu");
-		}
-		if (GUILayout.Button ("Aseta heltti 0")) {
-			PlayerPrefs.SetFloat ("healtti", 0.0f);
-		}
-		if (GUILayout.Button ("Aseta heltti 30")) {
-			PlayerPrefs.SetFloat ("healtti", 30.0f);
 		}
 		GUILayout.EndArea ();
 		

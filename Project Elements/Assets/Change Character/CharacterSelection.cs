@@ -36,9 +36,9 @@ public class CharacterSelection : MonoBehaviour {
 
 		GUI.Box (new Rect (0, 0, 800, 600), "Choose values",myStyle);
 
-		if (GUI.Button (new Rect (240, 70, 150, 30), "Start Game")) { 
+		if (GUI.Button (new Rect (240, 70, 150, 30), "Start Game")) {
 
-		
+            PlayerPrefs.SetFloat("healtti", 100.0f);
 			PlayerPrefs.SetFloat ("talletettuhahmo", hahmoval);
 			PlayerPrefs.SetString ("spritelokaatio", spritensijainti);
             SceneManager.LoadScene("GameTestScene");

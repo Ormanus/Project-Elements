@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 	Vector3 mousePos;
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
+        PlayerHealth.Playerhealth = 1;
 	}
 	
 	// Update is called once per frame
@@ -102,11 +104,9 @@ public class Player : MonoBehaviour {
         if (PlayerHealth.Playerhealth <= 0)
         {
             //Destroy(gameObject);
-            gameObject.SetActive(false);
             Instantiate(playerdeathparticle, transform.position, transform.rotation);
-            Time.timeScale = 0;
-
-
+            PlayerPrefs.SetFloat("healtti", 0);
+            SceneManager.LoadScene("EndScreenScene");
         }
 
 
