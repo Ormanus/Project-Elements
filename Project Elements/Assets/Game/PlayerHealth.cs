@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
    
-        HealthImage = GameObject.Find("Main Camera").transform.FindChild("Canvas").FindChild("HealthBar").FindChild("Health").GetComponent<Image>();
+        HealthImage = GameObject.Find("Canvas").transform.FindChild("HealthBar").FindChild("Health").GetComponent<Image>();
    
     }
 
