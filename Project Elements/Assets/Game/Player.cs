@@ -95,10 +95,10 @@ public class Player : MonoBehaviour {
             transform.Translate(-Vector2.up * Time.deltaTime*speed,Space.World);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.1f)
         {
             Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
-
+            PlayerHealth.Playermana -= 0.1f;
         }
 
         if (PlayerHealth.Playerhealth <= 0)

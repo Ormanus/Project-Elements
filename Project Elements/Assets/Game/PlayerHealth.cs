@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
    
     
     public static float Playerhealth = 1;
+    public static float Playermana = 1;
 
     Image HealthImage;
 
@@ -15,9 +16,7 @@ public class PlayerHealth : MonoBehaviour
     
     void Start()
     {
-   
-        HealthImage = GameObject.Find("Main Camera").transform.FindChild("Canvas").FindChild("HealthBar").FindChild("Health").GetComponent<Image>();
-   
+
     }
 
     void Update()
@@ -34,8 +33,9 @@ public class PlayerHealth : MonoBehaviour
 
         }
 
-        HealthImage.transform.localScale = new Vector3(Playerhealth, 1, 1);
-
+        if(Playermana < 1)
+        {
+            Playermana += Time.deltaTime / 5.0f;
+        }
     }
-
 }
