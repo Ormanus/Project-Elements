@@ -33,4 +33,15 @@ public class EnemyBullet : MonoBehaviour {
         //rb.velocity = 
        
     }
+
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.layer == 8)
+        {
+            Destroy(gameObject);
+
+        }
+
+    }
 }
