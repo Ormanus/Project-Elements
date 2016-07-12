@@ -635,7 +635,15 @@ public class GameSceneLevelLoading : MonoBehaviour
         }
         part.go.transform.position = new Vector3(x0, y0);
         part.go.layer = 8;
-        AStar.GetComponent<AstarPath>().Scan();
+        AstarPath path = AStar.GetComponent<AstarPath>();
+        var graph = AstarPath.active.astarData.gridGraph;
+        graph.width = part.w * 4;
+        graph.depth = part.h * 4;
+        graph.center.x = part.w / 2;
+        graph.center.y = -part.h / 2;
+        graph.UpdateSizeFromWidthDepth();
+        graph.nodeSize = 0.25f;
+        path.Scan();
         return part;
     }
 }

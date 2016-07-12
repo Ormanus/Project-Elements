@@ -17,7 +17,17 @@ public class EnemyShoot : MonoBehaviour {
         if(timer > RoF)
         {
             timer -= RoF;
-            Instantiate(bullet, gameObject.transform.position, gameObject.transform.rotation);
+            Transform target = GameObject.Find("Player").transform;
+
+            Vector2 direction = target.transform.position - gameObject.transform.position;
+            Debug.DrawRay(gameObject.transform.position, direction, new Color(1.0f, 0.0f, 0.0f), 1.0f);
+            if(direction.magnitude < 10)
+            {
+                if (Physics2D.Raycast(gameObject.transform.position, direction, direction.magnitude, 256).collider == null)
+                {
+                    Instantiate(bullet, gameObject.transform.position, gameObject.transform.rotation);
+                }
+            }
         }
 	}
 }
