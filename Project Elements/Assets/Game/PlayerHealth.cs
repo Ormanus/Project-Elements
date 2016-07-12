@@ -16,8 +16,10 @@ public class PlayerHealth : MonoBehaviour
     
     void Start()
     {
+
         Playerhealth = 1;
         Playermana = 1;
+
     }
 
     void Update()
