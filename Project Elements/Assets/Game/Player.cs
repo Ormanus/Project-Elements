@@ -8,6 +8,8 @@ public class Player : MonoBehaviour {
     public GameObject BulletPrefab;
 	Vector3 objectPos;
 	float angle;
+
+    private Animator anim;
    
     public float speed;
     public GameObject playerdeathparticle;
@@ -19,6 +21,8 @@ public class Player : MonoBehaviour {
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
         PlayerHealth.Playerhealth = 1;
+
+        anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -41,7 +45,7 @@ public class Player : MonoBehaviour {
 */
 
 		Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
+		//transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
              
 
         rb.velocity = Vector2.zero;
@@ -108,6 +112,10 @@ public class Player : MonoBehaviour {
             PlayerPrefs.SetFloat("healtti", 0);
             SceneManager.LoadScene("EndScreenScene");
         }
+
+
+        anim.SetFloat("MoveX",Input.GetAxisRaw("Horizontal"));
+        anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
 
 
     }

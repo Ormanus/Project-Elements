@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EnemyHealt : MonoBehaviour {
 
@@ -31,7 +32,10 @@ public class EnemyHealt : MonoBehaviour {
         {
             Instantiate(EnemyHitParticle,transform.position,transform.rotation);
             Destroy(gameObject);
-
+            if(GameObject.FindGameObjectsWithTag("Enemy").Length == 10)
+            {
+                SceneManager.LoadScene("EndScreenScene");
+            }
         }
 
         HealthImage.transform.localScale = new Vector3(EnemyHealtti, 1, 1);

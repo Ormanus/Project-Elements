@@ -19,20 +19,25 @@ public class Bullet : MonoBehaviour {
 
         Bulletspawn = GameObject.Find("BulletSpawn").transform;
 
-        shoot = Bulletspawn.transform.up;
+        Vector2 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - Bulletspawn.transform.position;
+
+        float direction = Mathf.Atan2(delta.y, delta.x) + 3.14159265f * 2.0f;
+
+        shoot = new Vector2(Mathf.Cos(direction), Mathf.Sin(direction));
 
         rb = GetComponent<Rigidbody2D>();
 
         Destroy(gameObject, 5);
         // sp = Camera.main.WorldToScreenPoint(transform.position);
         //dir = (Input.mousePosition - sp).normalized;
+        rb.velocity = shoot * 10;
     }
 
 	
 	// Update is called once per frame
 	void Update () {
         //rb.velocity = rb.velocity = Vector2.up;      
-        rb.AddForce(shoot*amount);
+        //rb.AddForce(shoot*amount);
        
     }
 

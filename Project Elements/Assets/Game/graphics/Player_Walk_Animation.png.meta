@@ -1,0 +1,601 @@
+fileFormatVersion: 2
+guid: 0dcc97b0e31af294f91fe43201d27a79
+timeCreated: 1468328934
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Player_Walk_Animation_0
+    21300002: Player_Walk_Animation_1
+    21300004: Player_Walk_Animation_2
+    21300006: Player_Walk_Animation_3
+    21300008: Player_Walk_Animation_4
+    21300010: Player_Walk_Animation_5
+    21300012: Player_Walk_Animation_6
+    21300014: Player_Walk_Animation_7
+    21300016: Player_Walk_Animation_8
+    21300018: Player_Walk_Animation_9
+    21300020: Player_Walk_Animation_10
+    21300022: Player_Walk_Animation_11
+    21300024: Player_Walk_Animation_12
+    21300026: Player_Walk_Animation_13
+    21300028: Player_Walk_Animation_14
+    21300030: Player_Walk_Animation_15
+    21300032: Player_Walk_Animation_16
+    21300034: Player_Walk_Animation_17
+    21300036: Player_Walk_Animation_18
+    21300038: Player_Walk_Animation_19
+    21300040: Player_Walk_Animation_20
+    21300042: Player_Walk_Animation_21
+    21300044: Player_Walk_Animation_22
+    21300046: Player_Walk_Animation_23
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Player_Walk_Animation_0
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 385
+        width: 72
+        height: 111
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 55.5}
+        - {x: -36, y: 47.5}
+        - {x: -36, y: -55.5}
+        - {x: 33, y: -55.5}
+        - {x: 36, y: -49.5}
+        - {x: 36, y: 25.5}
+        - {x: 11, y: 55.5}
+    - name: Player_Walk_Animation_1
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 385
+        width: 64
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -21, y: 54.5}
+        - {x: -32, y: 39.5}
+        - {x: -32, y: -51.5}
+        - {x: -30, y: -54.5}
+        - {x: -14, y: -54.5}
+        - {x: -4, y: -49.5}
+        - {x: 0, y: -46.5}
+        - {x: 3, y: -44.5}
+        - {x: 2, y: -46.5}
+        - {x: 2, y: -51.5}
+        - {x: 3, y: -54.5}
+        - {x: 32, y: -54.5}
+        - {x: 32, y: 54.5}
+    - name: Player_Walk_Animation_2
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 385
+        width: 63
+        height: 111
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 13.5, y: 55.5}
+        - {x: -3.5, y: 55.5}
+        - {x: -11.5, y: 52.5}
+        - {x: -31.5, y: 40.5}
+        - {x: -31.5, y: -50.5}
+        - {x: -12.5, y: -55.5}
+        - {x: 27.5, y: -55.5}
+        - {x: 31.5, y: -40.5}
+        - {x: 31.5, y: 20.5}
+        - {x: 24.5, y: 45.5}
+    - name: Player_Walk_Animation_3
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 385
+        width: 72
+        height: 111
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 3, y: -46.5}
+        - {x: 4, y: -49.5}
+        - {x: 10, y: -54.5}
+        - {x: 11, y: -55.5}
+        - {x: 31, y: -55.5}
+        - {x: 36, y: -41.5}
+        - {x: 36, y: 41.5}
+        - {x: 24, y: 55.5}
+        - {x: -5, y: 55.5}
+        - {x: -17, y: 49.5}
+        - {x: -24, y: 36.5}
+        - {x: -36, y: 3.5}
+        - {x: -36, y: -19.5}
+        - {x: -28, y: -19.5}
+        - {x: -24, y: -14.5}
+        - {x: -22, y: -40.5}
+        - {x: -18, y: -48.5}
+        - {x: -14, y: -55.5}
+        - {x: 0, y: -55.5}
+        - {x: 4, y: -54.5}
+        - {x: 2, y: -48.5}
+        - {x: 5, y: -30.5}
+        - {x: 3, y: -44.5}
+    - name: Player_Walk_Animation_4
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 385
+        width: 64
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20, y: 54.5}
+        - {x: -32, y: 48.5}
+        - {x: -32, y: -54.5}
+        - {x: 8, y: -54.5}
+        - {x: 32, y: -47.5}
+        - {x: 32, y: 52.5}
+        - {x: 24, y: 54.5}
+    - name: Player_Walk_Animation_5
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 385
+        width: 63
+        height: 111
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31.5, y: -55.5}
+        - {x: 31.5, y: -55.5}
+        - {x: 31.5, y: 41.5}
+        - {x: 30.5, y: 52.5}
+        - {x: 21.5, y: 55.5}
+        - {x: -17.5, y: 55.5}
+        - {x: -31.5, y: 43.5}
+    - name: Player_Walk_Animation_6
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 257
+        width: 72
+        height: 111
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 17, y: 55.5}
+        - {x: -5, y: 55.5}
+        - {x: -17, y: 50.5}
+        - {x: -36, y: 2.5}
+        - {x: -36, y: -19.5}
+        - {x: -28, y: -19.5}
+        - {x: -24, y: -14.5}
+        - {x: -21, y: -50.5}
+        - {x: -2, y: -55.5}
+        - {x: 32, y: -55.5}
+        - {x: 36, y: -51.5}
+        - {x: 36, y: 43.5}
+    - name: Player_Walk_Animation_7
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 257
+        width: 64
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 54.5}
+        - {x: -32, y: 26.5}
+        - {x: -32, y: -30.5}
+        - {x: -23, y: -52.5}
+        - {x: -17, y: -54.5}
+        - {x: 6, y: -54.5}
+        - {x: 32, y: -44.5}
+        - {x: 32, y: 49.5}
+        - {x: 20, y: 54.5}
+    - name: Player_Walk_Animation_8
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 257
+        width: 63
+        height: 111
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13.5, y: 55.5}
+        - {x: -25.5, y: 50.5}
+        - {x: -31.5, y: 33.5}
+        - {x: -31.5, y: -47.5}
+        - {x: -30.5, y: -55.5}
+        - {x: 31.5, y: -55.5}
+        - {x: 31.5, y: 52.5}
+        - {x: 22.5, y: 55.5}
+    - name: Player_Walk_Animation_9
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 257
+        width: 72
+        height: 111
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -1, y: -54.5}
+        - {x: 6, y: -55.5}
+        - {x: 13, y: -55.5}
+        - {x: 36, y: -19.5}
+        - {x: 36, y: 17.5}
+        - {x: 27, y: 36.5}
+        - {x: 6, y: 54.5}
+        - {x: 4, y: 55.5}
+        - {x: -15, y: 55.5}
+        - {x: -28, y: 49.5}
+        - {x: -36, y: 23.5}
+        - {x: -36, y: -2.5}
+        - {x: -34, y: -4.5}
+        - {x: -36, y: -10.5}
+        - {x: -36, y: -39.5}
+        - {x: -29, y: -55.5}
+        - {x: -7, y: -55.5}
+        - {x: -3, y: -51.5}
+        - {x: -4, y: -47.5}
+        - {x: -6, y: -41.5}
+    - name: Player_Walk_Animation_10
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 257
+        width: 64
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 32, y: 46.5}
+        - {x: 10, y: 54.5}
+        - {x: -16, y: 54.5}
+        - {x: -32, y: 38.5}
+        - {x: -32, y: -42.5}
+        - {x: -28, y: -54.5}
+        - {x: -10, y: -54.5}
+        - {x: -6, y: -52.5}
+        - {x: 0, y: -42.5}
+        - {x: 1, y: -39.5}
+        - {x: 1, y: -33.5}
+        - {x: -2, y: -29.5}
+        - {x: 0, y: -31.5}
+        - {x: 2, y: -35.5}
+        - {x: 2, y: -38.5}
+        - {x: 1, y: -49.5}
+        - {x: 3, y: -52.5}
+        - {x: 6, y: -54.5}
+        - {x: 16, y: -54.5}
+        - {x: 22, y: -47.5}
+        - {x: 32, y: -31.5}
+    - name: Player_Walk_Animation_11
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 257
+        width: 63
+        height: 111
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -5.5, y: 55.5}
+        - {x: -31.5, y: 42.5}
+        - {x: -31.5, y: -53.5}
+        - {x: -30.5, y: -55.5}
+        - {x: 25.5, y: -55.5}
+        - {x: 31.5, y: -36.5}
+        - {x: 31.5, y: 42.5}
+        - {x: 17.5, y: 55.5}
+    - name: Player_Walk_Animation_12
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 129
+        width: 71
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13.5, y: 55}
+        - {x: -20.5, y: 43}
+        - {x: -35.5, y: 7}
+        - {x: -35.5, y: -55}
+        - {x: 35.5, y: -55}
+        - {x: 35.5, y: 50}
+        - {x: 24.5, y: 55}
+    - name: Player_Walk_Animation_13
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 129
+        width: 64
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 28, y: -39}
+        - {x: 32, y: -41}
+        - {x: 32, y: -9}
+        - {x: 29, y: 37}
+        - {x: 18, y: 55}
+        - {x: -10, y: 55}
+        - {x: -32, y: 33}
+        - {x: -32, y: -55}
+        - {x: 18, y: -55}
+        - {x: 26, y: -54}
+        - {x: 30, y: -48}
+        - {x: 29, y: -40}
+        - {x: 27, y: -37}
+    - name: Player_Walk_Animation_14
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 129
+        width: 65
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16.5, y: 55}
+        - {x: -32.5, y: 27}
+        - {x: -32.5, y: -20}
+        - {x: -27.5, y: -18}
+        - {x: -24.5, y: -15}
+        - {x: -31.5, y: -23}
+        - {x: -32.5, y: -23}
+        - {x: -32.5, y: -38}
+        - {x: -23.5, y: -55}
+        - {x: 27.5, y: -55}
+        - {x: 32.5, y: -50}
+        - {x: 32.5, y: 25}
+        - {x: 23.5, y: 55}
+    - name: Player_Walk_Animation_15
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 129
+        width: 70
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 55}
+        - {x: -35, y: 28}
+        - {x: -35, y: -54}
+        - {x: -32, y: -55}
+        - {x: 20, y: -55}
+        - {x: 35, y: -38}
+        - {x: 35, y: 48}
+        - {x: 24, y: 55}
+    - name: Player_Walk_Animation_16
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 129
+        width: 62
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 55}
+        - {x: -31, y: 34}
+        - {x: -31, y: -55}
+        - {x: 15, y: -55}
+        - {x: 31, y: -47}
+        - {x: 31, y: 24}
+        - {x: 30, y: 39}
+        - {x: 17, y: 55}
+    - name: Player_Walk_Animation_17
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 129
+        width: 57
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10.5, y: 55}
+        - {x: -22.5, y: 41}
+        - {x: -26.5, y: 30}
+        - {x: -28.5, y: 22}
+        - {x: -28.5, y: -39}
+        - {x: -23.5, y: -52}
+        - {x: -15.5, y: -55}
+        - {x: 9.5, y: -55}
+        - {x: 28.5, y: -47}
+        - {x: 28.5, y: 40}
+        - {x: 17.5, y: 55}
+    - name: Player_Walk_Animation_18
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 1
+        width: 71
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 10.5, y: 55}
+        - {x: -30.5, y: 55}
+        - {x: -35.5, y: 38}
+        - {x: -35.5, y: -55}
+        - {x: 35.5, y: -55}
+        - {x: 35.5, y: -25}
+        - {x: 23.5, y: 38}
+    - name: Player_Walk_Animation_19
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 1
+        width: 64
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: -55}
+        - {x: 32, y: -55}
+        - {x: 32, y: -17}
+        - {x: 27, y: 38}
+        - {x: 19, y: 55}
+        - {x: -21, y: 55}
+        - {x: -32, y: 50}
+    - name: Player_Walk_Animation_20
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 1
+        width: 65
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -26.5, y: 55}
+        - {x: -32.5, y: 7}
+        - {x: -32.5, y: -37}
+        - {x: -10.5, y: -55}
+        - {x: 32.5, y: -55}
+        - {x: 32.5, y: 47}
+        - {x: 23.5, y: 55}
+    - name: Player_Walk_Animation_21
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 1
+        width: 70
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 35, y: -20}
+        - {x: 35, y: 3}
+        - {x: 26, y: 32}
+        - {x: 11, y: 55}
+        - {x: -23, y: 55}
+        - {x: -28, y: 52}
+        - {x: -35, y: 32}
+        - {x: -35, y: -38}
+        - {x: -25, y: -55}
+        - {x: 26, y: -55}
+        - {x: 30, y: -45}
+        - {x: 32, y: -25}
+        - {x: 31, y: -21}
+    - name: Player_Walk_Animation_22
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 1
+        width: 62
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: -49}
+        - {x: -25, y: -55}
+        - {x: 31, y: -55}
+        - {x: 31, y: 31}
+        - {x: 21, y: 55}
+        - {x: -23, y: 55}
+        - {x: -31, y: 16}
+    - name: Player_Walk_Animation_23
+      rect:
+        serializedVersion: 2
+        x: 669
+        y: 1
+        width: 57
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 10.5, y: 55}
+        - {x: -27.5, y: 55}
+        - {x: -28.5, y: 46}
+        - {x: -28.5, y: -45}
+        - {x: -21.5, y: -52}
+        - {x: -14.5, y: -55}
+        - {x: 25.5, y: -55}
+        - {x: 28.5, y: -46}
+        - {x: 28.5, y: 29}
+        - {x: 26.5, y: 37}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
