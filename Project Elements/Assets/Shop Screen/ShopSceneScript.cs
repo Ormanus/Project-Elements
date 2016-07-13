@@ -84,7 +84,8 @@ public class ShopSceneScript : MonoBehaviour {
 
 			PlayerPrefs.SetFloat ("healtti", health);
 			PlayerPrefs.SetFloat ("pojolkm", 20f);
-		}
+            SceneManager.LoadScene("GameTestScene");
+        }
 		//GUILayout.BeginArea (new Rect (10,310,200,300));
 		//GUILayout.BeginVertical(GUI.skin.box);
 		//pojot = GUI.HorizontalSlider(new Rect(25, 150, 100, 30), pojot, 0.0f, 100.0f); GUI.Label (new Rect (25, 127, 132, 20), "Tasotoimipistekertymä");
