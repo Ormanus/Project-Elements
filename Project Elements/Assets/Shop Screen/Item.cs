@@ -46,7 +46,7 @@ public class Item : MonoBehaviour {
             {
                 updateText();
                 GUI.contentColor = Color.yellow;
-                Rect rect = new Rect(new Vector2(mousePos.x - 8,  Display.main.renderingHeight - mousePos.y - 8), new Vector2(256, 128));
+                Rect rect = new Rect(new Vector2(mousePos.x - 8,  Display.main.renderingHeight - mousePos.y - 8), new Vector2(256, 80));
                 if(GUI.Button(rect, content))
                 {
                     if (Inventory.money >= price)

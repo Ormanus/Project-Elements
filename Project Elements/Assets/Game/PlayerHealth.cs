@@ -17,8 +17,8 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
 
-        Playerhealth = 1;
-        Playermana = 1;
+        Playerhealth = Inventory.maxHealth;
+        Playermana = Inventory.maxMana;
 
     }
 
