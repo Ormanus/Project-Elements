@@ -364,7 +364,7 @@ public class AILerp : MonoBehaviour {
 		}
 	}
 
-	protected virtual void Update () {
+    protected virtual void Update () {
         float distance = Vector2.Distance(target.transform.position, gameObject.transform.position);
 		if (canMove && distance > 3.0f && distance < 10) {
 			Vector3 direction;
