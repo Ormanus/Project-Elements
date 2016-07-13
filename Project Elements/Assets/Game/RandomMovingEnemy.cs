@@ -24,25 +24,33 @@ public class RandomMovingEnemy : MonoBehaviour {
 
     private bool inwalkarea;
 
-	// Use this for initialization
-	void Start () {
+    private Animator anim;
+
+    // Use this for initialization
+    void Start () {
         rb = GetComponent<Rigidbody2D>();
 
         waitcounter = Random.Range(1,4);
         walkcounter = Random.Range(1,4);
 
-        if (MoveArea != null) {
+        //if (MoveArea != null) {
             minwalk = MoveArea.bounds.min;
             maxwalk = MoveArea.bounds.max;
             inwalkarea = true;
-        }
-        
-	}
+        //}
+
+
+        anim = GetComponent<Animator>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
-        
+
+        anim.SetFloat("VelocityY", rb.velocity.y);
+        anim.SetFloat("VelocityX", rb.velocity.x);
+
 
         if (iswalking)
         {
@@ -56,15 +64,17 @@ public class RandomMovingEnemy : MonoBehaviour {
                     if (inwalkarea && transform.position.y > maxwalk.y)
                     {
                         iswalking = false;
+                        rb.velocity = Vector2.zero;
                         waitcounter = Random.Range(1, 4);
                     }
-                    
+
                     break;
                 case 1:
                     rb.velocity = new Vector2(movespeed, 0);
                     if (inwalkarea && transform.position.x > maxwalk.x)
                     {
                         iswalking = false;
+                        rb.velocity = Vector2.zero;
                         waitcounter = Random.Range(1, 4);
                     }
 
@@ -74,6 +84,7 @@ public class RandomMovingEnemy : MonoBehaviour {
                     if (inwalkarea && transform.position.y < minwalk.y)
                     {
                         iswalking = false;
+                        rb.velocity = Vector2.zero;
                         waitcounter = Random.Range(1, 4);
                     }
                     break;
@@ -82,9 +93,10 @@ public class RandomMovingEnemy : MonoBehaviour {
                     if (inwalkarea && transform.position.x < minwalk.x)
                     {
                         iswalking = false;
+                        rb.velocity = Vector2.zero;
                         waitcounter = Random.Range(1, 4);
                     }
-                    //transform.Rotate(0, 0, 0);
+                    transform.Rotate(0, 0, 0);
                     break;             
             }
 
@@ -115,4 +127,15 @@ public class RandomMovingEnemy : MonoBehaviour {
         walkcounter = Random.Range(1,4);
 
     }
+
+    //void OnTriggerExit2D(Collider2D other)
+    //{
+    //    if (other.gameObject.tag == "movearea")
+    //    {
+    //        iswalking = false;
+    //        rb.velocity = Vector2.zero;
+    //        waitcounter = Random.Range(1, 4);
+    //    }
+
+    //}
 }

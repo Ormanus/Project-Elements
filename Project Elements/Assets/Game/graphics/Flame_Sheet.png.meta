@@ -1,9 +1,13 @@
 fileFormatVersion: 2
 guid: 81e5fffadbb8b1442b881da88def76d1
-timeCreated: 1468326428
+timeCreated: 1468406539
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Flame_Sheet_0
+    21300002: Flame_Sheet_1
+    21300004: Flame_Sheet_2
+    21300006: Flame_Sheet_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -26,11 +30,11 @@ TextureImporter:
   cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -1
-  maxTextureSize: 2048
+  textureFormat: -3
+  maxTextureSize: 512
   textureSettings:
-    filterMode: -1
-    aniso: -1
+    filterMode: 0
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +42,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +53,82 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Flame_Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 1
+        width: 43
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11.5, y: 30.5}
+        - {x: -21.5, y: 7.5}
+        - {x: -21.5, y: -29.5}
+        - {x: -18.5, y: -30.5}
+        - {x: 11.5, y: -30.5}
+        - {x: 21.5, y: -23.5}
+        - {x: 21.5, y: 6.5}
+        - {x: 3.5, y: 30.5}
+    - name: Flame_Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 0
+        width: 45
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -5.5, y: 28}
+        - {x: -22.5, y: 14}
+        - {x: -22.5, y: -22}
+        - {x: -18.5, y: -28}
+        - {x: 14.5, y: -28}
+        - {x: 22.5, y: -24}
+        - {x: 22.5, y: 10}
+        - {x: 11.5, y: 28}
+    - name: Flame_Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 1
+        width: 42
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 30.5}
+        - {x: -21, y: 18.5}
+        - {x: -21, y: -29.5}
+        - {x: -20, y: -30.5}
+        - {x: 13, y: -30.5}
+        - {x: 21, y: -26.5}
+        - {x: 21, y: 8.5}
+        - {x: 8, y: 30.5}
+    - name: Flame_Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 0
+        width: 47
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11.5, y: 31.5}
+        - {x: -23.5, y: 20.5}
+        - {x: -23.5, y: -29.5}
+        - {x: -15.5, y: -31.5}
+        - {x: 23.5, y: -31.5}
+        - {x: 23.5, y: 4.5}
+        - {x: 13.5, y: 31.5}
     outline: []
   spritePackingTag: 
   userData: 
