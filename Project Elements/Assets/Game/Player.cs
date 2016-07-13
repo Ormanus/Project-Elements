@@ -19,6 +19,8 @@ public class Player : MonoBehaviour {
     Rigidbody2D rb;
 	// Use this for initialization
 	void Start () {
+		
+		gameObject.GetComponent<SpriteRenderer>().color = CharacterSelection.varihahmolle;
         rb = GetComponent<Rigidbody2D>();
         PlayerHealth.Playerhealth = 1;
 
