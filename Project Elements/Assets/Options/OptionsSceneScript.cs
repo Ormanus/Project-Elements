@@ -3,65 +3,91 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class OptionsSceneScript : MonoBehaviour {
+
 	public static float hahmoval;//hahmo, jonka valkkaat sliderista
 	public static float vaikeustas;//vaikeustason valinta sliderista, löytyy hardista ja softista
-
 	public static float health;
-
 	public static float nopeus;
-
 	public static float voima;
 
-	// Use this for initialization
+    public GUIStyle myStyle = null;
+    public GUIStyle basicvaluestyle;
+    public GUIStyle headlineStyle = null;
+    // Use this for initialization
 	void Start () {
-		hahmoval = (PlayerPrefs.GetFloat ("talletettuhahmo"));
-		vaikeustas = (PlayerPrefs.GetFloat ("valittuvaik"));
 
-		nopeus=(PlayerPrefs.GetFloat ("nopeusarvo" +
-			"")); 
-		//PlayerPrefs.SetFloat ("testi", 0.1F);
-		voima = (PlayerPrefs.GetFloat("voimavalue"));
-		health = (PlayerPrefs.GetFloat("healtti"));	}
-	public GUIStyle myStyle = null; 
+    }
 
 	void OnGUI(){
 
-		
-		if (vaikeustas > 5) { 
-			GUI.Label (new Rect (180, 126, 100, 20), "hardista",myStyle);
-		}
-		if (voima > 1) { 
-			GUI.Label (new Rect (180, 186, 100, 20), " " + voima + " ");
-		}
-		if (nopeus > 1) { 
-			GUI.Label (new Rect (180, 158, 100, 20), " " + nopeus + " ");
-		}
-		if (health > 1) { 
-			GUI.Label (new Rect (180, 214, 100, 20), " " + health + " ");
-		}
+        headlineStyle.fontSize = 25;
+        headlineStyle.fontStyle = FontStyle.Bold;
+        headlineStyle.padding = new RectOffset(0, 25, 25, 25); //saadaan otsikko muuttamaan sijaintia
 
-		GUI.Box (new Rect (0, 0, 800, 600), "Choose values",myStyle);
-		if (GUI.Button (new Rect (240, 120, 150, 30), "Back")) {
+        basicvaluestyle.normal.textColor = Color.black;
+
+        GUILayout.BeginArea(new Rect((Screen.width / 2)-100, (Screen.height / 2)-200, 250, 400));
+        GUILayout.Box("Options", headlineStyle);
+
+		
+		
+		
+
+		
+		if (GUILayout.Button ("Back")) {
 			SceneManager.LoadScene ("MainMenu");
 		}
-		if (GUI.Button (new Rect (240, 70, 150, 30), "Save")) { 
+		
 
-			PlayerPrefs.SetFloat ("valittuvaik", vaikeustas);
-			PlayerPrefs.SetFloat ("talletettuhahmo", hahmoval);
-			 
-			PlayerPrefs.SetFloat ("voimavalue", voima);
-			PlayerPrefs.SetFloat ("nopeusarvo", nopeus); 
-			PlayerPrefs.SetFloat ("healtti", health);  
-		}
+        GUILayout.Label("Difficulty");
+        vaikeustas = GUILayout.HorizontalSlider(vaikeustas, 0.0f, 10.0f);
+        if (vaikeustas > 5)
+        {
+            GUILayout.Label(" Hard", basicvaluestyle);
+        }
+        if (vaikeustas < 5)
+        {
+            GUILayout.Label(" Easy", basicvaluestyle);
+        }
 
-		//hahmoval = GUI.HorizontalSlider(new Rect(25, 25, 100, 30), hahmoval, 0.0f, 10.0f); GUI.Label (new Rect (25, 0, 100, 20), "hahm2");
-		vaikeustas = GUI.HorizontalSlider(new Rect(25, 80, 100, 30), vaikeustas, 0.0f, 10.0f); GUI.Label (new Rect (25, 62, 100, 20), "tasov");
 
-		nopeus = GUI.HorizontalSlider(new Rect(25, 120, 100, 30), nopeus, 0.0f, 50.0f); GUI.Label (new Rect (25, 102, 100, 20), "nopeusarvo");
-		health = GUI.HorizontalSlider(new Rect(25, 150, 100, 30), health, 0.0f, 100.0f); GUI.Label (new Rect (25, 137, 100, 20), "health-val");
-		voima = GUI.HorizontalSlider(new Rect(25, 182, 100, 30), voima, 0.0f, 30.0f); GUI.Label (new Rect (25, 167, 100, 20), "voima-arvo ");
-		//GUILayout.EndVertical ();
-		//GUI.EndGroup ();
+        GUILayout.Label("Speed");
+		nopeus = GUILayout.HorizontalSlider(nopeus, 0.0f, 20.0f);
+        if (nopeus > 1)
+        {
+            GUILayout.Label( " " + nopeus + " ", basicvaluestyle);
+        }
+        if (nopeus < 1)
+            GUILayout.Label(" " + nopeus + " ", basicvaluestyle);
+
+        GUILayout.Label("Health");
+		health = GUILayout.HorizontalSlider(health, 0.0f, 20.0f);
+        if (health > 1)
+        {
+            GUILayout.Label(" " + health + " ", basicvaluestyle);
+        }
+        if (health < 1)
+        {
+            GUILayout.Label( " " + health + " ", basicvaluestyle);
+        }
+        
+        GUILayout.Label("Strength ");
+		voima = GUILayout.HorizontalSlider(voima, 0.0f, 20.0f);
+        if (voima > 1)
+        {
+            GUILayout.Label(" " + voima + " ", basicvaluestyle);
+        }
+        if (voima < 1)
+        {
+            GUILayout.Label(" " + voima + " ", basicvaluestyle);
+        }
+        if (GUILayout.Button("Continue"))
+        {
+
+            SceneManager.LoadScene("CharacterSelection");
+        }
+
+        GUILayout.EndArea();
 	}
 	
 	// Update is called once per frame
