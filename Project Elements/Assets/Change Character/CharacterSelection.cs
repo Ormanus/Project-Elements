@@ -111,7 +111,7 @@ public class CharacterSelection : MonoBehaviour {
         if (GUILayout.Button("Start Game"))
         {
 
-            SceneManager.LoadScene("GameTestScene");
+            SceneManager.LoadScene("GameScene");
 
 
         }
