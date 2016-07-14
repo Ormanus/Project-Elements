@@ -20,9 +20,9 @@ public class Player : MonoBehaviour {
 
 	void Start () {
 		
-		gameObject.GetComponent<SpriteRenderer>().color = CharacterSelection.varihahmolle;
+		gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
         rb = GetComponent<Rigidbody2D>();
-        PlayerHealth.Playerhealth = 1;
+        
         element = 0;
         anim = GetComponent<Animator>();
 	}
@@ -79,7 +79,7 @@ public class Player : MonoBehaviour {
             //TODO: death animation + nest scene after a few seconds?
 
             Instantiate(playerdeathparticle, transform.position, transform.rotation);
-            PlayerPrefs.SetFloat("healtti", 0);
+            
             SceneManager.LoadScene("EndScreenScene");
         }
 

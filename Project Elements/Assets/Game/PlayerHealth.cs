@@ -6,7 +6,7 @@ public class PlayerHealth : MonoBehaviour
 {
    
     
-    public static float Playerhealth = 1;
+    public static float Playerhealth = Inventory.maxHealth;
     public static float Playermana = 1;
 
     Image HealthImage;
@@ -30,9 +30,9 @@ public class PlayerHealth : MonoBehaviour
             Playerhealth = 0;
         }
 
-        if (Playerhealth > 1)
+        if (Playerhealth > Inventory.maxHealth)
         {
-            Playerhealth = 1;
+			Playerhealth = Inventory.maxHealth;
 
         }
 

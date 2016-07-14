@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class CharacterSelection : MonoBehaviour {
 
 	//public static float hahmoval;//hahmo, jonka valkkaat sliderista
-    public static Color varihahmolle; //väri
+    
     public static float sliderRedValue;
     public static float sliderBlueValue;
     public static float sliderGreenValue;
@@ -15,11 +15,7 @@ public class CharacterSelection : MonoBehaviour {
     public GUIStyle headlineStyle;
     public GUIStyle basicheadlinestyle;
 
-    public static float nopeus;
-    public static float voima;
-    public static float hahmoval;//hahmo, jonka valkkaat sliderista
-    public static float vaikeustas;//vaikeustason valinta sliderista, löytyy hardista ja softista
-    public static float health;
+    
 	// Use this for initialization
 	void Start () {
 		//hahmoval = (PlayerPrefs.GetFloat ("talletettuhahmo"));
@@ -50,50 +46,52 @@ public class CharacterSelection : MonoBehaviour {
 
 
         GUILayout.Label("Difficulty");
-        vaikeustas = GUILayout.HorizontalSlider(vaikeustas, 0.0f, 10.0f);
-        if (vaikeustas > 5)
+		Inventory.vaikeustas = GUILayout.HorizontalSlider(Inventory.vaikeustas, 0.0f, 10.0f);
+		if (Inventory.vaikeustas > 5)
         {
             GUILayout.Label(" Hard", basicvaluestyle);
         }
-        if (vaikeustas < 5)
+		if (Inventory.vaikeustas < 5)
         {
             GUILayout.Label(" Easy", basicvaluestyle);
         }
 
 
         GUILayout.Label("Speed");
-        nopeus = GUILayout.HorizontalSlider(nopeus, 0.0f, 20.0f);
-        if (nopeus > 1)
+		Inventory.nopeus = GUILayout.HorizontalSlider(Inventory.nopeus, 0.0f, 20.0f);
+		if (Inventory.nopeus > 1)
         {
-            GUILayout.Label(" " + nopeus + " ", basicvaluestyle);
+			GUILayout.Label(" " + Inventory.nopeus + " ", basicvaluestyle);
         }
-        if (nopeus < 1)
-            GUILayout.Label(" " + nopeus + " ", basicvaluestyle);
+		if (Inventory.nopeus < 1)
+			GUILayout.Label(" " + Inventory.nopeus + " ", basicvaluestyle);
 
         GUILayout.Label("Health");
-        health = GUILayout.HorizontalSlider(health, 0.0f, 20.0f);
-        if (health > 1)
+		Inventory.maxHealth = GUILayout.HorizontalSlider(Inventory.maxHealth, 0.0f, 100.0f);
+		if (Inventory.maxHealth > 1)
         {
-            GUILayout.Label(" " + health + " ", basicvaluestyle);
+            GUILayout.Label(" " + Inventory.maxHealth + " ", basicvaluestyle);
         }
-        if (health < 1)
+        if (Inventory.maxHealth < 1)
         {
-            GUILayout.Label(" " + health + " ", basicvaluestyle);
+			GUILayout.Label(" " + Inventory.maxHealth + " ", basicvaluestyle);
         }
 
-        GUILayout.Label("Strength ");
-        voima = GUILayout.HorizontalSlider(voima, 0.0f, 20.0f);
-        if (voima > 1)
+        GUILayout.Label("Mana ");
+		Inventory.maxMana = GUILayout.HorizontalSlider(Inventory.maxMana, 0.0f, 5.0f);
+        if (Inventory.maxMana > 1)
         {
-            GUILayout.Label(" " + voima + " ", basicvaluestyle);
+            GUILayout.Label(" " + Inventory.maxMana + " ", basicvaluestyle);
         }
-        if (voima < 1)
+        if (Inventory.maxMana < 1)
         {
-            GUILayout.Label(" " + voima + " ", basicvaluestyle);
+			GUILayout.Label(" " + Inventory.maxMana + " ", basicvaluestyle);
         }
        
 
-        
+        //aseta maksimihealth
+
+		//Inventory.maxHealth = health;
 
 		
 
@@ -108,6 +106,8 @@ public class CharacterSelection : MonoBehaviour {
         GUILayout.Label("Blue value ");
         sliderBlueValue = GUILayout.HorizontalSlider( sliderBlueValue, 0.0F, 255.0F);
 
+        
+
         if (GUILayout.Button("Start Game"))
         {
 
@@ -116,11 +116,11 @@ public class CharacterSelection : MonoBehaviour {
 
         }
 
-		varihahmolle = new Color(sliderRedValue / 255, sliderBlueValue / 255, sliderGreenValue / 255, 1f);//viedään tämä gamesceneen
+		Inventory.varihahmolle = new Color(sliderRedValue / 255, sliderGreenValue / 255, sliderBlueValue / 255, 1f);
 
         GUILayout.EndArea();
 
-        gameObject.GetComponent<SpriteRenderer>().color = varihahmolle;
+        gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
 
 
 	}
@@ -130,3 +130,8 @@ public class CharacterSelection : MonoBehaviour {
 		
 	}
 }
+
+
+		
+
+	
