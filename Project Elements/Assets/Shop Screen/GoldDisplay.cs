@@ -14,7 +14,7 @@ public class GoldDisplay : MonoBehaviour {
     void Start () {
         goldText = gold.gameObject.GetComponent<Text>();
         healthText = health.gameObject.GetComponent<Text>();
-        hp = 0.8f;
+        hp = PlayerHealth.Playerhealth;
     }
 
 	// Update is called once per frame

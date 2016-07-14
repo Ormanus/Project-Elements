@@ -99,5 +99,9 @@ public class Item : MonoBehaviour {
         {
             Inventory.maxMana += 10;
         }
+        else if (itemName == "Fire Book")
+        {
+            Inventory.manaRegen += 0.5f;
+        }
     }
 }

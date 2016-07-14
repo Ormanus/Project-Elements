@@ -19,6 +19,8 @@ public class Inventory : MonoBehaviour {
     public static float maxHealth = 0.0f; //sliderissa lisää
     public static float maxMana = 1.0f;
 
+    public static float manaRegen = 1.0f;
+
 	public static float nopeus;
 	public static float vaikeustas;//vaikeustason valinta
 	public static Color varihahmolle; //väri
