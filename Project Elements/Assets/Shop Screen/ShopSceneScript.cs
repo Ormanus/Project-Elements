@@ -14,7 +14,7 @@ public class ShopSceneScript : MonoBehaviour {
 		headlineStyle.padding = new RectOffset (25, 25, 25, 25); //saadaan otsikko muuttamaan sijaintia
 
 		if (GUI.Button (new Rect (64, Screen.height - 100, 150, 30), "Continue")) { 
-            SceneManager.LoadScene("GameTestScene");
+            SceneManager.LoadScene("GameScene");
         }
 
         //TODO: draw inventory on the right side of the screen?
