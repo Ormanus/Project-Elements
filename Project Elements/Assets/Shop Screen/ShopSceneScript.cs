@@ -13,7 +13,7 @@ public class ShopSceneScript : MonoBehaviour {
 		headlineStyle.fontSize = 25;
 		headlineStyle.padding = new RectOffset (25, 25, 25, 25); //saadaan otsikko muuttamaan sijaintia
 
-		if (GUI.Button (new Rect (64, 452, 150, 30), "Continue")) { 
+		if (GUI.Button (new Rect (64, Screen.height - 100, 150, 30), "Continue")) { 
             SceneManager.LoadScene("GameTestScene");
         }
 

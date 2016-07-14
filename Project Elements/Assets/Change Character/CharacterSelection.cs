@@ -116,7 +116,7 @@ public class CharacterSelection : MonoBehaviour {
 
         }
 
-		varihahmolle = new Color(sliderRedValue, sliderBlueValue, sliderGreenValue, 1f);//viedään tämä gamesceneen
+		varihahmolle = new Color(sliderRedValue / 255, sliderBlueValue / 255, sliderGreenValue / 255, 1f);//viedään tämä gamesceneen
 
         GUILayout.EndArea();
 

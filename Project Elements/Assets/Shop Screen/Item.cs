@@ -8,6 +8,7 @@ public class Item : MonoBehaviour {
     public int price;
     public Vector2 size;
     public Texture2D background;
+    public bool instantEffect;
 
     private GUIContent content = new GUIContent();
     private int itemNumber = 0;
@@ -51,10 +52,18 @@ public class Item : MonoBehaviour {
                 {
                     if (Inventory.money >= price)
                     {
-                        Inventory.inventory.Add(itemName);
                         Inventory.money -= price;
-                        itemNumber++;
-                        print(itemName + " bought!");
+                        if (instantEffect)
+                        {
+                            effect();
+                            print(itemName + " used!");
+                        }
+                        else
+                        {
+                            Inventory.inventory.Add(itemName);
+                            itemNumber++;
+                            print(itemName + " bought!");
+                        }
                     }
                 }
             }
@@ -78,5 +87,17 @@ public class Item : MonoBehaviour {
             color = "<color=#00FF00>";
         }
         content.text = "Item: " + itemName + "\n" + description + "\nCost: " + color + price + "</color> GP\nYou have " + itemNumber + " " + itemName + "s";
+    }
+
+    private void effect()
+    {
+        if(itemName == "Armor")
+        {
+            Inventory.maxHealth += 10;
+        }
+        else if(itemName == "Water Book")
+        {
+            Inventory.maxMana += 10;
+        }
     }
 }
