@@ -19,6 +19,6 @@ public class ImageUnfillMana : MonoBehaviour
 
     void Update()
     {
-        CircleImage.fillAmount = Mathf.Max(PlayerHealth.Playermana, 0.002f);
+        CircleImage.fillAmount = Mathf.Max(PlayerHealth.Playermana / Inventory.maxMana, 0.002f);
     }
 }

@@ -58,7 +58,7 @@ public class CharacterSelection : MonoBehaviour {
 
 
         GUILayout.Label("Speed");
-		Inventory.nopeus = GUILayout.HorizontalSlider(Inventory.nopeus, 0.0f, 20.0f);
+		Inventory.nopeus = GUILayout.HorizontalSlider(Inventory.nopeus, 0.1f, 20.0f);
 		if (Inventory.nopeus > 1)
         {
 			GUILayout.Label(" " + Inventory.nopeus + " ", basicvaluestyle);
@@ -67,7 +67,7 @@ public class CharacterSelection : MonoBehaviour {
 			GUILayout.Label(" " + Inventory.nopeus + " ", basicvaluestyle);
 
         GUILayout.Label("Health");
-		Inventory.maxHealth = GUILayout.HorizontalSlider(Inventory.maxHealth, 0.0f, 100.0f);
+		Inventory.maxHealth = GUILayout.HorizontalSlider(Inventory.maxHealth, 0.1f, 100.0f);
 		if (Inventory.maxHealth > 1)
         {
             GUILayout.Label(" " + Inventory.maxHealth + " ", basicvaluestyle);
@@ -78,7 +78,7 @@ public class CharacterSelection : MonoBehaviour {
         }
 
         GUILayout.Label("Mana ");
-		Inventory.maxMana = GUILayout.HorizontalSlider(Inventory.maxMana, 0.0f, 5.0f);
+		Inventory.maxMana = GUILayout.HorizontalSlider(Inventory.maxMana, 0.1f, 5.0f);
         if (Inventory.maxMana > 1)
         {
             GUILayout.Label(" " + Inventory.maxMana + " ", basicvaluestyle);
