@@ -16,7 +16,7 @@ public class Inventory : MonoBehaviour {
     public static List<string> inventory;
     public static int money = 500;
     public static Weapon weapon = Weapon.WoodenStaff;
-    public static float maxHealth = 0.0f; //sliderissa lisää
+    public static float maxHealth = 1.0f; //sliderissa lisää
     public static float maxMana = 1.0f;
 
     public static float manaRegen = 1.0f;
