@@ -315,8 +315,14 @@ public class GameSceneLevelLoading : MonoBehaviour
         for (int j = 0; j < partData.enemyAreas.Length; j++)
         {
             Rect r = partData.enemyAreas[j];
-            int amount = Random.Range((int)partData.enemyRanges[j].x, (int)partData.enemyRanges[j].y);
-            for (int k = 0; k < amount; k++)
+
+			int amount = 0;
+			if (Inventory.vaikeustas > 10) { //jos vaikeustaso on hard, niin lisätään tyyppejä
+				//amount = Random.Range ((int)0.1f, (int)30.0f); tätä voinee hieman säätää tai poistaa yms. generoi ns. matkailija-tyyppejä
+			} else if (Inventory.vaikeustas < 10) {
+				amount = Random.Range ((int)partData.enemyRanges [j].x, (int)partData.enemyRanges [j].y);
+			}
+			for (int k = 0; k < amount; k++)
             {
                 float x = x0 + partData.enemyAreas[j].x + Random.Range(0, partData.enemyAreas[j].width);
                 float y = y0 + partData.enemyAreas[j].y + Random.Range(0, partData.enemyAreas[j].height);

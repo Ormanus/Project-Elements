@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 
 
-public class GameTestScenePauseMenu : MonoBehaviour {
+public class GameScenePauseMenu : MonoBehaviour {
 
 
 	bool pausemode = false;

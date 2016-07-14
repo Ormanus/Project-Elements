@@ -46,7 +46,7 @@ public class CharacterSelection : MonoBehaviour {
 
 
         GUILayout.Label("Difficulty");
-		Inventory.vaikeustas = GUILayout.HorizontalSlider(Inventory.vaikeustas, 0.0f, 10.0f);
+		Inventory.vaikeustas = GUILayout.HorizontalSlider(Inventory.vaikeustas, 0.0f, 20.0f);
 		if (Inventory.vaikeustas > 5)
         {
             GUILayout.Label(" Hard", basicvaluestyle);
@@ -91,7 +91,7 @@ public class CharacterSelection : MonoBehaviour {
 
         //aseta maksimihealth
 
-		//Inventory.maxHealth = health;
+		Debug.Log (Inventory.vaikeustas);
 
 		
 
