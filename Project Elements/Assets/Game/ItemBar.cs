@@ -73,7 +73,6 @@ public class ItemBar : MonoBehaviour {
     public void choose(int choise)
     {
         theChosenOne = choise;
-        print("The Chosen One is now " + choise);
     }
 
 	void Update () {

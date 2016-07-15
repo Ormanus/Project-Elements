@@ -17,6 +17,8 @@ public class Player : MonoBehaviour {
     public GameObject playerdeathparticle;
     public GameObject playerhitParticle;
 
+    public Sprite[] bulletSprites;
+
     Rigidbody2D rb;
     int element;
     int selectedItem;
@@ -60,7 +62,9 @@ public class Player : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.1f)
         {
-            Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
+            GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
+            obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[element];
+            obj.GetComponent<Bullet>().element = element;
             PlayerHealth.Playermana -= 0.1f;
         }
         float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -78,7 +82,7 @@ public class Player : MonoBehaviour {
                 else
                 {
                     element++;
-                    if (element > 3)
+                    if (element > 2)
                         element = 0;
                     //TODO: update element wheel
                 }
@@ -96,7 +100,7 @@ public class Player : MonoBehaviour {
                 {
                     element--;
                     if (element < 0)
-                        element = 3;
+                        element = 2;
                     //TODO: update element wheel
                 }
             }
