@@ -71,6 +71,9 @@ public class CharacterSelection : MonoBehaviour {
 
         GUILayout.Label("Health");
 		Inventory.maxHealth = GUILayout.HorizontalSlider(Inventory.maxHealth, 0.1f, 100.0f);
+
+        Inventory.maxHealth = Mathf.Round(Inventory.maxHealth * 2) / 2.0f;
+
 		if (Inventory.maxHealth > 1)
         {
             GUILayout.Label(" " + Inventory.maxHealth + " ", basicvaluestyle);
@@ -82,6 +85,8 @@ public class CharacterSelection : MonoBehaviour {
 
         GUILayout.Label("Mana ");
 		Inventory.maxMana = GUILayout.HorizontalSlider(Inventory.maxMana, 0.1f, 5.0f);
+        Inventory.maxMana = Mathf.Round(Inventory.maxMana * 2) / 2.0f;
+
         if (Inventory.maxMana > 1)
         {
             GUILayout.Label(" " + Inventory.maxMana + " ", basicvaluestyle);
