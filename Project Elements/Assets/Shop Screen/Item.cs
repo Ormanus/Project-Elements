@@ -17,13 +17,14 @@ public class Item : MonoBehaviour {
         if(Inventory.inventory == null)
         {
             print("Inventory created.");
-            Inventory.inventory = new System.Collections.Generic.List<string>();
+            Inventory.inventory = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, int>>();
         }
         for(int i = 0; i < Inventory.inventory.Count; i++)
         {
-            if(Inventory.inventory[i] == itemName)
+            if(Inventory.inventory[i].Key == itemName)
             {
-                itemNumber++;
+                itemNumber = Inventory.inventory[i].Value;
+                break;
             }
         }
         updateText();
@@ -60,7 +61,21 @@ public class Item : MonoBehaviour {
                         }
                         else
                         {
-                            Inventory.inventory.Add(itemName);
+                            if(itemNumber == 0)
+                            {
+                                Inventory.inventory.Add(new System.Collections.Generic.KeyValuePair<string, int>(itemName, 1));
+                            }
+                            else
+                            {
+                                for(int i = 0; i < Inventory.inventory.Count; i++)
+                                {
+                                    if (Inventory.inventory[i].Key == itemName)
+                                    {
+                                        Inventory.inventory[i] = new System.Collections.Generic.KeyValuePair<string, int>(itemName, itemNumber + 1);
+                                        break;
+                                    }
+                                }
+                            }
                             itemNumber++;
                             print(itemName + " bought!");
                         }
@@ -86,7 +101,16 @@ public class Item : MonoBehaviour {
         {
             color = "<color=#00FF00>";
         }
-        content.text = "Item: " + itemName + "\n" + description + "\nCost: " + color + price + "</color> GP\nYou have " + itemNumber + " " + itemName + "s";
+        string youHave;
+        if(instantEffect)
+        {
+            youHave = "Instant effect";
+        }
+        else
+        {
+            youHave = "You have " + itemNumber + " " + itemName + "s";
+        }
+        content.text = "Item: " + itemName + "\n" + description + "\nCost: " + color + price + "</color> GP\n" + youHave;
     }
 
     private void effect()

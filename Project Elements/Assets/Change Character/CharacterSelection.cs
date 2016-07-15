@@ -31,7 +31,10 @@ public class CharacterSelection : MonoBehaviour {
 
         basicvaluestyle.normal.textColor = Color.black;
 
-        GUILayout.BeginArea(new Rect((Screen.width / 2) - 100, (Screen.height / 2) - 420, 250, 600));
+        int x = Display.main.renderingWidth / 2 - 100;
+        int y = Display.main.renderingHeight / 8;
+
+        GUILayout.BeginArea(new Rect(x, y/*(Screen.height / 2) - 420*/, 250, 600));
         GUILayout.Box("Character selection", headlineStyle);
 
 
@@ -114,7 +117,7 @@ public class CharacterSelection : MonoBehaviour {
             PlayerHealth.Playerhealth = Inventory.maxHealth;
             if(Inventory.inventory == null)
             {
-                Inventory.inventory = new System.Collections.Generic.List<string>();
+                Inventory.inventory = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, int>>();
             }
             Inventory.inventory.Clear();
             SceneManager.LoadScene("GameScene");
