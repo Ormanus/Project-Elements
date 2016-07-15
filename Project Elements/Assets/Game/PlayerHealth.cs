@@ -7,13 +7,8 @@ public class PlayerHealth : MonoBehaviour
    
     
     public static float Playerhealth = Inventory.maxHealth;
-    public static float Playermana = 1;
+    public static float Playermana = Inventory.maxMana;
 
-    Image HealthImage;
-
-    
-
-    
     void Start()
     {
         Playermana = Inventory.maxMana;

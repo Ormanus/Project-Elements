@@ -13,7 +13,7 @@ public enum Weapon
 
 public class Inventory : MonoBehaviour {
 
-    public static List<string> inventory;
+    public static List<KeyValuePair<string, int>> inventory;
     public static int money = 500;
     public static Weapon weapon = Weapon.WoodenStaff;
     public static float maxHealth = 1.0f; //sliderissa lisää
@@ -26,7 +26,7 @@ public class Inventory : MonoBehaviour {
 	public static Color varihahmolle; //väri
     // Use this for initialization
     void Start () {
-        inventory = new List<string>();
+        inventory = new List<KeyValuePair<string, int>>();
 	}
 	
 	// Update is called once per frame
