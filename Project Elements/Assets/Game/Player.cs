@@ -26,7 +26,7 @@ public class Player : MonoBehaviour {
 
 	void Start () {
 		
-		gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
+        gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
         rb = GetComponent<Rigidbody2D>();
         
         element = 0;
@@ -65,6 +65,7 @@ public class Player : MonoBehaviour {
             GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
             obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[element];
             obj.GetComponent<Bullet>().element = element;
+            AudioSource music = GameObject.Find("AudioSourceGameObj").GetComponent<AudioSource> ();
             PlayerHealth.Playermana -= 0.1f;
         }
         float scroll = Input.GetAxis("Mouse ScrollWheel");
