@@ -6,7 +6,7 @@ public class PlayerHealth : MonoBehaviour
 {
    
     
-    public static float Playerhealth = 1;
+    public static float Playerhealth = Inventory.maxHealth;
     public static float Playermana = 1;
 
     Image HealthImage;
@@ -17,8 +17,8 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
 
-        Playerhealth = 1;
-        Playermana = 1;
+        Playerhealth = Inventory.maxHealth;
+        Playermana = Inventory.maxMana;
 
     }
 
@@ -30,15 +30,15 @@ public class PlayerHealth : MonoBehaviour
             Playerhealth = 0;
         }
 
-        if (Playerhealth > 1)
+        if (Playerhealth > Inventory.maxHealth)
         {
-            Playerhealth = 1;
+			Playerhealth = Inventory.maxHealth;
 
         }
 
-        if(Playermana < 1)
+        if(Playermana < Inventory.maxMana)
         {
-            Playermana += Time.deltaTime / 5.0f;
+            Playermana += Time.deltaTime * Inventory.manaRegen / 5.0f;
         }
     }
 }

@@ -9,17 +9,15 @@ public class GoldDisplay : MonoBehaviour {
     private Text goldText;
     private Text healthText;
 
-    private float hp;
     // Use this for initialization
     void Start () {
         goldText = gold.gameObject.GetComponent<Text>();
         healthText = health.gameObject.GetComponent<Text>();
-        hp = 0.8f;
     }
 
 	// Update is called once per frame
 	void Update () {
         goldText.text = " Gold: " + Inventory.money;
-        healthText.text = " Health: " + hp + "/" + Inventory.maxHealth;
+        healthText.text = " Health: " + PlayerHealth.Playerhealth + "/" + Inventory.maxHealth;
     }
 }

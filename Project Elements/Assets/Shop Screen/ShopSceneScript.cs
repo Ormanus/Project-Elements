@@ -13,11 +13,12 @@ public class ShopSceneScript : MonoBehaviour {
 		headlineStyle.fontSize = 25;
 		headlineStyle.padding = new RectOffset (25, 25, 25, 25); //saadaan otsikko muuttamaan sijaintia
 
-		GUI.Box (new Rect (702, 0, 800, 600), "Welcome to shop.", headlineStyle);
-
-		if (GUI.Button (new Rect (420, 452, 150, 30), "Continue")) { 
-            SceneManager.LoadScene("GameTestScene");
+		if (GUI.Button (new Rect (64, Screen.height - 100, 150, 30), "Continue")) { 
+            SceneManager.LoadScene("GameScene");
         }
+
+        //TODO: draw inventory on the right side of the screen?
+        //      auto-use items?
 	}
 	// Update is called once per frame
 	void Update () {

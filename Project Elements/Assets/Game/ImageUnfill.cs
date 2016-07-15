@@ -19,6 +19,6 @@ public class ImageUnfill : MonoBehaviour
 
     void Update()
     {
-        CircleImage.fillAmount = Mathf.Max(PlayerHealth.Playerhealth, 0.002f);
+        CircleImage.fillAmount = Mathf.Max(PlayerHealth.Playerhealth / Inventory.maxHealth, 0.002f);
     }
 }

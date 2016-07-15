@@ -3,51 +3,125 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class CharacterSelection : MonoBehaviour {
-	public static float hahmoval;//hahmo, jonka valkkaat sliderista
 
+	//public static float hahmoval;//hahmo, jonka valkkaat sliderista
+    
+    public static float sliderRedValue;
+    public static float sliderBlueValue;
+    public static float sliderGreenValue;
 
-	public static string spritensijainti;
+    public GUIStyle myStyle = null;
+    public GUIStyle basicvaluestyle;
+    public GUIStyle headlineStyle;
+    public GUIStyle basicheadlinestyle;
 
-
-
+    
 	// Use this for initialization
 	void Start () {
-		hahmoval = (PlayerPrefs.GetFloat ("talletettuhahmo"));
+		//hahmoval = (PlayerPrefs.GetFloat ("talletettuhahmo"));
 	}
 	
-	public GUIStyle myStyle = null; 
 
 	void OnGUI(){
 
-		if (hahmoval > 5.2) {
-			Texture2D img2 = Resources.Load ("sprites/gamechar3") as Texture2D;
-			if (img2) {
-				GUI.DrawTexture (new Rect (150, 20, 20, 40), img2);
-				spritensijainti = "sprites/" + img2.name;
-			}
-		} else if (hahmoval < 4.8) {
-			Texture2D img2 = Resources.Load ("sprites/gamechar2") as Texture2D;
-			if (img2) {
-				GUI.DrawTexture (new Rect (150, 20, 20, 40), img2);
-				spritensijainti = "sprites/" + img2.name;
-			}
-		}
+        //basicheadlinestyle.padding = new RectOffset(0, 0, 25, 0);
+        headlineStyle.fontSize = 25;
+        headlineStyle.fontStyle = FontStyle.Bold;
+        headlineStyle.padding = new RectOffset(0, 25, 25, 25); //saadaan otsikko muuttamaan sijaintia
+
+        basicvaluestyle.normal.textColor = Color.black;
+
+        GUILayout.BeginArea(new Rect((Screen.width / 2) - 100, (Screen.height / 2) - 420, 250, 600));
+        GUILayout.Box("Character selection", headlineStyle);
 
 
-		GUI.Box (new Rect (0, 0, 800, 600), "Choose values",myStyle);
 
-		if (GUI.Button (new Rect (240, 70, 150, 30), "Start Game")) {
 
-            PlayerPrefs.SetFloat("healtti", 100.0f);
-			PlayerPrefs.SetFloat ("talletettuhahmo", hahmoval);
-			PlayerPrefs.SetString ("spritelokaatio", spritensijainti);
-            SceneManager.LoadScene("GameTestScene");
-			//Application.LoadLevel (1); //Opens the GameTestScene
 
-			  
-		}
 
-		hahmoval = GUI.HorizontalSlider(new Rect(25, 25, 100, 30), hahmoval, 0.0f, 10.0f); GUI.Label (new Rect (25, 0, 100, 20), "Valitse kuvake");
+        if (GUILayout.Button("Back"))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+
+
+        GUILayout.Label("Difficulty");
+		Inventory.vaikeustas = GUILayout.HorizontalSlider(Inventory.vaikeustas, 0.0f, 20.0f);
+		if (Inventory.vaikeustas > 5)
+        {
+            GUILayout.Label(" Hard", basicvaluestyle);
+        }
+		if (Inventory.vaikeustas < 5)
+        {
+            GUILayout.Label(" Easy", basicvaluestyle);
+        }
+
+
+        GUILayout.Label("Speed");
+		Inventory.nopeus = GUILayout.HorizontalSlider(Inventory.nopeus, 0.1f, 20.0f);
+		if (Inventory.nopeus > 1)
+        {
+			GUILayout.Label(" " + Inventory.nopeus + " ", basicvaluestyle);
+        }
+		if (Inventory.nopeus < 1)
+			GUILayout.Label(" " + Inventory.nopeus + " ", basicvaluestyle);
+
+        GUILayout.Label("Health");
+		Inventory.maxHealth = GUILayout.HorizontalSlider(Inventory.maxHealth, 0.1f, 100.0f);
+		if (Inventory.maxHealth > 1)
+        {
+            GUILayout.Label(" " + Inventory.maxHealth + " ", basicvaluestyle);
+        }
+        if (Inventory.maxHealth < 1)
+        {
+			GUILayout.Label(" " + Inventory.maxHealth + " ", basicvaluestyle);
+        }
+
+        GUILayout.Label("Mana ");
+		Inventory.maxMana = GUILayout.HorizontalSlider(Inventory.maxMana, 0.1f, 5.0f);
+        if (Inventory.maxMana > 1)
+        {
+            GUILayout.Label(" " + Inventory.maxMana + " ", basicvaluestyle);
+        }
+        if (Inventory.maxMana < 1)
+        {
+			GUILayout.Label(" " + Inventory.maxMana + " ", basicvaluestyle);
+        }
+       
+
+        //aseta maksimihealth
+
+		Debug.Log (Inventory.vaikeustas);
+
+		
+
+		
+        GUILayout.Label("Character's RGB values");
+        GUILayout.Label("Red value ");
+        sliderRedValue = GUILayout.HorizontalSlider(sliderRedValue, 0.0F, 255.0F);
+
+        GUILayout.Label("Green value");
+        sliderGreenValue = GUILayout.HorizontalSlider(sliderGreenValue, 0.0F, 255.0F);
+
+        GUILayout.Label("Blue value ");
+        sliderBlueValue = GUILayout.HorizontalSlider( sliderBlueValue, 0.0F, 255.0F);
+
+        
+
+        if (GUILayout.Button("Start Game"))
+        {
+
+            SceneManager.LoadScene("GameScene");
+
+
+        }
+
+		Inventory.varihahmolle = new Color(sliderRedValue / 255, sliderGreenValue / 255, sliderBlueValue / 255, 1f);
+
+        GUILayout.EndArea();
+
+        gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
+
 
 	}
 	
@@ -56,3 +130,8 @@ public class CharacterSelection : MonoBehaviour {
 		
 	}
 }
+
+
+		
+
+	

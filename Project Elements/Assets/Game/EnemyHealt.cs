@@ -34,7 +34,7 @@ public class EnemyHealt : MonoBehaviour {
             Destroy(gameObject);
             if(GameObject.FindGameObjectsWithTag("Enemy").Length == 10)
             {
-                SceneManager.LoadScene("EndScreenScene");
+                SceneManager.LoadScene("ShopScene");
             }
         }
 
