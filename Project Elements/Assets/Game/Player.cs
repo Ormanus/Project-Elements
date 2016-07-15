@@ -60,6 +60,8 @@ public class Player : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.1f)
         {
+			AudioSource music = GameObject.Find("AudioSourceGameObj").GetComponent<AudioSource> ();
+
             Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
             PlayerHealth.Playermana -= 0.1f;
         }
