@@ -21,7 +21,7 @@ public class Inventory : MonoBehaviour {
 
     public static float manaRegen = 1.0f;
 
-	public static float nopeus;
+	public static float nopeus = 1.0f;
 	public static float vaikeustas;//vaikeustason valinta
 	public static Color varihahmolle; //väri
     // Use this for initialization

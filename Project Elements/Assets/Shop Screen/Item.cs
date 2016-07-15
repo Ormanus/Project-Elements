@@ -103,5 +103,13 @@ public class Item : MonoBehaviour {
         {
             Inventory.manaRegen += 0.5f;
         }
+        else if (itemName == "Potion")
+        {
+            PlayerHealth.Playerhealth += 10f;
+            if(PlayerHealth.Playerhealth > Inventory.maxHealth)
+            {
+                PlayerHealth.Playerhealth = Inventory.maxHealth;
+            }
+        }
     }
 }

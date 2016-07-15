@@ -11,7 +11,6 @@ public class Player : MonoBehaviour {
 
     private Animator anim;
    
-    public float speed;
     public GameObject playerdeathparticle;
     public GameObject playerhitParticle;
 
@@ -36,19 +35,19 @@ public class Player : MonoBehaviour {
 
         if (Input.GetAxisRaw("Horizontal") > 0.5f)
         {
-            transform.Translate(Vector2.right * Time.deltaTime*speed,Space.World);
+            transform.Translate(Vector2.right * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
         }
         if (Input.GetAxisRaw("Horizontal") < -0.5f)
         {
-            transform.Translate(-Vector2.right * Time.deltaTime*speed,Space.World);
+            transform.Translate(-Vector2.right * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") > 0.5f)
         {
-            transform.Translate(Vector2.up * Time.deltaTime*speed,Space.World);
+            transform.Translate(Vector2.up * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") < -0.5f)
         {
-            transform.Translate(-Vector2.up * Time.deltaTime*speed,Space.World);
+            transform.Translate(-Vector2.up * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
         }
 
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.1f)

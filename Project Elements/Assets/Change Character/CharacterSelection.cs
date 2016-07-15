@@ -6,9 +6,9 @@ public class CharacterSelection : MonoBehaviour {
 
 	//public static float hahmoval;//hahmo, jonka valkkaat sliderista
     
-    public static float sliderRedValue;
-    public static float sliderBlueValue;
-    public static float sliderGreenValue;
+    public static float sliderRedValue = 255.0f;
+    public static float sliderBlueValue = 255.0f;
+    public static float sliderGreenValue = 255.0f;
 
     public GUIStyle myStyle = null;
     public GUIStyle basicvaluestyle;
@@ -110,10 +110,14 @@ public class CharacterSelection : MonoBehaviour {
 
         if (GUILayout.Button("Start Game"))
         {
-
+            //TODO: reset all
+            PlayerHealth.Playerhealth = Inventory.maxHealth;
+            if(Inventory.inventory == null)
+            {
+                Inventory.inventory = new System.Collections.Generic.List<string>();
+            }
+            Inventory.inventory.Clear();
             SceneManager.LoadScene("GameScene");
-
-
         }
 
 		Inventory.varihahmolle = new Color(sliderRedValue / 255, sliderGreenValue / 255, sliderBlueValue / 255, 1f);
