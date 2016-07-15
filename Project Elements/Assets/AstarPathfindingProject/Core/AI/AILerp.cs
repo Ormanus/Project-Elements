@@ -384,8 +384,13 @@ public class AILerp : MonoBehaviour {
 					tr.rotation = Quaternion.Slerp(rot, desiredRot, Time.deltaTime * rotationSpeed);
 				}
 			}
+            if(nextPos.x > tr.position.x)
+            {
+                //animation...
+            }
 
 			tr.position = nextPos;
+
 		}
         else
         {
