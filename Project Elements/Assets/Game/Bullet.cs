@@ -31,6 +31,10 @@ public class Bullet : MonoBehaviour {
         // sp = Camera.main.WorldToScreenPoint(transform.position);
         //dir = (Input.mousePosition - sp).normalized;
         rb.velocity = shoot * 10;
+
+        Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        transform.rotation = Quaternion.LookRotation(Vector3.forward,Bulletspawn.position - mousepos);
     }
 
 	
