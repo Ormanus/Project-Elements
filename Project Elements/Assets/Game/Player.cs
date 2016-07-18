@@ -20,7 +20,7 @@ public class Player : MonoBehaviour {
     public Sprite[] bulletSprites;
 
     Rigidbody2D rb;
-    int element;
+    Element element;
     int selectedItem;
 
 
@@ -63,9 +63,13 @@ public class Player : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.1f)
         {
             GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
-            obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[element];
+            obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[(int)element];
             obj.GetComponent<Bullet>().element = element;
-            AudioSource music = GameObject.Find("AudioSourceGameObj").GetComponent<AudioSource> ();
+            GameObject ASGO = GameObject.Find("AudioSourceGameObj");
+            if(ASGO)
+            {
+                AudioSource music = ASGO.GetComponent<AudioSource>();
+            }
             PlayerHealth.Playermana -= 0.1f;
         }
         float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -83,8 +87,8 @@ public class Player : MonoBehaviour {
                 else
                 {
                     element++;
-                    if (element > 2)
-                        element = 0;
+                    if ((int)element > 2)
+                        element = Element.Fire;
                     //TODO: update element wheel
                 }
             }
@@ -101,7 +105,7 @@ public class Player : MonoBehaviour {
                 {
                     element--;
                     if (element < 0)
-                        element = 2;
+                        element = Element.Air;
                     //TODO: update element wheel
                 }
             }
@@ -128,7 +132,10 @@ public class Player : MonoBehaviour {
     void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.tag == "enemy") {
-            PlayerHealth.Playerhealth -= 0.25f * Time.deltaTime;
+            float damage = 0.25f;
+            if (element != other.gameObject.GetComponent<EnemyHealt>().element)
+                damage *= 2;
+            PlayerHealth.Playerhealth -= damage * Time.deltaTime;
         }
     }
 
@@ -136,7 +143,10 @@ public class Player : MonoBehaviour {
     {
         if (other.gameObject.tag == "enemyBullet")
         {
-            PlayerHealth.Playerhealth -= 0.25f;
+            float damage = 0.25f;
+            if (element != other.gameObject.GetComponent<EnemyBullet>().element)
+                damage *= 2;
+            PlayerHealth.Playerhealth -= damage;
             Instantiate(playerhitParticle,transform.position,transform.rotation);
             Destroy(other.gameObject);
         }

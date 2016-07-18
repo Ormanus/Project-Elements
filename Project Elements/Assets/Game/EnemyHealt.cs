@@ -8,6 +8,7 @@ public class EnemyHealt : MonoBehaviour {
     public float EnemyHealtti = 1;
      Image HealthImage;
     public GameObject EnemyHitParticle;
+    public Element element;
         
     // Use this for initialization
     void Start () {
@@ -48,7 +49,10 @@ public class EnemyHealt : MonoBehaviour {
 
         if (other.gameObject.tag == "bullet")
         {
-            EnemyHealtti -= 0.25f;
+            float damage = 0.25f;
+            if (element != other.gameObject.GetComponent<Bullet>().element)
+                damage *= 2;
+            EnemyHealtti -= damage;
             Destroy(other.gameObject);
         }
 

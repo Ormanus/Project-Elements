@@ -1,11 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum Element
+{
+    Fire,
+    Ice,
+    Air
+}
+
 public class Bullet : MonoBehaviour {
 
     Rigidbody2D rb;
     public float amount;
-    public int element;
+    public Element element;
     //public Vector3 sp;
     //public Vector3 dir;
 

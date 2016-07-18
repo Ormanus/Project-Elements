@@ -6,6 +6,7 @@ public class EnemyBullet : MonoBehaviour {
     Rigidbody2D rb;
     public Transform target;
     public float speed;
+    public Element element;
 
     // Use this for initialization
     void Start() {
