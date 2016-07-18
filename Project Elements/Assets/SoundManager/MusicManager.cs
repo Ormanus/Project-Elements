@@ -2,16 +2,17 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class SoundManager : MonoBehaviour {
+public class MusicManager : MonoBehaviour {
 	
-	public Slider soundSlider;
+	public Slider musicSlider;
+	public AudioSource song;
 
 	public void Start()
 	{
 		//AudioSource music = GetComponent<AudioSource> (); 
 		//Adds a listener to the main slider and invokes a method when the value changes.
 		//mainSlider.value = 0.5f;
-		soundSlider.onValueChanged.AddListener (delegate {
+		musicSlider.onValueChanged.AddListener (delegate {
 			ValueChangeCheck ();
 		});
 
@@ -20,7 +21,7 @@ public class SoundManager : MonoBehaviour {
 	// Invoked when the value of the slider changes.
 	public void ValueChangeCheck()
 	{
-		Debug.Log (soundSlider.value);
+		Debug.Log (musicSlider.value);
 	}
 
 	
@@ -28,4 +29,5 @@ public class SoundManager : MonoBehaviour {
 	void Update () {
 	
 	}
+
 }

@@ -6,24 +6,34 @@ public class Player : MonoBehaviour {
 	Vector3 mousePos;
 	public Transform BulletSpawn; //the object you want to rotate
     public GameObject BulletPrefab;
+    public Transform itemBarTransform;
+
 	Vector3 objectPos;
 	float angle;
 
     private Animator anim;
-   
+    private ItemBar itemBar;
+
     public GameObject playerdeathparticle;
     public GameObject playerhitParticle;
 
+    public Sprite[] bulletSprites;
+
     Rigidbody2D rb;
     int element;
+    int selectedItem;
+
 
 	void Start () {
 		
-		gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
+        gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
         rb = GetComponent<Rigidbody2D>();
         
         element = 0;
+        selectedItem = 0;
         anim = GetComponent<Animator>();
+
+        itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
 	}
 	
 	// Update is called once per frame
@@ -52,26 +62,52 @@ public class Player : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.1f)
         {
-            Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
+            GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
+            obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[element];
+            obj.GetComponent<Bullet>().element = element;
+            AudioSource music = GameObject.Find("AudioSourceGameObj").GetComponent<AudioSource> ();
             PlayerHealth.Playermana -= 0.1f;
         }
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll > 0)
+        if (scroll != 0)
         {
-            element++;
-            if(element > 3)
-                element = 0;
+            if (scroll < 0)
+            {
+                if(Input.GetKey(KeyCode.E))
+                {
+                    selectedItem++;
+                    if (selectedItem > Inventory.inventory.Count - 1)
+                        selectedItem = 0;
+                    itemBar.SendMessage("choose", selectedItem);
+                }
+                else
+                {
+                    element++;
+                    if (element > 2)
+                        element = 0;
+                    //TODO: update element wheel
+                }
+            }
+            else if (scroll > 0)
+            {
+                if (Input.GetKey(KeyCode.E))
+                {
+                    selectedItem--;
+                    if (selectedItem < 0)
+                        selectedItem = Inventory.inventory.Count - 1;
+                    itemBar.SendMessage("choose", selectedItem);
+                }
+                else
+                {
+                    element--;
+                    if (element < 0)
+                        element = 2;
+                    //TODO: update element wheel
+                }
+            }
         }
-        else if (scroll < 0)
-        {
-            element--;
-            if (element < 0)
-                element = 3;
-        }
-        if(scroll != 0)
-        {
-            //TODO: update element indicator
-        }
+        
+        
 
         if (PlayerHealth.Playerhealth <= 0)
         {
