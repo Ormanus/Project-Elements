@@ -157,7 +157,7 @@ public class AILerp : MonoBehaviour {
         //SnakeAnim.AddClip(SnakeLeft, "snakeleft");
         //SnakeAnim.AddClip(SnakeRight, "snakeright");
 
-        animatorr = GetComponent<Animator>();     
+        animatorr = GetComponent<Animator>();
     }
 
 	/** Run at start and when reenabled.
