@@ -150,5 +150,9 @@ public class Player : MonoBehaviour {
             Instantiate(playerhitParticle,transform.position,transform.rotation);
             Destroy(other.gameObject);
         }
+        else if(other.gameObject.tag == "Finish")
+        {
+            SceneManager.LoadScene("ShopScene");
+        }
     }
 }

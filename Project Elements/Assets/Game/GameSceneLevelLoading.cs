@@ -60,6 +60,9 @@ struct AnimatedMesh
 
 public class GameSceneLevelLoading : MonoBehaviour
 {
+    public static int levelNumber;
+
+    public GameObject goal;
     public GameObject[] enemies;
     public string part;
     public Material material;
@@ -326,15 +329,20 @@ public class GameSceneLevelLoading : MonoBehaviour
             {
                 float x = x0 + partData.enemyAreas[j].x + Random.Range(0, partData.enemyAreas[j].width);
                 float y = y0 + partData.enemyAreas[j].y + Random.Range(0, partData.enemyAreas[j].height);
-                if (partData.enemyTypes[j] != 0)
+                if (partData.enemyTypes[j] == 0)
                 {
-                    GameObject o = Instantiate(enemies[partData.enemyTypes[j] - 1]);
+                    player.position = new Vector3(x, -y, 0);
+                    print("Player position set.");
+                }
+                else if (partData.enemyTypes[j] == 1)
+                {
+                    GameObject o = Instantiate(goal);
                     o.transform.position = new Vector3(x, -y, 0);
                 }
                 else
                 {
-                    player.position = new Vector3(x, -y, 0);
-                    print("Player position set.");
+                    GameObject o = Instantiate(enemies[partData.enemyTypes[j] - 2]);
+                    o.transform.position = new Vector3(x, -y, 0);
                 }
             }
         }
