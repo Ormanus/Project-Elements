@@ -12,9 +12,14 @@ struct PartData
     public int w, h, d;
     public short[] tilemap;
     public bool[] collisionMap;
+
     public Rect[] enemyAreas;
     public short[] enemyTypes;
     public Vector2[] enemyRanges;
+
+    public Vector2[] thingPos;
+    public short[] thingTypes;
+
     public string[] texturePaths;
     public string[] textureData;
 }
@@ -211,7 +216,8 @@ public class GameSceneLevelLoading : MonoBehaviour
 
         short w = data[0]; //widht
         short h = data[1]; //height
-                           // 2 & 3 are needed only in editor
+        short version = data[2]; //version number
+        short num_things = data[3]; //temp backwards compatibility thing
         short num_layers = data[4]; //number of layers
 
         part.w = w;
@@ -268,6 +274,25 @@ public class GameSceneLevelLoading : MonoBehaviour
             part.enemyAreas[i] = new Rect(x0, y0, w0, h0);
             part.enemyRanges[i] = new Vector2(spawnMin, spawnMax);
             part.enemyTypes[i] = type;
+        }
+
+        print("load things");
+        //if you're wondering what "things" are loaded here, google "DOOM thing"
+        if(version > 0)
+            num_things = data[seek];
+        seek++;
+
+        part.thingPos = new Vector2[num_things];
+        part.thingTypes = new short[num_things];
+
+        for(int i = 0; i < num_things; i++)
+        {
+            short x0 = data[seek++];
+            short y0 = data[seek++];
+            short type = data[seek++];
+
+            part.thingPos[i] = new Vector2(x0, y0);
+            part.thingTypes[i] = type;
         }
 
         print("load textuers");
@@ -344,6 +369,25 @@ public class GameSceneLevelLoading : MonoBehaviour
                     GameObject o = Instantiate(enemies[partData.enemyTypes[j] - 2]);
                     o.transform.position = new Vector3(x, -y, 0);
                 }
+            }
+        }
+
+        print("place things");
+        for(int i = 0; i < partData.thingTypes.Length; i++)
+        {
+            float x = partData.thingPos[i].x;
+            float y = partData.thingPos[i].y;
+            switch (partData.thingTypes[i])
+            {
+                case 0:
+                    player.position = new Vector3(x + 0.5f, -(y + 0.5f), 0);
+                    print("Player position set.");
+                    break;
+                case 1:
+                    GameObject o;
+                    o = Instantiate(goal);
+                    o.transform.position = new Vector3(x, -(y + 0.5f), 0);
+                    break;
             }
         }
 
