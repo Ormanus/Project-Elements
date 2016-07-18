@@ -128,17 +128,37 @@ public class AILerp : MonoBehaviour {
 		};
 	}
 
-	/** Starts searching for paths.
+    /** Starts searching for paths.
 	 * If you override this function you should in most cases call base.Start () at the start of it.
 	 * \see OnEnable
 	 * \see RepeatTrySearchPath
 	 */
-	protected virtual void Start () {
+
+    //Animations
+
+    //public AnimationClip SnakeUp;
+    //public AnimationClip SnakeDown;
+    //public AnimationClip SnakeRight;
+    //public AnimationClip SnakeLeft;
+
+    //Animation SnakeAnim = new Animation();
+
+    Animator animatorr;
+
+    protected virtual void Start () {
 
         target = GameObject.Find("Player").transform;
 		startHasRun = true;
 		OnEnable();
-	}
+
+
+        //SnakeAnim.AddClip(SnakeUp, "snakeup");
+        //SnakeAnim.AddClip(SnakeDown, "snakedown");
+        //SnakeAnim.AddClip(SnakeLeft, "snakeleft");
+        //SnakeAnim.AddClip(SnakeRight, "snakeright");
+
+        animatorr = GetComponent<Animator>();     
+    }
 
 	/** Run at start and when reenabled.
 	 * Starts RepeatTrySearchPath.
@@ -364,6 +384,10 @@ public class AILerp : MonoBehaviour {
 		}
 	}
 
+    
+
+    
+
     protected virtual void Update () {
         float distance = Vector2.Distance(target.transform.position, gameObject.transform.position);
 		if (canMove && distance > 3.0f && distance < 10) {
@@ -382,14 +406,34 @@ public class AILerp : MonoBehaviour {
 					Quaternion desiredRot = Quaternion.LookRotation(direction);
 
 					tr.rotation = Quaternion.Slerp(rot, desiredRot, Time.deltaTime * rotationSpeed);
-				}
+				}           
 			}
             if(nextPos.x > tr.position.x)
             {
                 //animation...
+                animatorr.Play("SnakeRight");
+
             }
 
-			tr.position = nextPos;
+            if (nextPos.x < tr.position.x)
+            {
+                //animation...
+                animatorr.Play("Snakeleft");
+            }
+
+            if (nextPos.y > tr.position.y)
+            {
+                //animation...
+                animatorr.Play("SnakeUp");
+            }
+
+            if (nextPos.y < tr.position.y)
+            {
+                //animation...
+                animatorr.Play("SnakeDown");
+            }
+
+            tr.position = nextPos;
 
 		}
         else

@@ -34,7 +34,7 @@ struct Rectangle
     public short type;
 };
 
-struct Animation
+struct LevelAnimation
 {
     public Texture2D texture;
     public int rows;
@@ -52,7 +52,7 @@ struct Animation
 struct AnimatedMesh
 {
     public GameObject go;
-    public Animation animation;
+    public LevelAnimation animation;
     public MeshRenderer renderer;
     public MeshFilter filter;
     public Mesh mesh;
@@ -73,7 +73,7 @@ public class GameSceneLevelLoading : MonoBehaviour
 
     private int[] tileIndex;
 
-    private Animation[] animations;
+    private LevelAnimation[] animations;
     private int nAnimations;
 
     private float time;
@@ -115,7 +115,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                 print("aniMesh " + i + " = " + aniMesh[i]);
                 for (int k = 0; k < aniMesh[i].Count; k++)
                 {
-                    Animation ani = aniMesh[i][k].animation;
+                    LevelAnimation ani = aniMesh[i][k].animation;
                     int index = animationIndex % (ani.columns * ani.rows);
 
                     Vector2[] uv = new Vector2[aniMesh[i][k].mesh.uv.Length];
@@ -372,7 +372,7 @@ public class GameSceneLevelLoading : MonoBehaviour
         print("load " + nTotal + " textures");
         texture = new Texture2D(2048, 2048);
         Texture2D[] textures = new Texture2D[numTextures];
-        animations = new Animation[numAnimated];
+        animations = new LevelAnimation[numAnimated];
         tileIndex = new int[nTotal];
         numTextures = 0;
         nAnimations = 0;
@@ -401,7 +401,7 @@ public class GameSceneLevelLoading : MonoBehaviour
 
             if (animated[i]) //save one texture animation
             {
-                Animation a = new Animation();
+                LevelAnimation a = new LevelAnimation();
                 a.columns = columns[i];
                 a.rows = rows[i];
                 a.texture = tex;
