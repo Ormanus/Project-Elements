@@ -23,6 +23,8 @@ public class SoundManager : MonoBehaviour {
 		Debug.Log (soundSlider.value);
 	}
 
+
+
 	
 	// Update is called once per frame
 	void Update () {
