@@ -115,7 +115,7 @@ public class Item : MonoBehaviour {
 
     private void effect()
     {
-        if(itemName == "Armor")
+        if(itemName == "Shield")
         {
             Inventory.maxHealth += 10;
         }
@@ -126,14 +126,6 @@ public class Item : MonoBehaviour {
         else if (itemName == "Fire Book")
         {
             Inventory.manaRegen += 0.5f;
-        }
-        else if (itemName == "Potion")
-        {
-            PlayerHealth.Playerhealth += 10f;
-            if(PlayerHealth.Playerhealth > Inventory.maxHealth)
-            {
-                PlayerHealth.Playerhealth = Inventory.maxHealth;
-            }
         }
     }
 }
