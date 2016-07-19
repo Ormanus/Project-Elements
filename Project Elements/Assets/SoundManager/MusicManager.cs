@@ -6,6 +6,7 @@ public class MusicManager : MonoBehaviour {
 	
 	public Slider musicSlider;
 	public AudioSource song;
+	public static float volumeLevel;
 
 	public void Start()
 	{
@@ -21,6 +22,7 @@ public class MusicManager : MonoBehaviour {
 	// Invoked when the value of the slider changes.
 	public void ValueChangeCheck()
 	{
+		volumeLevel = musicSlider.value;
 		Debug.Log (musicSlider.value);
 	}
 

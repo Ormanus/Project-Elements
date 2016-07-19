@@ -45,6 +45,13 @@ public class Player : MonoBehaviour {
         	itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
 
 		elementWheelPositions ();
+		GameObject ASGO = GameObject.Find("AudioSourceGameObj");
+		if(ASGO)
+		{
+			AudioSource music = ASGO.GetComponent<AudioSource>();
+			music.volume = MusicManager.volumeLevel;
+			music.Play ();
+		}
 	}
 
 	void elementWheelPositions()
@@ -97,57 +104,17 @@ public class Player : MonoBehaviour {
             GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
             obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[(int)element];
             obj.GetComponent<Bullet>().element = element;
-            GameObject ASGO = GameObject.Find("AudioSourceGameObj");
-            if(ASGO)
-            {
-                AudioSource music = ASGO.GetComponent<AudioSource>();
-            }
+            
             PlayerHealth.Playermana -= 0.1f;
         }
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0)
         {
-			Debug.Log (firstSpriteGameobj.transform.position); 
-//			if (scroll > 0) {
-//				Debug.Log (scroll);
-//				element = Element.Ice;
-//
-//
-//				if(threetimes==0) {
-//				oneGameO = new Vector2 (firstSpriteGameobj.transform.position.x - 45, firstSpriteGameobj.transform.position.y);
-//				firstSpriteGameobj.transform.position = oneGameO;
-//				twoGameobj = new Vector2(secondSpriteGameobj.transform.position.x + 25, secondSpriteGameobj.transform.position.y - 28);
-//				secondSpriteGameobj.transform.position = twoGameobj;
-//				thirdgameobj = new Vector2 (thirdSpriteGameobj.transform.position.x + 25, thirdSpriteGameobj.transform.position.y + 28);
-//				thirdSpriteGameobj.transform.position = thirdgameobj;
-//				//tähän päädyttiin
-//				thirdgameobj = thirdSpriteGameobj.transform.position; 
-//				threetimes = 1;
-//				}
-//				if (threetimes == 1) {
-//					//firstSpriteGameobj.transform.position = oneGameO;
-//					//secondSpriteGameobj.transform.position = twoGameobj;
-//					//thirdSpriteGameobj.transform.position = thirdgameobj;
-//					threetimes = 2;
-//				}
-//				if (threetimes == 2) {
-//					//oneGameO = new Vector2 (firstSpriteGameobj.transform.position.x - 45, firstSpriteGameobj.transform.position.y);
-//					//firstSpriteGameobj.transform.position = oneGameO;
-//				}
-//
-//			}
 
-			//image.transform.position = new Vector3(image.transform.position.x, image.transform.position.y-0.2f, image.transform.position.z);
-			
+
+
             if (scroll < 0)
             {
-				Debug.Log (scroll);
-//				firstSpriteGameobj.transform.position = new Vector2 (firstSpriteGameobj.transform.position.x + 25, firstSpriteGameobj.transform.position.y + 28);
-//				//toimii lähelle
-//
-//				secondSpriteGameobj.transform.position = new Vector2 (secondSpriteGameobj.transform.position.x - 45, secondSpriteGameobj.transform.position.y);
-//				thirdSpriteGameobj.transform.position = new Vector2 (thirdSpriteGameobj.transform.position.x + 25, thirdSpriteGameobj.transform.position.y - 28);
-
                 if(Input.GetKey(KeyCode.E))
                 {
                     selectedItem++;
