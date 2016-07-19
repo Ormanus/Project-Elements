@@ -23,8 +23,10 @@ public class Player : MonoBehaviour {
     Element element;
     int selectedItem;
 
+    Vector3 previousPos1;
+    Vector3 previousPos2;
 
-	void Start () {
+    void Start () {
 		
         gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
         rb = GetComponent<Rigidbody2D>();
@@ -36,29 +38,42 @@ public class Player : MonoBehaviour {
         itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
-		Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
+    void FixedUpdate()
+    {
         rb.velocity = Vector2.zero;
 
         if (Input.GetAxisRaw("Horizontal") > 0.5f)
         {
-            transform.Translate(Vector2.right * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
+            rb.velocity = Vector2.right * Inventory.nopeus / 10f;
+            //transform.Translate(Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Horizontal") < -0.5f)
         {
-            transform.Translate(-Vector2.right * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
+            rb.velocity = -Vector2.right * Inventory.nopeus / 10f;
+            //transform.Translate(-Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") > 0.5f)
         {
-            transform.Translate(Vector2.up * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
+            rb.velocity = Vector2.up * Inventory.nopeus / 10f;
+            //transform.Translate(Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") < -0.5f)
         {
-            transform.Translate(-Vector2.up * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
+            rb.velocity = -Vector2.up * Inventory.nopeus / 10f;
+            //transform.Translate(-Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
+
+        //previousPos1 = transform.position;
+        //if (GetComponent<Collider2D>().IsTouchingLayers(256))
+        //{
+        //    transform.position = previousPos1;
+        //}
+    }
+
+	// Update is called once per frame
+	void Update () {
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.1f)
         {
