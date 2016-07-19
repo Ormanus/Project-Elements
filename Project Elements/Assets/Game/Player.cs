@@ -22,8 +22,13 @@ public class Player : MonoBehaviour {
     Rigidbody2D rb;
     Element element;
     int selectedItem;
-
-
+	public GameObject firstSpriteGameobj = null; //asign it via inspector.
+	public GameObject secondSpriteGameobj = null;
+	public GameObject thirdSpriteGameobj = null;
+	private Vector2 oneGameO; 
+	private Vector2 twoGameobj;
+	private Vector2 thirdgameobj;
+	protected int threetimes;
 	void Start () {
 		
         gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
@@ -34,6 +39,7 @@ public class Player : MonoBehaviour {
         anim = GetComponent<Animator>();
 
         itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
+
 	}
 	
 	// Update is called once per frame
@@ -75,8 +81,41 @@ public class Player : MonoBehaviour {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0)
         {
+			Debug.Log (firstSpriteGameobj.transform.position); 
+			if (scroll > 0) {
+				Debug.Log (scroll);
+				element = Element.Ice;
+
+
+				if(threetimes==0) {
+				oneGameO = new Vector2 (firstSpriteGameobj.transform.position.x - 45, firstSpriteGameobj.transform.position.y);
+				firstSpriteGameobj.transform.position = oneGameO;
+				twoGameobj = new Vector2(secondSpriteGameobj.transform.position.x + 25, secondSpriteGameobj.transform.position.y - 28);
+				secondSpriteGameobj.transform.position = twoGameobj;
+				thirdgameobj = new Vector2 (thirdSpriteGameobj.transform.position.x + 25, thirdSpriteGameobj.transform.position.y + 28);
+				thirdSpriteGameobj.transform.position = thirdgameobj;
+				//tähän päädyttiin
+				thirdgameobj = thirdSpriteGameobj.transform.position; 
+				threetimes = 1;
+				}
+				if (threetimes == 1) {
+					firstSpriteGameobj.transform.position = oneGameO;
+					secondSpriteGameobj.transform.position = twoGameobj;
+					thirdSpriteGameobj.transform.position = thirdgameobj;
+				}
+			}
+
+			//image.transform.position = new Vector3(image.transform.position.x, image.transform.position.y-0.2f, image.transform.position.z);
+			
             if (scroll < 0)
             {
+				Debug.Log (scroll);
+				firstSpriteGameobj.transform.position = new Vector2 (firstSpriteGameobj.transform.position.x + 25, firstSpriteGameobj.transform.position.y + 28);
+				//toimii lähelle
+
+				secondSpriteGameobj.transform.position = new Vector2 (secondSpriteGameobj.transform.position.x - 45, secondSpriteGameobj.transform.position.y);
+				thirdSpriteGameobj.transform.position = new Vector2 (thirdSpriteGameobj.transform.position.x + 25, thirdSpriteGameobj.transform.position.y - 28);
+
                 if(Input.GetKey(KeyCode.E))
                 {
                     selectedItem++;
