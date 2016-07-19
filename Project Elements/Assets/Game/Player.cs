@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 	Vector3 mousePos;
@@ -22,9 +23,11 @@ public class Player : MonoBehaviour {
     Rigidbody2D rb;
     Element element;
     int selectedItem;
-	public GameObject firstSpriteGameobj = null; //asign it via inspector.
-	public GameObject secondSpriteGameobj = null;
-	public GameObject thirdSpriteGameobj = null;
+	public RectTransform firstSpriteGameobj = null; //asign it via inspector.
+	public RectTransform secondSpriteGameobj = null;
+	public RectTransform thirdSpriteGameobj = null;
+	public GameObject glowElement;
+	public Sprite[] Elements;
 	private Vector2 oneGameO; 
 	private Vector2 twoGameobj;
 	private Vector2 thirdgameobj;
@@ -40,8 +43,23 @@ public class Player : MonoBehaviour {
 
         itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
 
+		elementWheelPositions ();
 	}
-	
+
+	void elementWheelPositions()
+	{
+		float distance = 24.0f;
+		Vector2 position0 = GameObject.Find ("Void").GetComponent<RectTransform> ().pivot;
+		float angle = Mathf.PI / 2 - (int)element * (Mathf.PI / 3 * 2);
+		firstSpriteGameobj.anchoredPosition = position0 + new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle)) * distance;
+		angle += Mathf.PI / 3 * 2;
+		secondSpriteGameobj.anchoredPosition = position0 + new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle)) * distance;
+		angle += Mathf.PI / 3 * 2;
+		thirdSpriteGameobj.anchoredPosition = position0 + new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle)) * distance;
+
+		glowElement.GetComponent<Image>().sprite = Elements[(int)element];
+	}
+
 	// Update is called once per frame
 	void Update () {
 
@@ -82,39 +100,45 @@ public class Player : MonoBehaviour {
         if (scroll != 0)
         {
 			Debug.Log (firstSpriteGameobj.transform.position); 
-			if (scroll > 0) {
-				Debug.Log (scroll);
-				element = Element.Ice;
-
-
-				if(threetimes==0) {
-				oneGameO = new Vector2 (firstSpriteGameobj.transform.position.x - 45, firstSpriteGameobj.transform.position.y);
-				firstSpriteGameobj.transform.position = oneGameO;
-				twoGameobj = new Vector2(secondSpriteGameobj.transform.position.x + 25, secondSpriteGameobj.transform.position.y - 28);
-				secondSpriteGameobj.transform.position = twoGameobj;
-				thirdgameobj = new Vector2 (thirdSpriteGameobj.transform.position.x + 25, thirdSpriteGameobj.transform.position.y + 28);
-				thirdSpriteGameobj.transform.position = thirdgameobj;
-				//tähän päädyttiin
-				thirdgameobj = thirdSpriteGameobj.transform.position; 
-				threetimes = 1;
-				}
-				if (threetimes == 1) {
-					firstSpriteGameobj.transform.position = oneGameO;
-					secondSpriteGameobj.transform.position = twoGameobj;
-					thirdSpriteGameobj.transform.position = thirdgameobj;
-				}
-			}
+//			if (scroll > 0) {
+//				Debug.Log (scroll);
+//				element = Element.Ice;
+//
+//
+//				if(threetimes==0) {
+//				oneGameO = new Vector2 (firstSpriteGameobj.transform.position.x - 45, firstSpriteGameobj.transform.position.y);
+//				firstSpriteGameobj.transform.position = oneGameO;
+//				twoGameobj = new Vector2(secondSpriteGameobj.transform.position.x + 25, secondSpriteGameobj.transform.position.y - 28);
+//				secondSpriteGameobj.transform.position = twoGameobj;
+//				thirdgameobj = new Vector2 (thirdSpriteGameobj.transform.position.x + 25, thirdSpriteGameobj.transform.position.y + 28);
+//				thirdSpriteGameobj.transform.position = thirdgameobj;
+//				//tähän päädyttiin
+//				thirdgameobj = thirdSpriteGameobj.transform.position; 
+//				threetimes = 1;
+//				}
+//				if (threetimes == 1) {
+//					//firstSpriteGameobj.transform.position = oneGameO;
+//					//secondSpriteGameobj.transform.position = twoGameobj;
+//					//thirdSpriteGameobj.transform.position = thirdgameobj;
+//					threetimes = 2;
+//				}
+//				if (threetimes == 2) {
+//					//oneGameO = new Vector2 (firstSpriteGameobj.transform.position.x - 45, firstSpriteGameobj.transform.position.y);
+//					//firstSpriteGameobj.transform.position = oneGameO;
+//				}
+//
+//			}
 
 			//image.transform.position = new Vector3(image.transform.position.x, image.transform.position.y-0.2f, image.transform.position.z);
 			
             if (scroll < 0)
             {
 				Debug.Log (scroll);
-				firstSpriteGameobj.transform.position = new Vector2 (firstSpriteGameobj.transform.position.x + 25, firstSpriteGameobj.transform.position.y + 28);
-				//toimii lähelle
-
-				secondSpriteGameobj.transform.position = new Vector2 (secondSpriteGameobj.transform.position.x - 45, secondSpriteGameobj.transform.position.y);
-				thirdSpriteGameobj.transform.position = new Vector2 (thirdSpriteGameobj.transform.position.x + 25, thirdSpriteGameobj.transform.position.y - 28);
+//				firstSpriteGameobj.transform.position = new Vector2 (firstSpriteGameobj.transform.position.x + 25, firstSpriteGameobj.transform.position.y + 28);
+//				//toimii lähelle
+//
+//				secondSpriteGameobj.transform.position = new Vector2 (secondSpriteGameobj.transform.position.x - 45, secondSpriteGameobj.transform.position.y);
+//				thirdSpriteGameobj.transform.position = new Vector2 (thirdSpriteGameobj.transform.position.x + 25, thirdSpriteGameobj.transform.position.y - 28);
 
                 if(Input.GetKey(KeyCode.E))
                 {
@@ -128,7 +152,8 @@ public class Player : MonoBehaviour {
                     element++;
                     if ((int)element > 2)
                         element = Element.Fire;
-                    //TODO: update element wheel
+					
+					elementWheelPositions ();
                 }
             }
             else if (scroll > 0)
@@ -145,7 +170,7 @@ public class Player : MonoBehaviour {
                     element--;
                     if (element < 0)
                         element = Element.Air;
-                    //TODO: update element wheel
+					elementWheelPositions ();
                 }
             }
         }
