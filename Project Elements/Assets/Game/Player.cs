@@ -23,6 +23,7 @@ public class Player : MonoBehaviour {
     Rigidbody2D rb;
     Element element;
     int selectedItem;
+
 	public RectTransform firstSpriteGameobj = null; //asign it via inspector.
 	public RectTransform secondSpriteGameobj = null;
 	public RectTransform thirdSpriteGameobj = null;
@@ -34,14 +35,14 @@ public class Player : MonoBehaviour {
 	protected int threetimes;
 	void Start () {
 		
-        gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
-        rb = GetComponent<Rigidbody2D>();
+        	gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
+        	rb = GetComponent<Rigidbody2D>();
         
-        element = 0;
-        selectedItem = 0;
-        anim = GetComponent<Animator>();
+        	element = 0;
+        		selectedItem = 0;
+        	anim = GetComponent<Animator>();
 
-        itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
+        	itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
 
 		elementWheelPositions ();
 	}
@@ -59,30 +60,37 @@ public class Player : MonoBehaviour {
 
 		glowElement.GetComponent<Image>().sprite = Elements[(int)element];
 	}
-
-	// Update is called once per frame
-	void Update () {
-
-		Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
+	
+    void FixedUpdate()
+    {
         rb.velocity = Vector2.zero;
 
         if (Input.GetAxisRaw("Horizontal") > 0.5f)
         {
-            transform.Translate(Vector2.right * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
+            rb.velocity = Vector2.right * Inventory.nopeus / 10f;
+            //transform.Translate(Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Horizontal") < -0.5f)
         {
-            transform.Translate(-Vector2.right * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
+            rb.velocity = -Vector2.right * Inventory.nopeus / 10f;
+            //transform.Translate(-Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") > 0.5f)
         {
-            transform.Translate(Vector2.up * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
+            rb.velocity = Vector2.up * Inventory.nopeus / 10f;
+            //transform.Translate(Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") < -0.5f)
         {
-            transform.Translate(-Vector2.up * Time.deltaTime * Inventory.nopeus * 5.0f, Space.World);
+            rb.velocity = -Vector2.up * Inventory.nopeus / 10f;
+            //transform.Translate(-Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
+    }
+
+	// Update is called once per frame
+	void Update () {
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.1f)
         {

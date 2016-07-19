@@ -49,6 +49,12 @@ public class EnemyHealt : MonoBehaviour {
 
         if (other.gameObject.tag == "bullet")
         {
+            AILerp ai = GetComponent<AILerp>();
+            if(ai)
+            {
+                ai.hasDetectedPlayer = true;
+            }
+
             float damage = 0.25f;
             if (element != other.gameObject.GetComponent<Bullet>().element)
                 damage *= 2;
