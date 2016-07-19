@@ -33,6 +33,7 @@ public class Player : MonoBehaviour {
 	private Vector2 twoGameobj;
 	private Vector2 thirdgameobj;
 	protected int threetimes;
+	public static GameObject ASGO;
 	void Start () {
 		
         	gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
@@ -45,11 +46,14 @@ public class Player : MonoBehaviour {
         	itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
 
 		elementWheelPositions ();
-		GameObject ASGO = GameObject.Find("AudioSourceGameObj");
+		ASGO = GameObject.Find("AudioSourceGameObj");
 		if(ASGO)
 		{
 			AudioSource music = ASGO.GetComponent<AudioSource>();
-			music.volume = MusicManager.volumeLevel;
+			if (MusicManager.volumeLevel == 0F) { music.volume = 0.6F;
+			} else {
+				music.volume = MusicManager.volumeLevel;
+			}
 			music.Play ();
 		}
 	}
