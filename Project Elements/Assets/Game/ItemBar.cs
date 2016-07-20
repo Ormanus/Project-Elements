@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-//using System.Collections.Generic;
+using System.Collections.Generic;
 
 public class ItemBar : MonoBehaviour {
 
@@ -10,19 +10,23 @@ public class ItemBar : MonoBehaviour {
     public Texture2D selection;
     public Font font;
 
-    private GameObject[] numbers;
+    private List<GameObject> numbers;
     private int theChosenOne;
+    private Player player;
 
 	void Start () {
+        player = GameObject.Find("Player").GetComponent<Player>();
+
         if(Inventory.inventory == null)
         {
-            Inventory.inventory = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, int>>();
+            Inventory.inventory = new List<KeyValuePair<string, int>>();
         }
-        numbers = new GameObject[Inventory.inventory.Count];
+        numbers = new List<GameObject>(Inventory.inventory.Count);
         print("Inv. count: " + Inventory.inventory.Count);
         for(int i = 0; i < Inventory.inventory.Count; i++)
         {
-            numbers[i] = new GameObject();
+            print("text " + i);
+            numbers.Add(new GameObject());
             numbers[i].transform.parent = gameObject.transform;
             numbers[i].transform.position = new Vector2(0, 0);
             RectTransform rect = numbers[i].AddComponent<RectTransform>();
@@ -38,7 +42,8 @@ public class ItemBar : MonoBehaviour {
             text.color = Color.white;
             text.alignment = TextAnchor.UpperRight;
             text.transform.position = new Vector3(Display.main.renderingWidth -52, Display.main.renderingHeight - 80 - i * 40, -1);//new Vector3(0, 0, 0);
-        } 
+        }
+        print("texts done");
 	}
 	
     void OnGUI()
@@ -80,18 +85,36 @@ public class ItemBar : MonoBehaviour {
         {
             if (Inventory.inventory.Count > 0)
             {
-                if (Inventory.inventory[theChosenOne].Key == "Potion")
+                print("Count: " + Inventory.inventory.Count);
+                if (Inventory.inventory[theChosenOne].Key == "Health Potion")
                 {
-                    print("Potion used!");
                     PlayerHealth.Playerhealth += 10;
                     if (PlayerHealth.Playerhealth > Inventory.maxHealth)
                     {
                         PlayerHealth.Playerhealth = Inventory.maxHealth;
                     }
                 }
-                else if (Inventory.inventory[theChosenOne].Key == "FireOrb")
+                else if (Inventory.inventory[theChosenOne].Key == "Mana Potion")
                 {
-                    //Instantiate(fireOrb);
+                    PlayerHealth.Playermana += 10;
+                    if (PlayerHealth.Playermana > Inventory.maxMana)
+                    {
+                        PlayerHealth.Playermana = Inventory.maxMana;
+                    }
+                }
+                else if (Inventory.inventory[theChosenOne].Key == "Speed Potion")
+                {
+                    PlayerEffect eff = new PlayerEffect();
+                    eff.timer = 5.0f;
+                    eff.type = 3;
+                    eff.amount = 5.0f;
+                    Inventory.nopeus += 5.0f;
+                    player.effects.Add(eff);
+                }
+                else if (Inventory.inventory[theChosenOne].Key == "Orb")
+                {
+                    Inventory.money += 1000;
+                    //Instantiate(Orb);
                 }
                 else
                 {
@@ -100,16 +123,19 @@ public class ItemBar : MonoBehaviour {
                 numbers[theChosenOne].GetComponent<Text>().text = (Inventory.inventory[theChosenOne].Value - 1).ToString();
                 if (Inventory.inventory[theChosenOne].Value - 1 == 0)
                 {
+                    print("deleting...");
                     Inventory.inventory.RemoveAt(theChosenOne);
                     DestroyObject(numbers[theChosenOne]);
-                    if (theChosenOne > Inventory.inventory.Count)
+                    numbers.RemoveAt(theChosenOne);
+                    for(int i = 0; i < Inventory.inventory.Count; i++)
                     {
-                        theChosenOne = Inventory.inventory.Count;
+                        numbers[i].transform.position = new Vector3(Display.main.renderingWidth - 52, Display.main.renderingHeight - 80 - i * 40, -1);
                     }
-                    for(int i = theChosenOne; i < numbers.Length - 1; i++)
+                    if(theChosenOne > Inventory.inventory.Count - 1)
                     {
-                        numbers[i] = numbers[i + 1];
+                        theChosenOne = Inventory.inventory.Count - 1;
                     }
+                    print("delete done.");
                 }
                 else
                 {

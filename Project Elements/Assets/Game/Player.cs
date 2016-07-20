@@ -1,7 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+public class PlayerEffect
+{
+    public float timer;
+    public float amount;
+    public int type;
+};
 
 public class Player : MonoBehaviour {
 	Vector3 mousePos;
@@ -20,6 +27,8 @@ public class Player : MonoBehaviour {
 
     public Sprite[] bulletSprites;
 
+    public List<PlayerEffect> effects;
+
     Rigidbody2D rb;
     Element element;
     int selectedItem;
@@ -35,7 +44,11 @@ public class Player : MonoBehaviour {
     private GameObject Void;
 	protected int threetimes;
 	public static GameObject ASGO;
+
 	void Start () {
+
+        effects = new List<PlayerEffect>();
+
         Void = GameObject.Find("Void");
         gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
         rb = GetComponent<Rigidbody2D>();
@@ -157,7 +170,39 @@ public class Player : MonoBehaviour {
             }
         }
         
-        
+        for (int i = 0; i < effects.Count; i++)
+        {
+            effects[i].timer -= Time.deltaTime;
+            if (effects[i].timer < 0)
+            {
+                switch (effects[i].type)
+                {
+                    case 3: //speed boost
+                        Inventory.nopeus -= 5;
+                        break;
+                }
+                effects.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                switch (effects[i].type)
+                {
+                    case 0: //hp regen
+                        PlayerHealth.Playerhealth += Time.deltaTime * effects[i].amount; break;
+                    case 1: //mana regen
+                        PlayerHealth.Playermana += Time.deltaTime * effects[i].amount; break;
+                    case 2: //resurrection
+                        if (PlayerHealth.Playerhealth <= 0)
+                        {
+                            PlayerHealth.Playerhealth = Inventory.maxHealth / 2.0f;
+                        }
+                        break;
+                    case 3: // speed boost
+                        break;
+                }
+            }
+        }
 
         if (PlayerHealth.Playerhealth <= 0)
         {

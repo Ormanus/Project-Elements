@@ -120,17 +120,26 @@ public class Item : MonoBehaviour {
 
     private void effect()
     {
-        if(itemName == "Life stone")
+        if(itemName == "Life Stone") //rock
         {
             PlayerHealth.Playerhealth = Inventory.maxHealth;
+            price = 0;
         }
-        else if(itemName == "Water Book")
+        else if(itemName == "'Of Energy Conservation'") //book
         {
-            Inventory.maxMana += 10;
+            Inventory.maxMana += 5.0f;
         }
-        else if (itemName == "Fire Book")
+        else if (itemName == "'Inner Peace'") //book
         {
-            Inventory.manaRegen += 0.5f;
+            Inventory.manaRegen += 0.1f;
+        }
+        else if (itemName == "'How to Run'") //book
+        {
+            Inventory.nopeus += 5.0f;
+        }
+        else if (itemName == "Ironskin Salve") //potion?
+        {
+            Inventory.maxHealth += 5.0f;
         }
     }
 }
