@@ -32,18 +32,19 @@ public class Player : MonoBehaviour {
 	private Vector2 oneGameO; 
 	private Vector2 twoGameobj;
 	private Vector2 thirdgameobj;
+    private GameObject Void;
 	protected int threetimes;
 	public static GameObject ASGO;
 	void Start () {
-		
-        	gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
-        	rb = GetComponent<Rigidbody2D>();
+        Void = GameObject.Find("Void");
+        gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
+        rb = GetComponent<Rigidbody2D>();
         
-        	element = 0;
-        		selectedItem = 0;
-        	anim = GetComponent<Animator>();
+        element = 0;
+        	selectedItem = 0;
+        anim = GetComponent<Animator>();
 
-        	itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
+        itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
 
 		elementWheelPositions ();
 		ASGO = GameObject.Find("AudioSourceGameObj");
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour {
 	void elementWheelPositions()
 	{
 		float distance = 24.0f;
-		Vector2 position0 = GameObject.Find ("Void").GetComponent<RectTransform> ().pivot;
+		Vector2 position0 = Void.GetComponent<RectTransform>().pivot;
 		float angle = Mathf.PI / 2 - (int)element * (Mathf.PI / 3 * 2);
 		firstSpriteGameobj.anchoredPosition = position0 + new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle)) * distance;
 		angle += Mathf.PI / 3 * 2;
@@ -96,6 +97,8 @@ public class Player : MonoBehaviour {
             rb.velocity += -Vector2.up * Inventory.nopeus / 10f;
             //transform.Translate(-Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
+
+        Void.transform.Rotate(new Vector3(0.0f, 0, 0.1f));
     }
 
 	// Update is called once per frame

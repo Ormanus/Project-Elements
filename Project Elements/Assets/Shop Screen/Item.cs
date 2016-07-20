@@ -6,12 +6,13 @@ public class Item : MonoBehaviour {
     public string itemName;
     public string description;
     public int price;
-    public Vector2 size;
     public Texture2D background;
     public bool instantEffect;
 
     private GUIContent content = new GUIContent();
     private int itemNumber = 0;
+
+    private Rect area;
     // Use this for initialization
     void Start () {
         if(Inventory.inventory == null)
@@ -27,6 +28,10 @@ public class Item : MonoBehaviour {
                 break;
             }
         }
+
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        print("extents: " + collider.bounds.extents.x + "x" + collider.bounds.extents.y);
+        area = new Rect(collider.bounds.center - collider.bounds.extents, collider.bounds.size);
         updateText();
     }
 	
@@ -41,9 +46,9 @@ public class Item : MonoBehaviour {
             GUI.skin.button.active.background = background;
 
             Vector2 mousePos = Input.mousePosition;
-            Vector2 delta = mousePos - (Vector2)transform.position;
-            Vector2 pos = transform.position;
-            pos.y -= size.y / 2;
+            //Vector2 delta = mousePos - (Vector2)transform.position;
+            Vector2 pos = area.position;
+            Vector2 size = area.size;
             if (mousePos.x > pos.x && mousePos.y > pos.y && mousePos.x < pos.x + size.x && mousePos.y < pos.y + size.y)
             {
                 updateText();
@@ -115,9 +120,9 @@ public class Item : MonoBehaviour {
 
     private void effect()
     {
-        if(itemName == "Shield")
+        if(itemName == "Life stone")
         {
-            Inventory.maxHealth += 10;
+            PlayerHealth.Playerhealth = Inventory.maxHealth;
         }
         else if(itemName == "Water Book")
         {

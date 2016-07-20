@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class ShopSceneScript : MonoBehaviour {
 	void Start () {
+        GameObject.Find("Stone").GetComponent<Item>().price = (int)(Inventory.maxHealth - PlayerHealth.Playerhealth) * 5;
 	}
 	public GUIStyle myStyle = null; 
 	public GUIStyle headlineStyle = null;
