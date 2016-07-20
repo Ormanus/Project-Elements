@@ -53,7 +53,7 @@ public class AILerp : MonoBehaviour {
 	public bool enableRotation = true;
 
 	/** If true, rotation will only be done along the Z axis */
-	public bool rotationIn2D = false;
+	public bool rotationIn2D = true;
 
 	/** How quickly to rotate */
 	public float rotationSpeed = 10;
@@ -88,8 +88,10 @@ public class AILerp : MonoBehaviour {
 	 * \see TargetReached */
 	public bool targetReached { get; private set; }
 
-	/** Only when the previous path has been returned should be search for a new path */
-	protected bool canSearchAgain = true;
+    public bool hasDetectedPlayer = false;
+
+    /** Only when the previous path has been returned should be search for a new path */
+    protected bool canSearchAgain = true;
 
 	/** When a new path was returned, the AI was moving along this ray.
 	 * Used to smoothly interpolate between the previous movement and the movement along the new path.
@@ -157,7 +159,7 @@ public class AILerp : MonoBehaviour {
         //SnakeAnim.AddClip(SnakeLeft, "snakeleft");
         //SnakeAnim.AddClip(SnakeRight, "snakeright");
 
-        animatorr = GetComponent<Animator>();
+        animatorr = GetComponent<Animator>();     
     }
 
 	/** Run at start and when reenabled.
@@ -390,7 +392,14 @@ public class AILerp : MonoBehaviour {
 
     protected virtual void Update () {
         float distance = Vector2.Distance(target.transform.position, gameObject.transform.position);
-		if (canMove && distance > 3.0f && distance < 10) {
+		if ((distance > 3.0f && distance < 10) || hasDetectedPlayer) {
+            canMove = true;
+            canSearch = true;
+            hasDetectedPlayer = true;
+            if(distance > 20)
+            {
+                hasDetectedPlayer = false;
+            }
 			Vector3 direction;
 			Vector3 nextPos = CalculateNextPosition(out direction);
 
@@ -412,7 +421,6 @@ public class AILerp : MonoBehaviour {
             {
                 //animation...
                 animatorr.Play("SnakeRight");
-
             }
 
             if (nextPos.x < tr.position.x)
@@ -438,6 +446,8 @@ public class AILerp : MonoBehaviour {
 		}
         else
         {
+            canMove = false;
+            canSearch = false;
             //previousMovementStartTime = Time.time;
         }
 	}

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameScenePauseMenu : MonoBehaviour {
 
-
+	public bool alloptions = true;
 	bool pausemode = false;
 	// Use this for initialization
 
@@ -55,6 +55,17 @@ public class GameScenePauseMenu : MonoBehaviour {
 			//GUILayout.Label ("Main menu");
 			if (GUILayout.Button ("Main menu"))
 				SceneManager.LoadScene ("MainMenu");
+			alloptions = GUILayout.Toggle(alloptions, "music on or off");
+			if (alloptions == false) {
+				
+				AudioSource music = Player.ASGO.GetComponent<AudioSource>();
+				music.Stop ();
+			}
+			if (alloptions == true) {
+
+				AudioSource music = Player.ASGO.GetComponent<AudioSource>();
+				music.Play ();
+			}
 		}
 	
 

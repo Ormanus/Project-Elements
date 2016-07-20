@@ -18,11 +18,20 @@ public class CharacterSelection : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
-		//hahmoval = (PlayerPrefs.GetFloat ("talletettuhahmo"));
+        //hahmoval = (PlayerPrefs.GetFloat ("talletettuhahmo"));
+        Inventory.nopeus = 10f;
+        Inventory.maxHealth = 10f;
+        Inventory.maxMana = 10f;
 	}
 	
+    float calculateRemainingPoints()
+    {
+        return 150f - Inventory.nopeus - Inventory.maxHealth - Inventory.maxMana;
+    }
 
 	void OnGUI(){
+
+        float remainingPoints = calculateRemainingPoints();
 
         //basicheadlinestyle.padding = new RectOffset(0, 0, 25, 0);
         headlineStyle.fontSize = 25;
@@ -32,14 +41,10 @@ public class CharacterSelection : MonoBehaviour {
         basicvaluestyle.normal.textColor = Color.black;
 
         int x = Display.main.renderingWidth / 2 - 100;
-        int y = Display.main.renderingHeight / 8;
+        int y = 64;// Display.main.renderingHeight / 8;
 
         GUILayout.BeginArea(new Rect(x, y/*(Screen.height / 2) - 420*/, 250, 600));
         GUILayout.Box("Character selection", headlineStyle);
-
-
-
-
 
 
         if (GUILayout.Button("Back"))
@@ -61,7 +66,7 @@ public class CharacterSelection : MonoBehaviour {
 
 
         GUILayout.Label("Speed");
-		Inventory.nopeus = GUILayout.HorizontalSlider(Inventory.nopeus, 0.1f, 20.0f);
+		Inventory.nopeus = GUILayout.HorizontalSlider(Inventory.nopeus, 10f, remainingPoints + Inventory.nopeus);
 		if (Inventory.nopeus > 1)
         {
 			GUILayout.Label(" " + Inventory.nopeus + " ", basicvaluestyle);
@@ -69,10 +74,10 @@ public class CharacterSelection : MonoBehaviour {
 		if (Inventory.nopeus < 1)
 			GUILayout.Label(" " + Inventory.nopeus + " ", basicvaluestyle);
 
-        GUILayout.Label("Health");
-		Inventory.maxHealth = GUILayout.HorizontalSlider(Inventory.maxHealth, 0.1f, 100.0f);
+        remainingPoints = calculateRemainingPoints();
 
-        Inventory.maxHealth = Mathf.Round(Inventory.maxHealth * 2) / 2.0f;
+        GUILayout.Label("Health");
+		Inventory.maxHealth = GUILayout.HorizontalSlider(Inventory.maxHealth, 10f, remainingPoints + Inventory.maxHealth);
 
 		if (Inventory.maxHealth > 1)
         {
@@ -83,9 +88,10 @@ public class CharacterSelection : MonoBehaviour {
 			GUILayout.Label(" " + Inventory.maxHealth + " ", basicvaluestyle);
         }
 
+        remainingPoints = calculateRemainingPoints();
+
         GUILayout.Label("Mana ");
-		Inventory.maxMana = GUILayout.HorizontalSlider(Inventory.maxMana, 0.1f, 5.0f);
-        Inventory.maxMana = Mathf.Round(Inventory.maxMana * 2) / 2.0f;
+		Inventory.maxMana = GUILayout.HorizontalSlider(Inventory.maxMana, 10f, remainingPoints + Inventory.maxMana);
 
         if (Inventory.maxMana > 1)
         {
@@ -95,11 +101,16 @@ public class CharacterSelection : MonoBehaviour {
         {
 			GUILayout.Label(" " + Inventory.maxMana + " ", basicvaluestyle);
         }
-       
+
+        remainingPoints = calculateRemainingPoints();
+
+        Inventory.nopeus = Mathf.Round(Inventory.nopeus * 2) / 2.0f;
+        Inventory.maxHealth = Mathf.Round(Inventory.maxHealth * 2) / 2.0f;
+        Inventory.maxMana = Mathf.Round(Inventory.maxMana * 2) / 2.0f;
 
         //aseta maksimihealth
 
-		Debug.Log (Inventory.vaikeustas);
+        Debug.Log (Inventory.vaikeustas);
 
 		
 

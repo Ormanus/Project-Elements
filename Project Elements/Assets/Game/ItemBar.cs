@@ -76,6 +76,46 @@ public class ItemBar : MonoBehaviour {
     }
 
 	void Update () {
-	
+	    if(Input.GetMouseButtonDown(1))
+        {
+            if (Inventory.inventory.Count > 0)
+            {
+                if (Inventory.inventory[theChosenOne].Key == "Potion")
+                {
+                    print("Potion used!");
+                    PlayerHealth.Playerhealth += 10;
+                    if (PlayerHealth.Playerhealth > Inventory.maxHealth)
+                    {
+                        PlayerHealth.Playerhealth = Inventory.maxHealth;
+                    }
+                }
+                else if (Inventory.inventory[theChosenOne].Key == "FireOrb")
+                {
+                    //Instantiate(fireOrb);
+                }
+                else
+                {
+                    return;
+                }
+                numbers[theChosenOne].GetComponent<Text>().text = (Inventory.inventory[theChosenOne].Value - 1).ToString();
+                if (Inventory.inventory[theChosenOne].Value - 1 == 0)
+                {
+                    Inventory.inventory.RemoveAt(theChosenOne);
+                    DestroyObject(numbers[theChosenOne]);
+                    if (theChosenOne > Inventory.inventory.Count)
+                    {
+                        theChosenOne = Inventory.inventory.Count;
+                    }
+                    for(int i = theChosenOne; i < numbers.Length - 1; i++)
+                    {
+                        numbers[i] = numbers[i + 1];
+                    }
+                }
+                else
+                {
+                    Inventory.inventory[theChosenOne] = new System.Collections.Generic.KeyValuePair<string, int>(Inventory.inventory[theChosenOne].Key, Inventory.inventory[theChosenOne].Value - 1);
+                }
+            }
+        }
 	}
 }
