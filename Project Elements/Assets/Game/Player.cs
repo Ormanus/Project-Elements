@@ -78,22 +78,22 @@ public class Player : MonoBehaviour {
 
         if (Input.GetAxisRaw("Horizontal") > 0.5f)
         {
-            rb.velocity = Vector2.right * Inventory.nopeus / 10f;
+            rb.velocity += Vector2.right * Inventory.nopeus / 10f;
             //transform.Translate(Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Horizontal") < -0.5f)
         {
-            rb.velocity = -Vector2.right * Inventory.nopeus / 10f;
+            rb.velocity += -Vector2.right * Inventory.nopeus / 10f;
             //transform.Translate(-Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") > 0.5f)
         {
-            rb.velocity = Vector2.up * Inventory.nopeus / 10f;
+            rb.velocity += Vector2.up * Inventory.nopeus / 10f;
             //transform.Translate(Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") < -0.5f)
         {
-            rb.velocity = -Vector2.up * Inventory.nopeus / 10f;
+            rb.velocity += -Vector2.up * Inventory.nopeus / 10f;
             //transform.Translate(-Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
     }
