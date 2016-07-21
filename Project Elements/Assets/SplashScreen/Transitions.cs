@@ -14,7 +14,7 @@ public class Transitions: MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         timer += Time.deltaTime;
-        if (timer > 2.0f)
+        if (timer > 2.0f || Input.GetKeyDown(KeyCode.Space))
         {
             SceneManager.LoadScene("MainMenu");
         }
