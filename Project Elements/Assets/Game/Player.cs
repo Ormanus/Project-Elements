@@ -44,6 +44,8 @@ public class Player : MonoBehaviour {
     private GameObject Void;
 	protected int threetimes;
 	public static GameObject ASGO;
+	public static GameObject SoundGO;
+	public AudioClip [] clips;
 
 	void Start () {
 
@@ -61,6 +63,7 @@ public class Player : MonoBehaviour {
 
 		elementWheelPositions ();
 		ASGO = GameObject.Find("AudioSourceGameObj");
+		SoundGO = GameObject.Find("HonkAudioSource");
 		if(ASGO)
 		{
 			AudioSource music = ASGO.GetComponent<AudioSource>();
@@ -69,6 +72,8 @@ public class Player : MonoBehaviour {
 				music.volume = MusicManager.volumeLevel;
 			}
 			music.Play ();
+		}
+		if (SoundManager.volumeLevel == 0F) { SoundManager.volumeLevel = 0.2F;
 		}
 	}
 
@@ -124,7 +129,15 @@ public class Player : MonoBehaviour {
             GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
             obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[(int)element];
             obj.GetComponent<Bullet>().element = element;
-            
+			AudioSource honksound = SoundGO.GetComponent<AudioSource>();
+			honksound.volume = SoundManager.volumeLevel;
+
+			//AudioSource.PlayClipAtPoint (clips [0], transform.position);
+
+			//			Debug.Log (SoundManager.volumeLevel + "pöö");
+
+
+			honksound.PlayOneShot (clips [1], SoundManager.volumeLevel);
             PlayerHealth.Playermana -= 0.1f;
         }
         float scroll = Input.GetAxis("Mouse ScrollWheel");

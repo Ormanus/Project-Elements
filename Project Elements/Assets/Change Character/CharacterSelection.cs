@@ -110,7 +110,7 @@ public class CharacterSelection : MonoBehaviour {
 
         //aseta maksimihealth
 
-        Debug.Log (Inventory.vaikeustas);
+        //Debug.Log (Inventory.vaikeustas);
 
 		
 
