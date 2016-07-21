@@ -5,6 +5,7 @@ public class EnemyShoot : MonoBehaviour {
 
     public float RoF;
     public GameObject bullet;
+    public Element element;
     private float timer;
 	// Use this for initialization
 	void Start () {
@@ -25,7 +26,8 @@ public class EnemyShoot : MonoBehaviour {
             {
                 if (Physics2D.Raycast(gameObject.transform.position, direction, direction.magnitude, 256).collider == null)
                 {
-                    Instantiate(bullet, gameObject.transform.position, gameObject.transform.rotation);
+                    GameObject o = (GameObject)Instantiate(bullet, gameObject.transform.position, gameObject.transform.rotation);
+                    o.GetComponent<EnemyBullet>().element = element;
                 }
             }
         }

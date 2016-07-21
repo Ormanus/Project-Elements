@@ -37,8 +37,11 @@ public class CharacterSelection : MonoBehaviour {
         headlineStyle.fontSize = 25;
         headlineStyle.fontStyle = FontStyle.Bold;
         headlineStyle.padding = new RectOffset(0, 25, 25, 25); //saadaan otsikko muuttamaan sijaintia
+        headlineStyle.normal.textColor = Color.white;
 
-        basicvaluestyle.normal.textColor = Color.black;
+        basicvaluestyle.normal.textColor = new Color(1.0f, 0.9f, 0.3f);
+
+        basicheadlinestyle.normal.textColor = Color.white;
 
         int x = Display.main.renderingWidth / 2 - 100;
         int y = 64;// Display.main.renderingHeight / 8;
@@ -53,7 +56,7 @@ public class CharacterSelection : MonoBehaviour {
         }
 
 
-        GUILayout.Label("Difficulty");
+        GUILayout.Label("Difficulty", basicheadlinestyle);
 		Inventory.vaikeustas = GUILayout.HorizontalSlider(Inventory.vaikeustas, 0.0f, 20.0f);
 		if (Inventory.vaikeustas > 5)
         {
@@ -65,7 +68,7 @@ public class CharacterSelection : MonoBehaviour {
         }
 
 
-        GUILayout.Label("Speed");
+        GUILayout.Label("Speed", basicheadlinestyle);
 		Inventory.nopeus = GUILayout.HorizontalSlider(Inventory.nopeus, 10f, remainingPoints + Inventory.nopeus);
 		if (Inventory.nopeus > 1)
         {
@@ -76,7 +79,7 @@ public class CharacterSelection : MonoBehaviour {
 
         remainingPoints = calculateRemainingPoints();
 
-        GUILayout.Label("Health");
+        GUILayout.Label("Health", basicheadlinestyle);
 		Inventory.maxHealth = GUILayout.HorizontalSlider(Inventory.maxHealth, 10f, remainingPoints + Inventory.maxHealth);
 
 		if (Inventory.maxHealth > 1)
@@ -90,7 +93,7 @@ public class CharacterSelection : MonoBehaviour {
 
         remainingPoints = calculateRemainingPoints();
 
-        GUILayout.Label("Mana ");
+        GUILayout.Label("Mana ", basicheadlinestyle);
 		Inventory.maxMana = GUILayout.HorizontalSlider(Inventory.maxMana, 10f, remainingPoints + Inventory.maxMana);
 
         if (Inventory.maxMana > 1)
@@ -115,14 +118,14 @@ public class CharacterSelection : MonoBehaviour {
 		
 
 		
-        GUILayout.Label("Character's RGB values");
-        GUILayout.Label("Red value ");
+        GUILayout.Label("Character's RGB values", basicheadlinestyle);
+        GUILayout.Label("Red value ", basicheadlinestyle);
         sliderRedValue = GUILayout.HorizontalSlider(sliderRedValue, 0.0F, 255.0F);
 
-        GUILayout.Label("Green value");
+        GUILayout.Label("Green value", basicheadlinestyle);
         sliderGreenValue = GUILayout.HorizontalSlider(sliderGreenValue, 0.0F, 255.0F);
 
-        GUILayout.Label("Blue value ");
+        GUILayout.Label("Blue value ", basicheadlinestyle);
         sliderBlueValue = GUILayout.HorizontalSlider( sliderBlueValue, 0.0F, 255.0F);
 
         
