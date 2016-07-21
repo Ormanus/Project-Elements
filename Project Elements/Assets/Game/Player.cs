@@ -11,39 +11,41 @@ public class PlayerEffect
 };
 
 public class Player : MonoBehaviour {
-	Vector3 mousePos;
+
+    public static GameObject ASGO;
+
 	public Transform BulletSpawn; //the object you want to rotate
     public GameObject BulletPrefab;
     public Transform itemBarTransform;
-
-	Vector3 objectPos;
-	float angle;
-
-    private Animator anim;
-    private ItemBar itemBar;
-
     public GameObject playerdeathparticle;
     public GameObject playerhitParticle;
-
     public Sprite[] bulletSprites;
-
     public List<PlayerEffect> effects;
-
-    Rigidbody2D rb;
-    Element element;
-    int selectedItem;
-
 	public RectTransform firstSpriteGameobj = null; //asign it via inspector.
 	public RectTransform secondSpriteGameobj = null;
 	public RectTransform thirdSpriteGameobj = null;
 	public GameObject glowElement;
 	public Sprite[] Elements;
-	private Vector2 oneGameO; 
+
+    Vector3 mousePos;
+    Rigidbody2D rb;
+    Element element;
+    Element previousElement;
+    int selectedItem;
+    Vector3 objectPos;
+    float angle;
+    float elementTimer;
+    const float maxTime = 2.0f;
+    bool elementDirection = false;
+
+    private Animator anim;
+    private ItemBar itemBar;
+    private Vector2 oneGameO; 
 	private Vector2 twoGameobj;
 	private Vector2 thirdgameobj;
     private GameObject Void;
+
 	protected int threetimes;
-	public static GameObject ASGO;
 
 	void Start () {
 
@@ -70,20 +72,8 @@ public class Player : MonoBehaviour {
 			}
 			music.Play ();
 		}
-	}
 
-	void elementWheelPositions()
-	{
-		float distance = 24.0f;
-		Vector2 position0 = Void.GetComponent<RectTransform>().pivot;
-		float angle = Mathf.PI / 2 - (int)element * (Mathf.PI / 3 * 2);
-		firstSpriteGameobj.anchoredPosition = position0 + new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle)) * distance;
-		angle += Mathf.PI / 3 * 2;
-		secondSpriteGameobj.anchoredPosition = position0 + new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle)) * distance;
-		angle += Mathf.PI / 3 * 2;
-		thirdSpriteGameobj.anchoredPosition = position0 + new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle)) * distance;
-
-		glowElement.GetComponent<Image>().sprite = Elements[(int)element];
+        elementTimer = 0.0f;
 	}
 	
     void FixedUpdate()
@@ -116,35 +106,34 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.1f)
         {
             GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
-            obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[(int)element];
-            obj.GetComponent<Bullet>().element = element;
+            obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[(int)(elementTimer != 0 ? previousElement : element)];
+            obj.GetComponent<Bullet>().element = (elementTimer != 0 ? previousElement : element);
             
             PlayerHealth.Playermana -= 0.1f;
         }
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0)
         {
-
-
-
             if (scroll < 0)
             {
-                if(Input.GetKey(KeyCode.E))
+                if (Input.GetKey(KeyCode.E))
                 {
                     selectedItem++;
                     if (selectedItem > Inventory.inventory.Count - 1)
                         selectedItem = 0;
                     itemBar.SendMessage("choose", selectedItem);
                 }
-                else
+                else if (elementTimer <= 0.0f)
                 {
+                    previousElement = element;
                     element++;
+                    elementTimer = maxTime;
+                    elementDirection = true;
                     if ((int)element > 2)
                         element = Element.Fire;
 					
@@ -160,9 +149,12 @@ public class Player : MonoBehaviour {
                         selectedItem = Inventory.inventory.Count - 1;
                     itemBar.SendMessage("choose", selectedItem);
                 }
-                else
+                else if (elementTimer <= 0.0f)
                 {
+                    previousElement = element;
                     element--;
+                    elementTimer = maxTime;
+                    elementDirection = false;
                     if (element < 0)
                         element = Element.Air;
 					elementWheelPositions ();
@@ -213,6 +205,17 @@ public class Player : MonoBehaviour {
             SceneManager.LoadScene("EndScreenScene");
         }
 
+        if(elementTimer > 0)
+        {
+            elementTimer -= Time.deltaTime;
+            if(elementTimer < 0)
+            {
+                elementTimer = 0.0f;
+            }
+
+            elementWheelPositions();
+        }
+
 
         anim.SetFloat("MoveX",Input.GetAxisRaw("Horizontal"));
         anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
@@ -244,6 +247,42 @@ public class Player : MonoBehaviour {
         else if(other.gameObject.tag == "Finish")
         {
             SceneManager.LoadScene("ShopScene");
+        }
+    }
+
+    void elementWheelPositions()
+    {
+        float fraction = elementTimer / maxTime;
+
+        float distance = 24.0f;
+        Vector2 position0 = Void.GetComponent<RectTransform>().pivot;
+        float degrees60 = Mathf.PI / 3 * 2;
+        float angle = Mathf.PI / 2 - (int)element * degrees60 + fraction * degrees60 * (elementDirection ? 1 : -1);
+
+        float c;
+        if(fraction > 0.5f) { c = (fraction - 0.5f) * 2.0f; }
+        else { c = 1.0f - (fraction * 2.0f); }
+
+        Color color = new Color(c, c, c);
+
+        firstSpriteGameobj.GetComponent<Image>().color = color;
+        secondSpriteGameobj.GetComponent<Image>().color = color;
+        thirdSpriteGameobj.GetComponent<Image>().color = color;
+        glowElement.GetComponent<Image>().color = color;
+
+        firstSpriteGameobj.anchoredPosition = position0 + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
+        angle += degrees60;
+        secondSpriteGameobj.anchoredPosition = position0 + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
+        angle += degrees60;
+        thirdSpriteGameobj.anchoredPosition = position0 + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
+
+        if(fraction > 0.5f)
+        {
+            glowElement.GetComponent<Image>().sprite = Elements[(int)previousElement];
+        }
+        else
+        {
+            glowElement.GetComponent<Image>().sprite = Elements[(int)element];
         }
     }
 }
