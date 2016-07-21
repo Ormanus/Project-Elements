@@ -63,7 +63,7 @@ public class Player : MonoBehaviour {
 
         itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
 
-		elementWheelPositions ();
+		elementWheelPositions();
 		ASGO = GameObject.Find("AudioSourceGameObj");
 		SoundGO = GameObject.Find("HonkAudioSource");
 		if(ASGO)
@@ -76,10 +76,10 @@ public class Player : MonoBehaviour {
 			music.Play ();
 		}
 
-		if (SoundManager.volumeLevel == 0F) { SoundManager.volumeLevel = 0.2F;
+		if (SoundManager.volumeLevel == 0F)
+        {
+            SoundManager.volumeLevel = 0.2F;
 		}
-	}
-
         elementTimer = 0.0f;
 	}
 	
