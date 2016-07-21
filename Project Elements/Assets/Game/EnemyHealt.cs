@@ -33,10 +33,6 @@ public class EnemyHealt : MonoBehaviour {
         {
             Instantiate(EnemyHitParticle,transform.position,transform.rotation);
             Destroy(gameObject);
-            if(GameObject.FindGameObjectsWithTag("Enemy").Length == 10)
-            {
-                SceneManager.LoadScene("ShopScene");
-            }
         }
 
         HealthImage.transform.localScale = new Vector3(EnemyHealtti, 1, 1);
