@@ -13,19 +13,21 @@ public class PlayerEffect
 public class Player : MonoBehaviour {
 
     public static GameObject ASGO;
+    public static GameObject SoundGO;
+    public AudioClip [] clips;
 
-	public Transform BulletSpawn; //the object you want to rotate
+    public Transform BulletSpawn; //the object you want to rotate
     public GameObject BulletPrefab;
     public Transform itemBarTransform;
     public GameObject playerdeathparticle;
     public GameObject playerhitParticle;
     public Sprite[] bulletSprites;
     public List<PlayerEffect> effects;
-	public RectTransform firstSpriteGameobj = null; //asign it via inspector.
-	public RectTransform secondSpriteGameobj = null;
-	public RectTransform thirdSpriteGameobj = null;
-	public GameObject glowElement;
-	public Sprite[] Elements;
+    public RectTransform firstSpriteGameobj = null; //assign it via inspector.
+    public RectTransform secondSpriteGameobj = null;
+    public RectTransform thirdSpriteGameobj = null;
+    public GameObject glowElement;
+    public Sprite[] Elements;
 
     Vector3 mousePos;
     Rigidbody2D rb;
@@ -41,11 +43,11 @@ public class Player : MonoBehaviour {
     private Animator anim;
     private ItemBar itemBar;
     private Vector2 oneGameO; 
-	private Vector2 twoGameobj;
-	private Vector2 thirdgameobj;
+    private Vector2 twoGameobj;
+    private Vector2 thirdgameobj;
     private GameObject Void;
 
-	protected int threetimes;
+    protected int threetimes;
 
 	void Start () {
 
@@ -63,6 +65,7 @@ public class Player : MonoBehaviour {
 
 		elementWheelPositions ();
 		ASGO = GameObject.Find("AudioSourceGameObj");
+		SoundGO = GameObject.Find("HonkAudioSource");
 		if(ASGO)
 		{
 			AudioSource music = ASGO.GetComponent<AudioSource>();
@@ -72,6 +75,10 @@ public class Player : MonoBehaviour {
 			}
 			music.Play ();
 		}
+
+		if (SoundManager.volumeLevel == 0F) { SoundManager.volumeLevel = 0.2F;
+		}
+	}
 
         elementTimer = 0.0f;
 	}
@@ -113,8 +120,16 @@ public class Player : MonoBehaviour {
             GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
             obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[(int)(elementTimer != 0 ? previousElement : element)];
             obj.GetComponent<Bullet>().element = (elementTimer != 0 ? previousElement : element);
-            
-            PlayerHealth.Playermana -= 0.1f;
+			AudioSource honksound = SoundGO.GetComponent<AudioSource>();
+			honksound.volume = SoundManager.volumeLevel;
+
+			//AudioSource.PlayClipAtPoint (clips [0], transform.position);
+
+			//			Debug.Log (SoundManager.volumeLevel + "pöö");
+
+
+			honksound.PlayOneShot (clips [1], SoundManager.volumeLevel);
+            PlayerHealth.Playermana -= 0.5f;
         }
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0)
