@@ -58,7 +58,6 @@ public class Bullet : MonoBehaviour {
         if (other.gameObject.layer == 8)
         {
             Destroy(gameObject);
-
         }
 
     }

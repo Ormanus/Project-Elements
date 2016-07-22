@@ -73,6 +73,8 @@ public class GameSceneLevelLoading : MonoBehaviour
     public Material material;
     public GameObject AStar;
 
+    public bool isBossLevel;
+
     private Texture2D texture;
     private Rect[] uvs;
     private List<List<AnimatedMesh>> aniMesh;
@@ -703,7 +705,7 @@ public class GameSceneLevelLoading : MonoBehaviour
             }
         }
         part.go.transform.position = new Vector3(x0, y0);
-        part.go.layer = 8;
+        part.go.layer = (!isBossLevel ? 8 : 11);
         AstarPath path = AStar.GetComponent<AstarPath>();
         var graph = AstarPath.active.astarData.gridGraph;
         graph.width = part.w * 4;
