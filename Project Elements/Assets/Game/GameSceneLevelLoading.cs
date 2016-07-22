@@ -364,6 +364,17 @@ public class GameSceneLevelLoading : MonoBehaviour
                     GameObject o = Instantiate(goal);
                     o.transform.position = new Vector3(x, -y, 0);
                 }
+                else if (partData.enemyTypes[j] == 3) //slime monster
+                {
+                    GameObject o = Instantiate(enemies[partData.enemyTypes[j] - 2]);
+                    o.transform.position = new Vector3(x, -y, 0);
+
+                    RandomMovingEnemy component = o.GetComponent<RandomMovingEnemy>();
+                    BoxCollider2D collider = new BoxCollider2D();
+                    collider.size = new Vector2(partData.enemyAreas[j].width, partData.enemyAreas[j].height);
+                    component.MoveArea = collider;
+                    component.movespeed = 5.0f;
+                }
                 else
                 {
                     GameObject o = Instantiate(enemies[partData.enemyTypes[j] - 2]);
