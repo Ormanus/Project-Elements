@@ -20,6 +20,7 @@ public class Rotation : MonoBehaviour {
 
         transform.position = target.position + new Vector3(Mathf.Cos(totalTime) * distance, Mathf.Sin(totalTime) * distance);
 
+
         //Vector3 relativePos = (target.position + new Vector3(0, 0.5f, 0)) - transform.position;
         //Quaternion rotation = Quaternion.LookRotation(relativePos);
         //Quaternion current = transform.localRotation;

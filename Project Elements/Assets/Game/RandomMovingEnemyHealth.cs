@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class RandomMovingEnemyHealth : MonoBehaviour {
 
     public float EnemyHealtti = 1;
-    //Image HealthImage;
+    Image HealthImage;
     //public GameObject EnemyHitParticle;
     public Element element;
 
     // Use this for initialization
     void Start()
     {
-        //HealthImage = transform.FindChild("EnemyHealthCanvas").FindChild("Health").GetComponent<Image>();
+        HealthImage = transform.FindChild("EnemyHealthCanvas").FindChild("Health").GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -35,7 +36,7 @@ public class RandomMovingEnemyHealth : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        //HealthImage.transform.localScale = new Vector3(EnemyHealtti, 1, 1);
+        HealthImage.transform.localScale = new Vector3(EnemyHealtti, 1, 1);
 
     }
 
@@ -56,6 +57,7 @@ public class RandomMovingEnemyHealth : MonoBehaviour {
                 damage *= 2;
             EnemyHealtti -= damage;
             Destroy(other.gameObject);
+
             
 
         }
