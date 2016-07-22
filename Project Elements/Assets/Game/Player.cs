@@ -261,7 +261,15 @@ public class Player : MonoBehaviour {
         }
         else if(other.gameObject.tag == "Finish")
         {
-            SceneManager.LoadScene("ShopScene");
+            GameSceneLevelLoading.levelNumber++;
+            if(GameSceneLevelLoading.levelNumber % 3 == 0)
+            {
+                SceneManager.LoadScene("ShopScene");
+            }
+            else
+            {
+                SceneManager.LoadScene("GameScene");
+            }
         }
     }
 

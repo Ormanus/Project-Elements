@@ -3,7 +3,7 @@
 //
 
 using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.IO;
 
@@ -65,11 +65,11 @@ struct AnimatedMesh
 
 public class GameSceneLevelLoading : MonoBehaviour
 {
-    public static int levelNumber;
+    public static int levelNumber = 0;
 
     public GameObject goal;
     public GameObject[] enemies;
-    public string part;
+    public string[] levels;
     public Material material;
     public GameObject AStar;
 
@@ -93,9 +93,14 @@ public class GameSceneLevelLoading : MonoBehaviour
 
     void Start()
     {
+        if(levelNumber >= levels.Length)
+        {
+            SceneManager.LoadScene("EndScreenScene");
+        }
+        isBossLevel = ((levelNumber + 1) % 3 == 0);
         player = GameObject.Find("Player").transform;
         aniMesh = new List<List<AnimatedMesh>>();
-        placePart(0, 0, loadPart(part));
+        placePart(0, 0, loadPart(levels[levelNumber]));
     }
 
     private short[] toShort(byte[] bytes)
