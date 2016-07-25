@@ -87,24 +87,27 @@ public class Player : MonoBehaviour {
     {
         rb.velocity = Vector2.zero;
 
+        float multiplier = 0.05f;
+        float addition = 15.0f;
+
         if (Input.GetAxisRaw("Horizontal") > 0.5f)
         {
-            rb.velocity += Vector2.right * Inventory.nopeus / 10f;
+            rb.velocity += Vector2.right * (Inventory.nopeus + addition) * multiplier;
             //transform.Translate(Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Horizontal") < -0.5f)
         {
-            rb.velocity += -Vector2.right * Inventory.nopeus / 10f;
+            rb.velocity += -Vector2.right * (Inventory.nopeus + addition) * multiplier;
             //transform.Translate(-Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") > 0.5f)
         {
-            rb.velocity += Vector2.up * Inventory.nopeus / 10f;
+            rb.velocity += Vector2.up * (Inventory.nopeus + addition) * multiplier;
             //transform.Translate(Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") < -0.5f)
         {
-            rb.velocity += -Vector2.up * Inventory.nopeus / 10f;
+            rb.velocity += -Vector2.up * (Inventory.nopeus + addition) * multiplier;
             //transform.Translate(-Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
 
@@ -262,7 +265,7 @@ public class Player : MonoBehaviour {
         else if(other.gameObject.tag == "Finish")
         {
             GameSceneLevelLoading.levelNumber++;
-            if(GameSceneLevelLoading.levelNumber % 3 == 0)
+            if((GameSceneLevelLoading.levelNumber) % 3 == 2)
             {
                 SceneManager.LoadScene("ShopScene");
             }

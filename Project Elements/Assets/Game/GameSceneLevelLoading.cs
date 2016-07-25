@@ -95,12 +95,16 @@ public class GameSceneLevelLoading : MonoBehaviour
     {
         if(levelNumber >= levels.Length)
         {
+            levelNumber = 0;
             SceneManager.LoadScene("EndScreenScene");
         }
-        isBossLevel = ((levelNumber + 1) % 3 == 0);
-        player = GameObject.Find("Player").transform;
-        aniMesh = new List<List<AnimatedMesh>>();
-        placePart(0, 0, loadPart(levels[levelNumber]));
+        else
+        {
+            isBossLevel = ((levelNumber + 1) % 3 == 0);
+            player = GameObject.Find("Player").transform;
+            aniMesh = new List<List<AnimatedMesh>>();
+            placePart(0, 0, loadPart(levels[levelNumber]));
+        }
     }
 
     private short[] toShort(byte[] bytes)
@@ -278,6 +282,8 @@ public class GameSceneLevelLoading : MonoBehaviour
             short spawnMin = data[seek++];
             short type = data[seek++];
 
+            print("Area loaded, type: " + type);
+
             part.enemyAreas[i] = new Rect(x0, y0, w0, h0);
             part.enemyRanges[i] = new Vector2(spawnMin, spawnMax);
             part.enemyTypes[i] = type;
@@ -351,7 +357,25 @@ public class GameSceneLevelLoading : MonoBehaviour
         {
             Rect r = partData.enemyAreas[j];
 
-			int amount = 0;
+            if (partData.enemyTypes[j] == 0)
+            {
+                print("creating collider");
+                float x1 = partData.enemyAreas[j].x;
+                float y1 = partData.enemyAreas[j].y;
+                float w1 = partData.enemyAreas[j].width + 1;
+                float h1 = partData.enemyAreas[j].height + 1;
+
+                PolygonCollider2D collider = part.go.AddComponent<PolygonCollider2D>();
+                Vector2[] points = new Vector2[4];
+                points[0] = new Vector2(x1, -y1);
+                points[1] = new Vector2(x1 + w1, -y1);
+                points[2] = new Vector2(x1 + w1, -y1 - h1);
+                points[3] = new Vector2(x1, -y1 - h1);
+                collider.points = points;
+                continue;
+            }
+
+            int amount = 0;
 			if (Inventory.vaikeustas < 5) {
 				amount = (int)partData.enemyRanges[j].x; //minimum amount of enemies
             } else if (Inventory.vaikeustas >= 5) {
@@ -359,23 +383,13 @@ public class GameSceneLevelLoading : MonoBehaviour
 			}
 			for (int k = 0; k < amount; k++)
             {
+                print("area type: " + partData.enemyTypes[j]);
+
                 float x = x0 + partData.enemyAreas[j].x + Random.Range(0, partData.enemyAreas[j].width);
                 float y = y0 + partData.enemyAreas[j].y + Random.Range(0, partData.enemyAreas[j].height);
                 if (partData.enemyTypes[j] == 0)
                 {
-                    float x1 = partData.enemyAreas[j].x;
-                    float y1 = partData.enemyAreas[j].y;
-                    float w1 = partData.enemyAreas[j].width;
-                    float h1 = partData.enemyAreas[j].height;
-
-                    print("creating collider");
-                    PolygonCollider2D collider = part.go.AddComponent<PolygonCollider2D>();
-                    Vector2[] points = new Vector2[4];
-                    points[0] = new Vector2(x1, -y1);
-                    points[1] = new Vector2(x1 + w1, -y1);
-                    points[2] = new Vector2(x1 + w1, -y1 - h1);
-                    points[3] = new Vector2(x1, -y1 - h1);
-                    collider.points = points;
+                    continue;
                 }
                 else if (partData.enemyTypes[j] == 1)
                 {
