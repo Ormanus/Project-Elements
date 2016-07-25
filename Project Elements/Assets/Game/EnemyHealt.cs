@@ -32,6 +32,7 @@ public class EnemyHealt : MonoBehaviour {
         if (EnemyHealtti <= 0)
         {
             Instantiate(EnemyHitParticle,transform.position,transform.rotation);
+            Inventory.money += 10;
             Destroy(gameObject);
         }
 

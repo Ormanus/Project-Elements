@@ -363,8 +363,19 @@ public class GameSceneLevelLoading : MonoBehaviour
                 float y = y0 + partData.enemyAreas[j].y + Random.Range(0, partData.enemyAreas[j].height);
                 if (partData.enemyTypes[j] == 0)
                 {
-                    player.position = new Vector3(x, -y, 0);
-                    print("Player position set.");
+                    float x1 = partData.enemyAreas[j].x;
+                    float y1 = partData.enemyAreas[j].y;
+                    float w1 = partData.enemyAreas[j].width;
+                    float h1 = partData.enemyAreas[j].height;
+
+                    print("creating collider");
+                    PolygonCollider2D collider = part.go.AddComponent<PolygonCollider2D>();
+                    Vector2[] points = new Vector2[4];
+                    points[0] = new Vector2(x1, -y1);
+                    points[1] = new Vector2(x1 + w1, -y1);
+                    points[2] = new Vector2(x1 + w1, -y1 - h1);
+                    points[3] = new Vector2(x1, -y1 - h1);
+                    collider.points = points;
                 }
                 else if (partData.enemyTypes[j] == 1)
                 {
@@ -377,8 +388,22 @@ public class GameSceneLevelLoading : MonoBehaviour
                     o.transform.position = new Vector3(x, -y, 0);
 
                     RandomMovingEnemy component = o.GetComponent<RandomMovingEnemy>();
-                    BoxCollider2D collider = new BoxCollider2D();
-                    collider.size = new Vector2(partData.enemyAreas[j].width, partData.enemyAreas[j].height);
+
+                    print("creating moving area");
+                    float x1 = partData.enemyAreas[j].x;
+                    float y1 = partData.enemyAreas[j].y;
+                    float w1 = partData.enemyAreas[j].width;
+                    float h1 = partData.enemyAreas[j].height;
+
+                    PolygonCollider2D collider = part.go.AddComponent<PolygonCollider2D>();
+
+                    Vector2[] points = new Vector2[4];
+                    points[0] = new Vector2(x1, -y1);
+                    points[1] = new Vector2(x1 + w1, -y1);
+                    points[2] = new Vector2(x1 + w1, -y1 - h1);
+                    points[3] = new Vector2(x1, -y1 - h1);
+                    collider.points = points;
+
                     component.MoveArea = collider;
                     component.movespeed = 5.0f;
                 }
@@ -682,7 +707,7 @@ public class GameSceneLevelLoading : MonoBehaviour
         short[] temp2 = new short[w * h];
         for (int i = 0; i < w * h; i++)
         {
-            temp2[i] = (partData.collisionMap[i] ? (short)(1) : (short)(0));
+            temp2[i] = 0;//(partData.collisionMap[i] ? (short)(1) : (short)(0));
         }
 
         //divide to collision boxes and create colliders
