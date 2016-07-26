@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class EnemyHealt : MonoBehaviour {
 
     public float EnemyHealtti;
-     Image HealthImage;
+    Image HealthImage;
     public GameObject EnemyHitParticle;
     public Element element;
 
@@ -38,9 +38,8 @@ public class EnemyHealt : MonoBehaviour {
             Inventory.money += 10;
             Destroy(gameObject);
         }
-
         HealthImage.transform.localScale = new Vector3(EnemyHealtti / maxHealth, 1, 1);
-
+		Debug.Log ("mikonjuttu" + EnemyHealtti.ToString("0.0"));
     }
 
 
