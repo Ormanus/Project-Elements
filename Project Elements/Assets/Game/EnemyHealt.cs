@@ -5,13 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class EnemyHealt : MonoBehaviour {
 
-    public float EnemyHealtti = 1;
+	public float EnemyHealtti;
      Image HealthImage;
     public GameObject EnemyHitParticle;
     public Element element;
         
     // Use this for initialization
     void Start () {
+		EnemyHealtti = 1;
         HealthImage = transform.FindChild("EnemyHealthCanvas").FindChild("Health").GetComponent<Image>();       
 	}
 	
@@ -35,7 +36,7 @@ public class EnemyHealt : MonoBehaviour {
             Inventory.money += 10;
             Destroy(gameObject);
         }
-
+		Debug.Log ("mikonjuttu" + EnemyHealtti.ToString("0.0"));
         HealthImage.transform.localScale = new Vector3(EnemyHealtti, 1, 1);
 
     }
