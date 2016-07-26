@@ -41,8 +41,11 @@ public class EnemyBullet : MonoBehaviour {
         if (other.gameObject.layer == 8)
         {
             Destroy(gameObject);
-
         }
-
+        else if (other.gameObject.layer == 13)
+        {
+            PlayerHealth.Playermana -= 4.0f;
+            Destroy(gameObject);
+        }
     }
 }

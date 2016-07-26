@@ -27,7 +27,9 @@ public class Player : MonoBehaviour {
     public RectTransform secondSpriteGameobj = null;
     public RectTransform thirdSpriteGameobj = null;
     public GameObject glowElement;
+    public GameObject pointer;
     public Sprite[] Elements;
+    public GameObject shieldPrefab;
 
     Vector3 mousePos;
     Rigidbody2D rb;
@@ -37,7 +39,7 @@ public class Player : MonoBehaviour {
     Vector3 objectPos;
     float angle;
     float elementTimer;
-    const float maxTime = 2.0f;
+    const float maxTime = 1.0f;
     bool elementDirection = false;
 
     private Animator anim;
@@ -46,6 +48,7 @@ public class Player : MonoBehaviour {
     private Vector2 twoGameobj;
     private Vector2 thirdgameobj;
     private GameObject Void;
+    private GameObject shield;
 
     protected int threetimes;
 
@@ -234,6 +237,31 @@ public class Player : MonoBehaviour {
             elementWheelPositions();
         }
 
+        //shield
+        if (Input.GetMouseButtonDown(1) && PlayerHealth.Playermana > 5)
+        {
+            shield = Instantiate(shieldPrefab);
+        }
+        if(Input.GetMouseButton(1) && shield)
+        {
+            if (PlayerHealth.Playermana > 2.0f * Time.deltaTime)
+            {
+                PlayerHealth.Playermana -= 3.0f * Time.deltaTime;
+                Vector2 direction = (mousePos - transform.position);
+                shield.transform.position = transform.position + (Vector3)direction.normalized * 0.5f;
+                shield.transform.localEulerAngles = new Vector3(0, 0, 180 * Mathf.Atan2(direction.y, direction.x) / Mathf.PI - 90);
+            }
+            else
+            {
+                PlayerHealth.Playermana = 0.0f;
+                DestroyObject(shield);
+            }
+        }
+        if(Input.GetMouseButtonUp(1))
+        {
+            DestroyObject(shield);
+        }
+
 
         anim.SetFloat("MoveX",Input.GetAxisRaw("Horizontal"));
         anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
@@ -305,10 +333,12 @@ public class Player : MonoBehaviour {
         if(fraction > 0.5f)
         {
             glowElement.GetComponent<Image>().sprite = Elements[(int)previousElement];
+            pointer.SendMessage("setColor", new Vector2((float)previousElement, color.r));
         }
         else
         {
             glowElement.GetComponent<Image>().sprite = Elements[(int)element];
+            pointer.SendMessage("setColor", new Vector2((float)element, color.r));
         }
     }
 }

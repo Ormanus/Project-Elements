@@ -59,7 +59,10 @@ public class Bullet : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-
+        else if(other.gameObject.layer == 13)
+        {
+            PlayerHealth.Playermana -= 4.0f;
+            Destroy(gameObject);
+        }
     }
-
 }
