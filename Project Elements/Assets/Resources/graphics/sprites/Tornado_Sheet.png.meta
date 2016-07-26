@@ -1,0 +1,521 @@
+fileFormatVersion: 2
+guid: fc93fbbbf0c612c4d8af9393b71f79b2
+timeCreated: 1469514697
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Tornado_Sheet_0
+    21300002: Tornado_Sheet_1
+    21300004: Tornado_Sheet_2
+    21300006: Tornado_Sheet_3
+    21300008: Tornado_Sheet_4
+    21300010: Tornado_Sheet_5
+    21300012: Tornado_Sheet_6
+    21300014: Tornado_Sheet_7
+    21300016: Tornado_Sheet_8
+    21300018: Tornado_Sheet_9
+    21300020: Tornado_Sheet_10
+    21300022: Tornado_Sheet_11
+    21300024: Tornado_Sheet_12
+    21300026: Tornado_Sheet_13
+    21300028: Tornado_Sheet_14
+    21300030: Tornado_Sheet_15
+    21300032: Tornado_Sheet_16
+    21300034: Tornado_Sheet_17
+    21300036: Tornado_Sheet_18
+    21300038: Tornado_Sheet_19
+    21300040: Tornado_Sheet_20
+    21300042: Tornado_Sheet_21
+    21300044: Tornado_Sheet_22
+    21300046: Tornado_Sheet_23
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Tornado_Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 193
+        width: 50
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 30}
+        - {x: -25, y: 29}
+        - {x: -25, y: 9}
+        - {x: -14, y: -30}
+        - {x: 8, y: -30}
+        - {x: 25, y: 3}
+        - {x: 25, y: 30}
+    - name: Tornado_Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 193
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20.5, y: 31}
+        - {x: -25.5, y: 29}
+        - {x: -25.5, y: -9}
+        - {x: -23.5, y: -19}
+        - {x: -6.5, y: -31}
+        - {x: 7.5, y: -31}
+        - {x: 25.5, y: 7}
+        - {x: 25.5, y: 27}
+        - {x: 20.5, y: 31}
+    - name: Tornado_Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 193
+        width: 48
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: 27.5}
+        - {x: -24, y: -7.5}
+        - {x: -6, y: -27.5}
+        - {x: 13, y: -27.5}
+        - {x: 24, y: -10.5}
+        - {x: 24, y: 24.5}
+        - {x: 22, y: 27.5}
+    - name: Tornado_Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 193
+        width: 58
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29, y: 26}
+        - {x: -29, y: -2}
+        - {x: -14, y: -26}
+        - {x: 8, y: -26}
+        - {x: 29, y: 4}
+        - {x: 29, y: 26}
+    - name: Tornado_Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 193
+        width: 48
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: -9.5}
+        - {x: -19, y: -27.5}
+        - {x: 7, y: -27.5}
+        - {x: 24, y: -19.5}
+        - {x: 24, y: 27.5}
+        - {x: -24, y: 27.5}
+    - name: Tornado_Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 193
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25.5, y: 31}
+        - {x: -25.5, y: 1}
+        - {x: -7.5, y: -31}
+        - {x: 11.5, y: -31}
+        - {x: 25.5, y: -16}
+        - {x: 25.5, y: 31}
+    - name: Tornado_Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 129
+        width: 50
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 30}
+        - {x: -25, y: 29}
+        - {x: -25, y: 9}
+        - {x: -14, y: -30}
+        - {x: 8, y: -30}
+        - {x: 25, y: 3}
+        - {x: 25, y: 30}
+    - name: Tornado_Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 129
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25.5, y: 31}
+        - {x: -25.5, y: 1}
+        - {x: -7.5, y: -31}
+        - {x: 11.5, y: -31}
+        - {x: 25.5, y: -16}
+        - {x: 25.5, y: 31}
+    - name: Tornado_Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 129
+        width: 48
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 23, y: 27.5}
+        - {x: -21, y: 27.5}
+        - {x: -24, y: 25.5}
+        - {x: -24, y: -13.5}
+        - {x: -22, y: -27.5}
+        - {x: 5, y: -27.5}
+        - {x: 22, y: -9.5}
+        - {x: 24, y: -6.5}
+        - {x: 24, y: 24.5}
+    - name: Tornado_Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 129
+        width: 58
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29, y: 26}
+        - {x: -29, y: -2}
+        - {x: -14, y: -26}
+        - {x: 8, y: -26}
+        - {x: 29, y: 4}
+        - {x: 29, y: 26}
+    - name: Tornado_Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 129
+        width: 48
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 27.5}
+        - {x: -24, y: 24.5}
+        - {x: -24, y: -5.5}
+        - {x: -20, y: -10.5}
+        - {x: -4, y: -27.5}
+        - {x: 14, y: -27.5}
+        - {x: 18, y: -26.5}
+        - {x: 24, y: -16.5}
+        - {x: 24, y: 23.5}
+        - {x: 23, y: 27.5}
+    - name: Tornado_Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 129
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20.5, y: 31}
+        - {x: -25.5, y: 29}
+        - {x: -25.5, y: -9}
+        - {x: -23.5, y: -19}
+        - {x: -6.5, y: -31}
+        - {x: 7.5, y: -31}
+        - {x: 25.5, y: 7}
+        - {x: 25.5, y: 27}
+        - {x: 20.5, y: 31}
+    - name: Tornado_Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 65
+        width: 50
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 30}
+        - {x: -25, y: 29}
+        - {x: -25, y: 9}
+        - {x: -14, y: -30}
+        - {x: 8, y: -30}
+        - {x: 25, y: 3}
+        - {x: 25, y: 30}
+    - name: Tornado_Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 65
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20.5, y: 31}
+        - {x: -25.5, y: 29}
+        - {x: -25.5, y: -9}
+        - {x: -23.5, y: -19}
+        - {x: -6.5, y: -31}
+        - {x: 7.5, y: -31}
+        - {x: 25.5, y: 7}
+        - {x: 25.5, y: 27}
+        - {x: 20.5, y: 31}
+    - name: Tornado_Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 65
+        width: 48
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: 27.5}
+        - {x: -24, y: -7.5}
+        - {x: -6, y: -27.5}
+        - {x: 13, y: -27.5}
+        - {x: 24, y: -10.5}
+        - {x: 24, y: 24.5}
+        - {x: 22, y: 27.5}
+    - name: Tornado_Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 65
+        width: 58
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29, y: 26}
+        - {x: -29, y: -2}
+        - {x: -14, y: -26}
+        - {x: 8, y: -26}
+        - {x: 29, y: 4}
+        - {x: 29, y: 26}
+    - name: Tornado_Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 65
+        width: 48
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: -9.5}
+        - {x: -19, y: -27.5}
+        - {x: 7, y: -27.5}
+        - {x: 24, y: -19.5}
+        - {x: 24, y: 27.5}
+        - {x: -24, y: 27.5}
+    - name: Tornado_Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 65
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25.5, y: 31}
+        - {x: -25.5, y: 1}
+        - {x: -7.5, y: -31}
+        - {x: 11.5, y: -31}
+        - {x: 25.5, y: -16}
+        - {x: 25.5, y: 31}
+    - name: Tornado_Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 1
+        width: 50
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 30}
+        - {x: -25, y: 29}
+        - {x: -25, y: 9}
+        - {x: -14, y: -30}
+        - {x: 8, y: -30}
+        - {x: 25, y: 3}
+        - {x: 25, y: 30}
+    - name: Tornado_Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 1
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25.5, y: 31}
+        - {x: -25.5, y: 1}
+        - {x: -7.5, y: -31}
+        - {x: 11.5, y: -31}
+        - {x: 25.5, y: -16}
+        - {x: 25.5, y: 31}
+    - name: Tornado_Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 1
+        width: 48
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 23, y: 27.5}
+        - {x: -21, y: 27.5}
+        - {x: -24, y: 25.5}
+        - {x: -24, y: -13.5}
+        - {x: -22, y: -27.5}
+        - {x: 5, y: -27.5}
+        - {x: 22, y: -9.5}
+        - {x: 24, y: -6.5}
+        - {x: 24, y: 24.5}
+    - name: Tornado_Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 1
+        width: 58
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29, y: 26}
+        - {x: -29, y: -2}
+        - {x: -14, y: -26}
+        - {x: 8, y: -26}
+        - {x: 29, y: 4}
+        - {x: 29, y: 26}
+    - name: Tornado_Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 1
+        width: 48
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 27.5}
+        - {x: -24, y: 24.5}
+        - {x: -24, y: -5.5}
+        - {x: -20, y: -10.5}
+        - {x: -4, y: -27.5}
+        - {x: 14, y: -27.5}
+        - {x: 18, y: -26.5}
+        - {x: 24, y: -16.5}
+        - {x: 24, y: 23.5}
+        - {x: 23, y: 27.5}
+    - name: Tornado_Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 1
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20.5, y: 31}
+        - {x: -25.5, y: 29}
+        - {x: -25.5, y: -9}
+        - {x: -23.5, y: -19}
+        - {x: -6.5, y: -31}
+        - {x: 7.5, y: -31}
+        - {x: 25.5, y: 7}
+        - {x: 25.5, y: 27}
+        - {x: 20.5, y: 31}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

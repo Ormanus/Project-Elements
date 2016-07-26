@@ -1,0 +1,538 @@
+fileFormatVersion: 2
+guid: 64935812d0e1e0a47a2d25dfcce7881e
+timeCreated: 1469520649
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Fire_Fry_Sheet_0
+    21300002: Fire_Fry_Sheet_1
+    21300004: Fire_Fry_Sheet_2
+    21300006: Fire_Fry_Sheet_3
+    21300008: Fire_Fry_Sheet_4
+    21300010: Fire_Fry_Sheet_5
+    21300012: Fire_Fry_Sheet_6
+    21300014: Fire_Fry_Sheet_7
+    21300016: Fire_Fry_Sheet_8
+    21300018: Fire_Fry_Sheet_9
+    21300020: Fire_Fry_Sheet_10
+    21300022: Fire_Fry_Sheet_11
+    21300024: Fire_Fry_Sheet_12
+    21300026: Fire_Fry_Sheet_13
+    21300028: Fire_Fry_Sheet_14
+    21300030: Fire_Fry_Sheet_15
+    21300032: Fire_Fry_Sheet_16
+    21300034: Fire_Fry_Sheet_17
+    21300036: Fire_Fry_Sheet_18
+    21300038: Fire_Fry_Sheet_19
+    21300040: Fire_Fry_Sheet_20
+    21300042: Fire_Fry_Sheet_21
+    21300044: Fire_Fry_Sheet_22
+    21300046: Fire_Fry_Sheet_23
+    21300048: Fire_Fry_Sheet_24
+    21300050: Fire_Fry_Sheet_25
+    21300052: Fire_Fry_Sheet_26
+    21300054: Fire_Fry_Sheet_27
+    21300056: Fire_Fry_Sheet_28
+    21300058: Fire_Fry_Sheet_29
+    21300060: Fire_Fry_Sheet_30
+    21300062: Fire_Fry_Sheet_31
+    21300064: Fire_Fry_Sheet_32
+    21300066: Fire_Fry_Sheet_33
+    21300068: Fire_Fry_Sheet_34
+    21300070: Fire_Fry_Sheet_35
+    21300072: Fire_Fry_Sheet_36
+    21300074: Fire_Fry_Sheet_37
+    21300076: Fire_Fry_Sheet_38
+    21300078: Fire_Fry_Sheet_39
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Fire_Fry_Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 193
+        width: 57
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16.5, y: 26.5}
+        - {x: -28.5, y: 20.5}
+        - {x: -28.5, y: -26.5}
+        - {x: 27.5, y: -26.5}
+        - {x: 28.5, y: -24.5}
+        - {x: 28.5, y: 15.5}
+        - {x: 16.5, y: 26.5}
+    - name: Fire_Fry_Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 197
+        width: 62
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20, y: 29}
+        - {x: -31, y: 18}
+        - {x: -31, y: -27}
+        - {x: -30, y: -29}
+        - {x: 21, y: -29}
+        - {x: 31, y: -25}
+        - {x: 31, y: 26}
+        - {x: 25, y: 29}
+    - name: Fire_Fry_Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 194
+        width: 62
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 28}
+        - {x: 1, y: 28}
+        - {x: 0, y: 22}
+        - {x: 0, y: 17}
+        - {x: 1, y: 14}
+        - {x: 0, y: 13}
+        - {x: 0, y: 25}
+        - {x: -1, y: 28}
+        - {x: -21, y: 28}
+        - {x: -31, y: 20}
+        - {x: -31, y: -22}
+        - {x: -26, y: -30}
+        - {x: 28, y: -30}
+        - {x: 31, y: -26}
+        - {x: 31, y: 15}
+        - {x: 30, y: 16}
+    - name: Fire_Fry_Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 193
+        width: 63
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0.5, y: 29}
+        - {x: -0.5, y: 25}
+        - {x: 0.5, y: 19}
+        - {x: 4.5, y: 14}
+        - {x: -5.5, y: 24}
+        - {x: -19.5, y: 29}
+        - {x: -27.5, y: 29}
+        - {x: -31.5, y: 18}
+        - {x: -31.5, y: -30}
+        - {x: 31.5, y: -30}
+        - {x: 31.5, y: 24}
+        - {x: 25.5, y: 29}
+    - name: Fire_Fry_Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 193
+        width: 63
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 10.5, y: 22}
+        - {x: 4.5, y: 18}
+        - {x: -8.5, y: 28}
+        - {x: -22.5, y: 28}
+        - {x: -31.5, y: 23}
+        - {x: -31.5, y: -28}
+        - {x: -28.5, y: -29}
+        - {x: 27.5, y: -29}
+        - {x: 31.5, y: -22}
+        - {x: 31.5, y: 10}
+        - {x: 21.5, y: 20}
+    - name: Fire_Fry_Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 129
+        width: 57
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14.5, y: 26.5}
+        - {x: -17.5, y: 23.5}
+        - {x: -28.5, y: 5.5}
+        - {x: -28.5, y: -21.5}
+        - {x: -23.5, y: -26.5}
+        - {x: 21.5, y: -26.5}
+        - {x: 28.5, y: -17.5}
+        - {x: 28.5, y: 19.5}
+        - {x: 23.5, y: 26.5}
+    - name: Fire_Fry_Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 134
+        width: 62
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -18, y: 29}
+        - {x: -31, y: 21}
+        - {x: -31, y: -18}
+        - {x: -15, y: -29}
+        - {x: 20, y: -29}
+        - {x: 31, y: -23}
+        - {x: 31, y: 13}
+        - {x: 22, y: 29}
+    - name: Fire_Fry_Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 129
+        width: 63
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0.5, y: 29}
+        - {x: -0.5, y: 26}
+        - {x: -0.5, y: 11}
+        - {x: -0.5, y: 23}
+        - {x: -1.5, y: 29}
+        - {x: -5.5, y: 29}
+        - {x: -31.5, y: 17}
+        - {x: -31.5, y: -29}
+        - {x: 31.5, y: -29}
+        - {x: 31.5, y: 29}
+    - name: Fire_Fry_Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 129
+        width: 63
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 2.5, y: 21}
+        - {x: -2.5, y: 3}
+        - {x: -7.5, y: 13}
+        - {x: -9.5, y: 15}
+        - {x: -2.5, y: 12}
+        - {x: 1.5, y: 25}
+        - {x: 0.5, y: 29}
+        - {x: -23.5, y: 29}
+        - {x: -29.5, y: 25}
+        - {x: -31.5, y: 16}
+        - {x: -31.5, y: 14}
+        - {x: -30.5, y: 11}
+        - {x: -26.5, y: 6}
+        - {x: -29.5, y: 8}
+        - {x: -31.5, y: 7}
+        - {x: -31.5, y: -28}
+        - {x: -27.5, y: -30}
+        - {x: 31.5, y: -30}
+        - {x: 31.5, y: 11}
+        - {x: 8.5, y: 24}
+    - name: Fire_Fry_Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 129
+        width: 62
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 18, y: 16.5}
+        - {x: 18, y: 12.5}
+        - {x: 15, y: 25.5}
+        - {x: 14, y: 27.5}
+        - {x: -4, y: 27.5}
+        - {x: -31, y: 16.5}
+        - {x: -31, y: -25.5}
+        - {x: -25, y: -29.5}
+        - {x: 31, y: -29.5}
+        - {x: 31, y: 18.5}
+        - {x: 23, y: 21.5}
+    - name: Fire_Fry_Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 74
+        width: 50
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 18, y: 16}
+        - {x: 16, y: 13}
+        - {x: 16, y: 9}
+        - {x: 18, y: 7}
+        - {x: 15, y: 9}
+        - {x: 15, y: 15}
+        - {x: 24, y: 21}
+        - {x: 16, y: 26}
+        - {x: -25, y: 26}
+        - {x: -25, y: -21}
+        - {x: -17, y: -26}
+        - {x: 17, y: -26}
+        - {x: 25, y: -16}
+        - {x: 25, y: 14}
+        - {x: 24, y: 15}
+    - name: Fire_Fry_Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 65
+        width: 43
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17.5, y: 25.5}
+        - {x: -21.5, y: 22.5}
+        - {x: -21.5, y: -24.5}
+        - {x: -17.5, y: -25.5}
+        - {x: 13.5, y: -25.5}
+        - {x: 21.5, y: -19.5}
+        - {x: 21.5, y: 16.5}
+        - {x: 11.5, y: 25.5}
+    - name: Fire_Fry_Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 65
+        width: 46
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 7, y: 23}
+        - {x: 3, y: 23}
+        - {x: 2, y: 20}
+        - {x: -6, y: 23}
+        - {x: -8, y: 23}
+        - {x: -23, y: 9}
+        - {x: -23, y: -21}
+        - {x: -19, y: -26}
+        - {x: 15, y: -26}
+        - {x: 23, y: -19}
+        - {x: 23, y: 8}
+        - {x: 10, y: 21}
+    - name: Fire_Fry_Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 65
+        width: 50
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 12, y: 25.5}
+        - {x: -17, y: 25.5}
+        - {x: -25, y: 11.5}
+        - {x: -25, y: -21.5}
+        - {x: -22, y: -25.5}
+        - {x: 20, y: -25.5}
+        - {x: 25, y: -20.5}
+        - {x: 25, y: -0.5}
+        - {x: 19, y: 21.5}
+    - name: Fire_Fry_Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 65
+        width: 47
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 15.5, y: 21.5}
+        - {x: 5.5, y: 21.5}
+        - {x: 2.5, y: 18.5}
+        - {x: -1.5, y: 20.5}
+        - {x: -3.5, y: 20.5}
+        - {x: -6.5, y: 17.5}
+        - {x: -6.5, y: 16.5}
+        - {x: -4.5, y: 8.5}
+        - {x: -6.5, y: 13.5}
+        - {x: -6.5, y: 16.5}
+        - {x: -9.5, y: 21.5}
+        - {x: -15.5, y: 21.5}
+        - {x: -23.5, y: 18.5}
+        - {x: -23.5, y: -19.5}
+        - {x: -20.5, y: -23.5}
+        - {x: 15.5, y: -23.5}
+        - {x: 22.5, y: -18.5}
+        - {x: 23.5, y: -14.5}
+        - {x: 23.5, y: 12.5}
+    - name: Fire_Fry_Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 10
+        width: 49
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20.5, y: 27}
+        - {x: -24.5, y: 24}
+        - {x: -24.5, y: -27}
+        - {x: 19.5, y: -27}
+        - {x: 24.5, y: -25}
+        - {x: 24.5, y: 19}
+        - {x: 18.5, y: 27}
+    - name: Fire_Fry_Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 1
+        width: 43
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 11.5, y: 25.5}
+        - {x: 6.5, y: 25.5}
+        - {x: 3.5, y: 19.5}
+        - {x: 4.5, y: 25.5}
+        - {x: -5.5, y: 25.5}
+        - {x: -21.5, y: 11.5}
+        - {x: -21.5, y: -24.5}
+        - {x: -18.5, y: -25.5}
+        - {x: 20.5, y: -25.5}
+        - {x: 21.5, y: -23.5}
+        - {x: 21.5, y: 9.5}
+        - {x: 13.5, y: 24.5}
+    - name: Fire_Fry_Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 1
+        width: 45
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -18.5, y: 23.5}
+        - {x: -22.5, y: 21.5}
+        - {x: -22.5, y: -20.5}
+        - {x: -20.5, y: -23.5}
+        - {x: 21.5, y: -23.5}
+        - {x: 22.5, y: -21.5}
+        - {x: 22.5, y: 21.5}
+        - {x: 21.5, y: 23.5}
+    - name: Fire_Fry_Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 1
+        width: 50
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 26}
+        - {x: -25, y: 18}
+        - {x: -25, y: -26}
+        - {x: 24, y: -26}
+        - {x: 25, y: -23}
+        - {x: 25, y: 20}
+        - {x: 20, y: 26}
+    - name: Fire_Fry_Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 1
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 17, y: 19}
+        - {x: 7, y: 19}
+        - {x: 5, y: 16}
+        - {x: 5, y: 13}
+        - {x: 5, y: 21}
+        - {x: -23, y: 21}
+        - {x: -24, y: 18}
+        - {x: -24, y: -24}
+        - {x: 20, y: -24}
+        - {x: 24, y: -18}
+        - {x: 24, y: 1}
+        - {x: 21, y: 18}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
