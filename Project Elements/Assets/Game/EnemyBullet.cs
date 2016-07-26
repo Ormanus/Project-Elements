@@ -7,6 +7,7 @@ public class EnemyBullet : MonoBehaviour {
     public Transform target;
     public float speed;
     public Element element;
+    public float damage = 1.0f;
 
     // Use this for initialization
     void Start() {

@@ -121,20 +121,32 @@ public class Player : MonoBehaviour {
 	void Update () {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.1f)
+        if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.5f)
         {
+            //create bullet
             GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
             obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[(int)(elementTimer != 0 ? previousElement : element)];
-            obj.GetComponent<Bullet>().element = (elementTimer != 0 ? previousElement : element);
+            Bullet bullet = obj.GetComponent<Bullet>();
+            bullet.element = (elementTimer != 0 ? previousElement : element);
+            switch(element)
+            {
+                case Element.Fire:
+                    bullet.damage = Inventory.fireLevel;
+                    break;
+                case Element.Air:
+                    bullet.damage = Inventory.airLevel;
+                    break;
+                case Element.Ice:
+                    bullet.damage = Inventory.iceLevel;
+                    break;
+            }
+
+            //play sound
 			AudioSource honksound = SoundGO.GetComponent<AudioSource>();
 			honksound.volume = SoundManager.volumeLevel;
-
-			//AudioSource.PlayClipAtPoint (clips [0], transform.position);
-
-			//			Debug.Log (SoundManager.volumeLevel + "pöö");
-
-
 			honksound.PlayOneShot (clips [1], SoundManager.volumeLevel);
+
+            //decrease mana
             PlayerHealth.Playermana -= 0.5f;
         }
         float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -283,14 +295,14 @@ public class Player : MonoBehaviour {
     {
         if (other.gameObject.tag == "enemyBullet")
         {
-            float damage = 0.25f;
+            float damage = other.gameObject.GetComponent<EnemyBullet>().damage;
             if (element != other.gameObject.GetComponent<EnemyBullet>().element)
                 damage *= 2;
             PlayerHealth.Playerhealth -= damage;
             Instantiate(playerhitParticle,transform.position,transform.rotation);
             Destroy(other.gameObject);
         }
-        else if(other.gameObject.tag == "Finish")
+        else if(other.gameObject.tag == "Finish" && Inventory.key)
         {
             GameSceneLevelLoading.levelNumber++;
             if((GameSceneLevelLoading.levelNumber) % 3 == 2)
@@ -299,7 +311,7 @@ public class Player : MonoBehaviour {
             }
             else
             {
-                SceneManager.LoadScene("GameScene");
+                SceneManager.LoadScene("InterLevelScene");
             }
         }
     }

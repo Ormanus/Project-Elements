@@ -479,7 +479,7 @@ public class GameSceneLevelLoading : MonoBehaviour
         int nTotal = numTextures + numAnimated;
 
         print("load " + nTotal + " textures");
-        texture = new Texture2D(2048, 2048);
+        texture = new Texture2D(4096, 4096);
         Texture2D[] textures = new Texture2D[numTextures];
         animations = new LevelAnimation[numAnimated];
         tileIndex = new int[nTotal];

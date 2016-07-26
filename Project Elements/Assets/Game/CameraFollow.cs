@@ -21,7 +21,7 @@ public class CameraFollow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //transform.position = new Vector3(pelaaja.transform.position.x, pelaaja.transform.position.y, Camera.main.transform.position.z);
+        //transform.position = new Vector3(target.transform.position.x, target.transform.position.y, Camera.main.transform.position.z);
 
 
         Vector3 posNoZ = transform.position;
@@ -29,13 +29,11 @@ public class CameraFollow : MonoBehaviour {
 
         Vector3 targetDirection = (target.transform.position - posNoZ);
 
-        interpVelocity = targetDirection.magnitude * 15f;
+        interpVelocity = targetDirection.magnitude * 20.0f;
 
         targetPos = transform.position + (targetDirection.normalized * interpVelocity * Time.deltaTime);
 
-        transform.position = Vector3.Lerp(transform.position, targetPos + offset, 0.25f);
-
-
+        transform.position = targetPos;
     }
 
     void FixedUpdate()

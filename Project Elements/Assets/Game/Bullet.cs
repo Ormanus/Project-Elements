@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour {
     Rigidbody2D rb;
     public float amount;
     public Element element;
+    public float damage = 1.0f;
     //public Vector3 sp;
     //public Vector3 dir;
 
