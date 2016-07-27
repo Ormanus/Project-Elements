@@ -39,7 +39,7 @@ public class EnemyHealt : MonoBehaviour {
             Destroy(gameObject);
         }
         HealthImage.transform.localScale = new Vector3(EnemyHealtti / maxHealth, 1, 1);
-		Debug.Log ("mikonjuttu" + EnemyHealtti.ToString("0.0"));
+//		Debug.Log ("mikonjuttu" + EnemyHealtti.ToString("0.0"));
     }
 
 

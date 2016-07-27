@@ -71,7 +71,7 @@ public class GameSceneLevelLoading : MonoBehaviour
     public GameObject[] enemies;
     public string[] levels;
     public Material material;
-    public GameObject AStar;
+    //public GameObject AStar;
 
     public bool isBossLevel;
 
@@ -750,15 +750,15 @@ public class GameSceneLevelLoading : MonoBehaviour
         }
         part.go.transform.position = new Vector3(x0, y0);
         part.go.layer = (!isBossLevel ? 8 : 11);
-        AstarPath path = AStar.GetComponent<AstarPath>();
-        var graph = AstarPath.active.astarData.gridGraph;
-        graph.width = part.w * 4;
-        graph.depth = part.h * 4;
-        graph.center.x = part.w / 2;
-        graph.center.y = -part.h / 2;
-        graph.UpdateSizeFromWidthDepth();
-        graph.nodeSize = 0.25f;
-        path.Scan();
+        //AstarPath path = AStar.GetComponent<AstarPath>();
+        //var graph = AstarPath.active.astarData.gridGraph;
+        //graph.width = part.w * 4;
+        //graph.depth = part.h * 4;
+        //graph.center.x = part.w / 2;
+        //graph.center.y = -part.h / 2;
+        //graph.UpdateSizeFromWidthDepth();
+        //graph.nodeSize = 0.25f;
+        //path.Scan();
         return part;
     }
 }
