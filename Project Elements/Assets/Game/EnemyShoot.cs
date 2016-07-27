@@ -24,11 +24,16 @@ public class EnemyShoot : MonoBehaviour {
             Debug.DrawRay(gameObject.transform.position, direction, new Color(1.0f, 0.0f, 0.0f), 1.0f);
             if(direction.magnitude < 10)
             {
-                if (Physics2D.Raycast(gameObject.transform.position, direction, direction.magnitude, 256).collider == null)
+                if (Physics2D.Raycast(gameObject.transform.position, direction, direction.magnitude, 256).collider != null)
                 {
                     GameObject o = (GameObject)Instantiate(bullet, gameObject.transform.position, gameObject.transform.rotation);
                     o.GetComponent<EnemyBullet>().element = element;
                 }
+				if (Physics2D.Raycast(gameObject.transform.position, direction, direction.magnitude, 256).collider == null)
+				{
+					GameObject o = (GameObject)Instantiate(bullet, gameObject.transform.position, gameObject.transform.rotation);
+					o.GetComponent<EnemyBullet>().element = element;
+				}
             }
         }
 	}
