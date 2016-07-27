@@ -232,10 +232,11 @@ public class Player : MonoBehaviour {
         if (PlayerHealth.Playerhealth <= 0)
         {
             //TODO: death animation + nest scene after a few seconds?
-
+			Animation animationTest = GetComponent<Animation> ();
+			animationTest.Play ();
             Instantiate(playerdeathparticle, transform.position, transform.rotation);
             
-            SceneManager.LoadScene("EndScreenScene");
+            //SceneManager.LoadScene("EndScreenScene");
         }
 
         if(elementTimer > 0)
