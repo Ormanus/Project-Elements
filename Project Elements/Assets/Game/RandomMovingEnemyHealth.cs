@@ -32,7 +32,6 @@ public class RandomMovingEnemyHealth : MonoBehaviour {
 
         if (EnemyHealtti <= 0)
         {
-            //Instantiate(EnemyHitParticle, transform.position, transform.rotation);
             Destroy(gameObject);
         }
 
@@ -46,21 +45,11 @@ public class RandomMovingEnemyHealth : MonoBehaviour {
 
         if (other.gameObject.tag == "bullet")
         {
-            //AILerp ai = GetComponent<AILerp>();
-            //if (ai)
-            //{
-            //    ai.hasDetectedPlayer = true;
-            //}
-
             float damage = 0.25f;
             if (element != other.gameObject.GetComponent<Bullet>().element)
                 damage *= 2;
             EnemyHealtti -= damage;
             Destroy(other.gameObject);
-
-            
-
         }
-
     }
 }

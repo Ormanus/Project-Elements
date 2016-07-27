@@ -19,19 +19,13 @@ public class Bullet : MonoBehaviour {
 
     public Transform Bulletspawn;
     public Vector2 shoot;
+    public float direction;
     //public GameObject ShootDirection;
     
     // Use this for initialization
     void Start() {
 
         //ShootDirection = GameObject.FindGameObjectWithTag("ShootDirection");
-
-        Bulletspawn = GameObject.Find("BulletSpawn").transform;
-
-        Vector2 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - Bulletspawn.transform.position;
-
-        float direction = Mathf.Atan2(delta.y, delta.x) + 3.14159265f * 2.0f;
-
         shoot = new Vector2(Mathf.Cos(direction), Mathf.Sin(direction));
 
         rb = GetComponent<Rigidbody2D>();
@@ -43,7 +37,7 @@ public class Bullet : MonoBehaviour {
 
         Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        transform.rotation = Quaternion.LookRotation(Vector3.forward,Bulletspawn.position - mousepos);
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, -shoot);
     }
 
 	

@@ -1,10 +1,12 @@
 fileFormatVersion: 2
 guid: 95cbb5306980bfa44a3b0ae1c4fe5d51
-timeCreated: 1468302868
+timeCreated: 1469610732
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - EnemyHitParticle: {instanceID: 0}
+  - ManaCrystal: {fileID: 194900, guid: f194329cec3075a41a9897fa08ce57d2, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -9,7 +9,7 @@ public class EnemyShoot : MonoBehaviour {
     private float timer;
 	// Use this for initialization
 	void Start () {
-	    
+        timer = Random.Range(0.0f, 1.0f);
 	}
 	
 	// Update is called once per frame

@@ -18,7 +18,7 @@ public class Inventory : MonoBehaviour {
     public static int airLevel = 1;
     public static int iceLevel = 1;
 
-    public static bool key = false;
+    public static bool key = true;
 
     public static int tradeTokens = 3;
 

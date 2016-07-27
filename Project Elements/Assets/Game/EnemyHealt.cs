@@ -8,6 +8,7 @@ public class EnemyHealt : MonoBehaviour {
     public float EnemyHealtti;
     Image HealthImage;
     public GameObject EnemyHitParticle;
+    public GameObject ManaCrystal;
     public Element element;
 
     private float maxHealth;
@@ -34,12 +35,17 @@ public class EnemyHealt : MonoBehaviour {
 
         if (EnemyHealtti <= 0)
         {
-            Instantiate(EnemyHitParticle,transform.position,transform.rotation);
-            Inventory.money += 10;
+            //Instantiate(EnemyHitParticle,transform.position,transform.rotation);
+            int r = Random.Range(0, 4);
+            for (int i = 0; i < r; i++)
+            {
+                GameObject o = Instantiate(ManaCrystal);
+                o.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
+                o.transform.position = transform.position;
+            }
             Destroy(gameObject);
         }
         HealthImage.transform.localScale = new Vector3(EnemyHealtti / maxHealth, 1, 1);
-//		Debug.Log ("mikonjuttu" + EnemyHealtti.ToString("0.0"));
     }
 
 
@@ -48,12 +54,6 @@ public class EnemyHealt : MonoBehaviour {
 
         if (other.gameObject.tag == "bullet")
         {
-            AILerp ai = GetComponent<AILerp>();
-            if(ai)
-            {
-                ai.hasDetectedPlayer = true;
-            }
-
             float damage = other.gameObject.GetComponent<Bullet>().damage;
             if (element != other.gameObject.GetComponent<Bullet>().element)
                 damage *= 2;

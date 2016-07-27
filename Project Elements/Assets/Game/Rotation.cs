@@ -8,25 +8,20 @@ public class Rotation : MonoBehaviour {
     public float speed;
 
     private float totalTime;
+    private Rigidbody2D rb;
 	// Use this for initialization
 	void Start () {
-	
+        target = GameObject.Find("Player").transform;
+        rb = GetComponent<Rigidbody2D>();
+        transform.position = target.position;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
+	void FixedUpdate () {
         totalTime += Time.deltaTime * speed;
+        Vector2 targetPoint = target.position + new Vector3(Mathf.Cos(totalTime) * distance, Mathf.Sin(totalTime) * distance);
 
-        transform.position = target.position + new Vector3(Mathf.Cos(totalTime) * distance, Mathf.Sin(totalTime) * distance);
-
-
-        //Vector3 relativePos = (target.position + new Vector3(0, 0.5f, 0)) - transform.position;
-        //Quaternion rotation = Quaternion.LookRotation(relativePos);
-        //Quaternion current = transform.localRotation;
-
-        //transform.localRotation = Quaternion.Slerp(current, rotation, Time.deltaTime * 4);
-        //transform.Translate(0, 0, 10 * Time.deltaTime);
-        //transform.RotateAround(target.position,Vector3.up,180*Time.deltaTime);
+        Vector2 delta = targetPoint - (Vector2)transform.position;
+        rb.AddForce(delta.normalized * 50.0f * delta.magnitude);
     }
 }

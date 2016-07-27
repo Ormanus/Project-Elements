@@ -84,6 +84,9 @@ public class Player : MonoBehaviour {
             SoundManager.volumeLevel = 0.2F;
 		}
         elementTimer = 0.0f;
+
+        //DEBUG:
+        Inventory.inventory.Add(new KeyValuePair<string, int>("Fire Orb", 100));
 	}
 	
     void FixedUpdate()
@@ -124,9 +127,16 @@ public class Player : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.5f)
         {
             //create bullet
+            //Bulletspawn = GameObject.Find("BulletSpawn").transform;
+
+            Vector2 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - BulletSpawn.position;
+
+            float direction = Mathf.Atan2(delta.y, delta.x) + 3.14159265f * 2.0f;
+
             GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
             obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[(int)(elementTimer != 0 ? previousElement : element)];
             Bullet bullet = obj.GetComponent<Bullet>();
+            bullet.direction = direction;
             bullet.element = (elementTimer != 0 ? previousElement : element);
             switch(element)
             {
@@ -149,19 +159,21 @@ public class Player : MonoBehaviour {
             //decrease mana
             PlayerHealth.Playermana -= 0.5f;
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            selectedItem++;
+            if (selectedItem > Inventory.inventory.Count - 1)
+                selectedItem = 0;
+            itemBar.SendMessage("choose", selectedItem);
+        }
+
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0)
         {
             if (scroll < 0)
             {
-                if (Input.GetKey(KeyCode.E))
-                {
-                    selectedItem++;
-                    if (selectedItem > Inventory.inventory.Count - 1)
-                        selectedItem = 0;
-                    itemBar.SendMessage("choose", selectedItem);
-                }
-                else if (elementTimer <= 0.0f)
+                if (elementTimer <= 0.0f)
                 {
                     previousElement = element;
                     element++;
@@ -175,14 +187,7 @@ public class Player : MonoBehaviour {
             }
             else if (scroll > 0)
             {
-                if (Input.GetKey(KeyCode.E))
-                {
-                    selectedItem--;
-                    if (selectedItem < 0)
-                        selectedItem = Inventory.inventory.Count - 1;
-                    itemBar.SendMessage("choose", selectedItem);
-                }
-                else if (elementTimer <= 0.0f)
+                if (elementTimer <= 0.0f)
                 {
                     previousElement = element;
                     element--;

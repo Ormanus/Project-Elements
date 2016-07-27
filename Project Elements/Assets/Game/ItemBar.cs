@@ -10,6 +10,8 @@ public class ItemBar : MonoBehaviour {
     public Texture2D selection;
     public Font font;
 
+    public GameObject orb;
+
     private List<GameObject> numbers;
     private int theChosenOne;
     private Player player;
@@ -81,7 +83,7 @@ public class ItemBar : MonoBehaviour {
     }
 
 	void Update () {
-	    if(Input.GetMouseButtonDown(2)) //TODO: change key
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (Inventory.inventory.Count > 0)
             {
@@ -111,10 +113,9 @@ public class ItemBar : MonoBehaviour {
                     Inventory.nopeus += 5.0f;
                     player.effects.Add(eff);
                 }
-                else if (Inventory.inventory[theChosenOne].Key == "Orb")
+                else if (Inventory.inventory[theChosenOne].Key == "Fire Orb")
                 {
-                    Inventory.money += 1000;
-                    //Instantiate(Orb);
+                    Instantiate(orb);
                 }
                 else
                 {

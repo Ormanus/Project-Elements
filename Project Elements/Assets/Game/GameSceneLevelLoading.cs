@@ -67,8 +67,10 @@ public class GameSceneLevelLoading : MonoBehaviour
 {
     public static int levelNumber = 0;
 
-    public GameObject goal;
     public GameObject[] enemies;
+    public GameObject goal;
+    public GameObject gate;
+    public GameObject boss;
     public string[] levels;
     public Material material;
     //public GameObject AStar;
@@ -140,12 +142,16 @@ public class GameSceneLevelLoading : MonoBehaviour
                     Vector2[] uv = new Vector2[aniMesh[i][k].mesh.uv.Length];
                     for (int j = 0; j < uv.Length / 4; j++)
                     {
+                        //get ui coordinates
+                        float qpx = 0.25f / texture.width; //Quarter pixel, add this to avoid texture bleeding
+                        float qpy = 0.25f / texture.height;
+
                         Rect uvRect = ani.getRect(index);
 
-                        uv[j * 4 + 0] = new Vector2(uvRect.x, uvRect.y);
-                        uv[j * 4 + 1] = new Vector2(uvRect.x + uvRect.width, uvRect.y);
-                        uv[j * 4 + 2] = new Vector2(uvRect.x, uvRect.y + uvRect.height);
-                        uv[j * 4 + 3] = new Vector2(uvRect.x + uvRect.width, uvRect.y + uvRect.height);
+                        uv[j * 4 + 0] = new Vector2(uvRect.x + qpx, uvRect.y + qpy);
+                        uv[j * 4 + 1] = new Vector2(uvRect.x + uvRect.width - qpx, uvRect.y + qpy);
+                        uv[j * 4 + 2] = new Vector2(uvRect.x + qpx, uvRect.y + uvRect.height - qpy);
+                        uv[j * 4 + 3] = new Vector2(uvRect.x + uvRect.width - qpx, uvRect.y + uvRect.height - qpy);
                     }
                     aniMesh[i][k].mesh.uv = uv;
                     aniMesh[i][k].filter.mesh = aniMesh[i][k].mesh;
@@ -393,7 +399,14 @@ public class GameSceneLevelLoading : MonoBehaviour
                 }
                 else if (partData.enemyTypes[j] == 1)
                 {
-                    GameObject o = Instantiate(goal);
+                    GameObject o = Instantiate(gate);
+                    BoxCollider2D collider = o.GetComponent<BoxCollider2D>();
+                    float x1 = partData.enemyAreas[j].x;
+                    float y1 = partData.enemyAreas[j].y;
+                    float w1 = partData.enemyAreas[j].width;
+                    float h1 = partData.enemyAreas[j].height;
+                    collider.size = new Vector2(w1, h1);
+                    collider.offset = new Vector2(-w1 / 2, -h1 / 2);
                     o.transform.position = new Vector3(x, -y, 0);
                 }
                 else if (partData.enemyTypes[j] == 3) //slime monster
@@ -420,6 +433,17 @@ public class GameSceneLevelLoading : MonoBehaviour
 
                     component.MoveArea = collider;
                     component.movespeed = 5.0f;
+                }
+                else if (partData.enemyTypes[j] == 7) //boss
+                {
+                    GameObject o = Instantiate(boss);
+                    float x1 = partData.enemyAreas[j].x;
+                    float y1 = partData.enemyAreas[j].y;
+                    float w1 = partData.enemyAreas[j].width + 1;
+                    float h1 = partData.enemyAreas[j].height + 1;
+                    o.transform.position = new Vector3(x1 + w1 / 2.0f, -(y1 + h1), 0.0f);
+
+                    o.transform.position += new Vector3(0, o.GetComponent<SpriteRenderer>().bounds.size.y, 0);
                 }
                 else
                 {
@@ -480,6 +504,7 @@ public class GameSceneLevelLoading : MonoBehaviour
 
         print("load " + nTotal + " textures");
         texture = new Texture2D(4096, 4096);
+        texture.filterMode = FilterMode.Point;
         Texture2D[] textures = new Texture2D[numTextures];
         animations = new LevelAnimation[numAnimated];
         tileIndex = new int[nTotal];
@@ -517,7 +542,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                 tileIndex[tileIndexIndex++] = nAnimations;
                 animations[nAnimations++] = a;
             }
-            else //divide into multiple static textures
+            else //divide into multiple textures
             {
                 for (int y = 0; y < rows[i]; y++)
                 {
@@ -525,6 +550,7 @@ public class GameSceneLevelLoading : MonoBehaviour
                     {
                         Color[] pixels = tex.GetPixels(x * w1, h0 - (y + 1) * h1, w1, h1);
                         Texture2D t2 = new Texture2D(w1, h1, TextureFormat.ARGB32, false);
+                        t2.filterMode = FilterMode.Point;
                         t2.SetPixels(pixels);
                         t2.Apply();
                         tileIndex[tileIndexIndex++] = numTextures;
@@ -534,7 +560,7 @@ public class GameSceneLevelLoading : MonoBehaviour
             }
         }
         //create texture atlas and add uv coordinates to a rectangle array
-        uvs = texture.PackTextures(textures, 2, 2048, false);
+        uvs = texture.PackTextures(textures, 2, 4096, false);
 
         //divide tilemap to rectangles and create drawable mesh
         List<Rectangle> staticRects = new List<Rectangle>();
@@ -549,11 +575,11 @@ public class GameSceneLevelLoading : MonoBehaviour
                     if (partData.tilemap[x + y * w + n * w * h] >= 0)
                     {
                         Rectangle rect = new Rectangle();
-                        rect.x = x - 0.01f;
-                        rect.y = y - 0.01f;
+                        rect.x = x;// - 0.01f;
+                        rect.y = y;// - 0.01f;
                         rect.z = n;
-                        rect.w = 1.02f;
-                        rect.h = 1.02f;
+                        rect.w = 1;// .02f;
+                        rect.h = 1;// .02f;
                         rect.type = partData.tilemap[x + y * w + n * w * h];
 
                         //chech if current tile is animated
@@ -619,12 +645,14 @@ public class GameSceneLevelLoading : MonoBehaviour
                 triangles[i * 6 + 5] = i * 4 + 3;
 
                 //get ui coordinates
+                float qpx = 0.25f / texture.width; //Quarter pixel, add this to avoid texture bleeding
+                float qpy = 0.25f / texture.height;
                 Rect uvRect = uvs[tileIndex[staticRects[i].type]];
 
-                uv[i * 4 + 0] = new Vector2(uvRect.x, uvRect.y);
-                uv[i * 4 + 1] = new Vector2(uvRect.x + uvRect.width, uvRect.y);
-                uv[i * 4 + 2] = new Vector2(uvRect.x, uvRect.y + uvRect.height);
-                uv[i * 4 + 3] = new Vector2(uvRect.x + uvRect.width, uvRect.y + uvRect.height);
+                uv[i * 4 + 0] = new Vector2(uvRect.x + qpx, uvRect.y + qpy);
+                uv[i * 4 + 1] = new Vector2(uvRect.x + uvRect.width - qpx, uvRect.y + qpy);
+                uv[i * 4 + 2] = new Vector2(uvRect.x + qpx, uvRect.y + uvRect.height - qpy);
+                uv[i * 4 + 3] = new Vector2(uvRect.x + uvRect.width - qpx, uvRect.y + uvRect.height - qpy);
             }
 
             Mesh mesh = new Mesh();
@@ -693,10 +721,13 @@ public class GameSceneLevelLoading : MonoBehaviour
                 //get ui coordinates
                 Rect uvRect = animations[i].getRect(0);
 
-                uv[k * 4 + 0] = new Vector2(uvRect.x, uvRect.y);
-                uv[k * 4 + 1] = new Vector2(uvRect.x + uvRect.width, uvRect.y);
-                uv[k * 4 + 2] = new Vector2(uvRect.x, uvRect.y + uvRect.height);
-                uv[k * 4 + 3] = new Vector2(uvRect.x + uvRect.width, uvRect.y + uvRect.height);
+                float qpx = 0.25f / texture.width; //Quarter pixel, add this to avoid texture bleeding
+                float qpy = 0.25f / texture.height;
+
+                uv[k * 4 + 0] = new Vector2(uvRect.x + qpx, uvRect.y + qpy);
+                uv[k * 4 + 1] = new Vector2(uvRect.x + uvRect.width - qpx, uvRect.y + qpy);
+                uv[k * 4 + 2] = new Vector2(uvRect.x + qpx, uvRect.y + uvRect.height - qpy);
+                uv[k * 4 + 3] = new Vector2(uvRect.x + uvRect.width - qpx, uvRect.y + uvRect.height - qpy);
             }
             Mesh m = new Mesh();
             m.name = "AnimationMesh";
