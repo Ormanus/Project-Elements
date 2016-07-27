@@ -84,9 +84,6 @@ public class Player : MonoBehaviour {
             SoundManager.volumeLevel = 0.2F;
 		}
         elementTimer = 0.0f;
-
-        //DEBUG:
-        Inventory.inventory.Add(new KeyValuePair<string, int>("Fire Orb", 100));
 	}
 	
     void FixedUpdate()
