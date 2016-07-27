@@ -3,14 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PlayerEffect
-{
-    public float timer;
-    public float amount;
-    public int type;
-};
-
-public class Player : MonoBehaviour {
+public class Player_b : MonoBehaviour {
 
     public static GameObject ASGO;
     public static GameObject SoundGO;
@@ -57,7 +50,7 @@ public class Player : MonoBehaviour {
         effects = new List<PlayerEffect>();
 
         Void = GameObject.Find("Void");
-        gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
+        //gameObject.GetComponent<SpriteRenderer>().color = Inventory.varihahmolle;
         rb = GetComponent<Rigidbody2D>();
         
         element = 0;
@@ -84,9 +77,6 @@ public class Player : MonoBehaviour {
             SoundManager.volumeLevel = 0.2F;
 		}
         elementTimer = 0.0f;
-
-        //DEBUG:
-        Inventory.inventory.Add(new KeyValuePair<string, int>("Fire Orb", 100));
 	}
 	
     void FixedUpdate()
@@ -94,7 +84,7 @@ public class Player : MonoBehaviour {
         rb.velocity = Vector2.zero;
 
         float multiplier = 0.05f;
-        float addition = 15.0f;
+        float addition = 55.0f;
 
         if (Input.GetAxisRaw("Horizontal") > 0.5f)
         {
@@ -127,16 +117,9 @@ public class Player : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.5f)
         {
             //create bullet
-            //Bulletspawn = GameObject.Find("BulletSpawn").transform;
-
-            Vector2 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - BulletSpawn.position;
-
-            float direction = Mathf.Atan2(delta.y, delta.x) + 3.14159265f * 2.0f;
-
             GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
             obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[(int)(elementTimer != 0 ? previousElement : element)];
             Bullet bullet = obj.GetComponent<Bullet>();
-            bullet.direction = direction;
             bullet.element = (elementTimer != 0 ? previousElement : element);
             switch(element)
             {
@@ -159,21 +142,19 @@ public class Player : MonoBehaviour {
             //decrease mana
             PlayerHealth.Playermana -= 0.5f;
         }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            selectedItem++;
-            if (selectedItem > Inventory.inventory.Count - 1)
-                selectedItem = 0;
-            itemBar.SendMessage("choose", selectedItem);
-        }
-
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0)
         {
             if (scroll < 0)
             {
-                if (elementTimer <= 0.0f)
+                if (Input.GetKey(KeyCode.E))
+                {
+                    selectedItem++;
+                    if (selectedItem > Inventory.inventory.Count - 1)
+                        selectedItem = 0;
+                    itemBar.SendMessage("choose", selectedItem);
+                }
+                else if (elementTimer <= 0.0f)
                 {
                     previousElement = element;
                     element++;
@@ -187,7 +168,14 @@ public class Player : MonoBehaviour {
             }
             else if (scroll > 0)
             {
-                if (elementTimer <= 0.0f)
+                if (Input.GetKey(KeyCode.E))
+                {
+                    selectedItem--;
+                    if (selectedItem < 0)
+                        selectedItem = Inventory.inventory.Count - 1;
+                    itemBar.SendMessage("choose", selectedItem);
+                }
+                else if (elementTimer <= 0.0f)
                 {
                     previousElement = element;
                     element--;
@@ -237,11 +225,10 @@ public class Player : MonoBehaviour {
         if (PlayerHealth.Playerhealth <= 0)
         {
             //TODO: death animation + nest scene after a few seconds?
-			Animation animationTest = GetComponent<Animation> ();
-			animationTest.Play ();
-            Instantiate(playerdeathparticle, transform.position, transform.rotation);
+
+            //Instantiate(playerdeathparticle, transform.position, transform.rotation);
             
-            //SceneManager.LoadScene("EndScreenScene");
+            SceneManager.LoadScene("EndScreenScene");
         }
 
         if(elementTimer > 0)
@@ -305,7 +292,7 @@ public class Player : MonoBehaviour {
             if (element != other.gameObject.GetComponent<EnemyBullet>().element)
                 damage *= 2;
             PlayerHealth.Playerhealth -= damage;
-            Instantiate(playerhitParticle,transform.position,transform.rotation);
+            //Instantiate(playerhitParticle,transform.position,transform.rotation);
             Destroy(other.gameObject);
         }
         else if(other.gameObject.tag == "Finish" && Inventory.key)
