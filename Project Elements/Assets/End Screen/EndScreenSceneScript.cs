@@ -6,7 +6,8 @@ public class EndScreenSceneScript : MonoBehaviour {
 	public float currentHealth;
 	void Start() {
         //PlayerPrefs.SetFloat ("healtti", 3000);
-        currentHealth = PlayerPrefs.GetFloat("healtti");
+        GameSceneLevelLoading.levelNumber = 0;
+        currentHealth = 0;
     }
 	void Update() {
 

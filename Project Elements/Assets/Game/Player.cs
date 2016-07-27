@@ -27,7 +27,9 @@ public class Player : MonoBehaviour {
     public RectTransform secondSpriteGameobj = null;
     public RectTransform thirdSpriteGameobj = null;
     public GameObject glowElement;
+    public GameObject pointer;
     public Sprite[] Elements;
+    public GameObject shieldPrefab;
 
     Vector3 mousePos;
     Rigidbody2D rb;
@@ -37,7 +39,7 @@ public class Player : MonoBehaviour {
     Vector3 objectPos;
     float angle;
     float elementTimer;
-    const float maxTime = 2.0f;
+    const float maxTime = 1.0f;
     bool elementDirection = false;
 
     private Animator anim;
@@ -46,6 +48,7 @@ public class Player : MonoBehaviour {
     private Vector2 twoGameobj;
     private Vector2 thirdgameobj;
     private GameObject Void;
+    private GameObject shield;
 
     protected int threetimes;
 
@@ -87,24 +90,27 @@ public class Player : MonoBehaviour {
     {
         rb.velocity = Vector2.zero;
 
+        float multiplier = 0.05f;
+        float addition = 15.0f;
+
         if (Input.GetAxisRaw("Horizontal") > 0.5f)
         {
-            rb.velocity += Vector2.right * Inventory.nopeus / 10f;
+            rb.velocity += Vector2.right * (Inventory.nopeus + addition) * multiplier;
             //transform.Translate(Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Horizontal") < -0.5f)
         {
-            rb.velocity += -Vector2.right * Inventory.nopeus / 10f;
+            rb.velocity += -Vector2.right * (Inventory.nopeus + addition) * multiplier;
             //transform.Translate(-Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") > 0.5f)
         {
-            rb.velocity += Vector2.up * Inventory.nopeus / 10f;
+            rb.velocity += Vector2.up * (Inventory.nopeus + addition) * multiplier;
             //transform.Translate(Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") < -0.5f)
         {
-            rb.velocity += -Vector2.up * Inventory.nopeus / 10f;
+            rb.velocity += -Vector2.up * (Inventory.nopeus + addition) * multiplier;
             //transform.Translate(-Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
 
@@ -115,20 +121,32 @@ public class Player : MonoBehaviour {
 	void Update () {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.1f)
+        if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.5f)
         {
+            //create bullet
             GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
             obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[(int)(elementTimer != 0 ? previousElement : element)];
-            obj.GetComponent<Bullet>().element = (elementTimer != 0 ? previousElement : element);
+            Bullet bullet = obj.GetComponent<Bullet>();
+            bullet.element = (elementTimer != 0 ? previousElement : element);
+            switch(element)
+            {
+                case Element.Fire:
+                    bullet.damage = Inventory.fireLevel;
+                    break;
+                case Element.Air:
+                    bullet.damage = Inventory.airLevel;
+                    break;
+                case Element.Ice:
+                    bullet.damage = Inventory.iceLevel;
+                    break;
+            }
+
+            //play sound
 			AudioSource honksound = SoundGO.GetComponent<AudioSource>();
 			honksound.volume = SoundManager.volumeLevel;
-
-			//AudioSource.PlayClipAtPoint (clips [0], transform.position);
-
-			//			Debug.Log (SoundManager.volumeLevel + "pöö");
-
-
 			honksound.PlayOneShot (clips [1], SoundManager.volumeLevel);
+
+            //decrease mana
             PlayerHealth.Playermana -= 0.5f;
         }
         float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -231,6 +249,31 @@ public class Player : MonoBehaviour {
             elementWheelPositions();
         }
 
+        //shield
+        if (Input.GetMouseButtonDown(1) && PlayerHealth.Playermana > 5)
+        {
+            shield = Instantiate(shieldPrefab);
+        }
+        if(Input.GetMouseButton(1) && shield)
+        {
+            if (PlayerHealth.Playermana > 2.0f * Time.deltaTime)
+            {
+                PlayerHealth.Playermana -= 3.0f * Time.deltaTime;
+                Vector2 direction = (mousePos - transform.position);
+                shield.transform.position = transform.position + (Vector3)direction.normalized * 0.5f;
+                shield.transform.localEulerAngles = new Vector3(0, 0, 180 * Mathf.Atan2(direction.y, direction.x) / Mathf.PI - 90);
+            }
+            else
+            {
+                PlayerHealth.Playermana = 0.0f;
+                DestroyObject(shield);
+            }
+        }
+        if(Input.GetMouseButtonUp(1))
+        {
+            DestroyObject(shield);
+        }
+
 
         anim.SetFloat("MoveX",Input.GetAxisRaw("Horizontal"));
         anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
@@ -252,16 +295,24 @@ public class Player : MonoBehaviour {
     {
         if (other.gameObject.tag == "enemyBullet")
         {
-            float damage = 0.25f;
+            float damage = other.gameObject.GetComponent<EnemyBullet>().damage;
             if (element != other.gameObject.GetComponent<EnemyBullet>().element)
                 damage *= 2;
             PlayerHealth.Playerhealth -= damage;
             Instantiate(playerhitParticle,transform.position,transform.rotation);
             Destroy(other.gameObject);
         }
-        else if(other.gameObject.tag == "Finish")
+        else if(other.gameObject.tag == "Finish" && Inventory.key)
         {
-            SceneManager.LoadScene("ShopScene");
+            GameSceneLevelLoading.levelNumber++;
+            if((GameSceneLevelLoading.levelNumber) % 3 == 2)
+            {
+                SceneManager.LoadScene("ShopScene");
+            }
+            else
+            {
+                SceneManager.LoadScene("InterLevelScene");
+            }
         }
     }
 
@@ -294,10 +345,12 @@ public class Player : MonoBehaviour {
         if(fraction > 0.5f)
         {
             glowElement.GetComponent<Image>().sprite = Elements[(int)previousElement];
+            pointer.SendMessage("setColor", new Vector2((float)previousElement, color.r));
         }
         else
         {
             glowElement.GetComponent<Image>().sprite = Elements[(int)element];
+            pointer.SendMessage("setColor", new Vector2((float)element, color.r));
         }
     }
 }

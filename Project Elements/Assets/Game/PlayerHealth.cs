@@ -31,7 +31,7 @@ public class PlayerHealth : MonoBehaviour
 
         if(Playermana < Inventory.maxMana)
         {
-            Playermana += Time.deltaTime * Inventory.manaRegen / 5.0f;
+            Playermana += Time.deltaTime * Inventory.manaRegen * 2.0f;
         }
     }
 }

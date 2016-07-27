@@ -81,7 +81,7 @@ public class ItemBar : MonoBehaviour {
     }
 
 	void Update () {
-	    if(Input.GetMouseButtonDown(1))
+	    if(Input.GetMouseButtonDown(2)) //TODO: change key
         {
             if (Inventory.inventory.Count > 0)
             {

@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour {
     Rigidbody2D rb;
     public float amount;
     public Element element;
+    public float damage = 1.0f;
     //public Vector3 sp;
     //public Vector3 dir;
 
@@ -58,9 +59,11 @@ public class Bullet : MonoBehaviour {
         if (other.gameObject.layer == 8)
         {
             Destroy(gameObject);
-
         }
-
+        else if(other.gameObject.layer == 13)
+        {
+            PlayerHealth.Playermana -= 4.0f;
+            Destroy(gameObject);
+        }
     }
-
 }
