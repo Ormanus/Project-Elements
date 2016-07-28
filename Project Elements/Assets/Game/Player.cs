@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerEffect
 {
@@ -43,12 +44,15 @@ public class Player : MonoBehaviour {
     bool elementDirection = false;
 
     private Animator anim;
+	private Animator animDonePlayer;//when players health is about 0
     private ItemBar itemBar;
     private Vector2 oneGameO; 
     private Vector2 twoGameobj;
     private Vector2 thirdgameobj;
     private GameObject Void;
     private GameObject shield;
+	public Animation animationClip;
+	bool playedClipOnce = false;
 
     protected int threetimes;
 
@@ -64,6 +68,7 @@ public class Player : MonoBehaviour {
         	selectedItem = 0;
         anim = GetComponent<Animator>();
 
+		animationClip = GetComponent<Animation>();
         itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
 
 		elementWheelPositions();
@@ -231,10 +236,26 @@ public class Player : MonoBehaviour {
         if (PlayerHealth.Playerhealth <= 0)
         {
             //TODO: death animation + nest scene after a few seconds?
-			Animation animationTest = GetComponent<Animation> ();
-			animationTest.Play ();
+
+
+			//animationTest.Play ();
             Instantiate(playerdeathparticle, transform.position, transform.rotation);
-            
+			Debug.Log ("0 kerho tai ei");
+
+			//anim.SetBool ("PlayerDone", false);
+			if (playedClipOnce == false) {
+				GetComponent<Animator> ().Play ("PlayerFallIdle");
+				playedClipOnce = true;
+			} else {
+				StartCoroutine(odota());
+				playedClipOnce = true;
+
+			}
+			//anim.runtimeAnimatorController = Resources.Load("Animations/PlayerWalk/PlayerFall") as RuntimeAnimatorController;
+			anim.enabled = true;
+
+			//animation["AnimationName"].wrapMode = WrapMode.Once;
+			//animation.Play("AnimationName");
             //SceneManager.LoadScene("EndScreenScene");
         }
 
@@ -277,6 +298,15 @@ public class Player : MonoBehaviour {
         anim.SetFloat("MoveX",Input.GetAxisRaw("Horizontal"));
         anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
     }
+
+	//Following enumerator just change the value of Animation Parameter randomly
+	IEnumerator odota()
+	{
+		yield return new WaitForSeconds(1.0f);
+		//This line set the value of Animation Parameter 
+		GetComponent<Animator> ().Stop ();
+
+	}
 
     void OnCollisionStay2D(Collision2D other)
     {
