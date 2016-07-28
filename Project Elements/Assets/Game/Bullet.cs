@@ -20,6 +20,8 @@ public class Bullet : MonoBehaviour {
     public Transform Bulletspawn;
     public Vector2 shoot;
     public float direction;
+
+    public Sprite[] sprites;
     //public GameObject ShootDirection;
     
     // Use this for initialization
@@ -40,7 +42,12 @@ public class Bullet : MonoBehaviour {
         transform.rotation = Quaternion.LookRotation(Vector3.forward, -shoot);
     }
 
-	
+	public void setElement(Element newElement)
+    {
+        element = newElement;
+        GetComponent<SpriteRenderer>().sprite = sprites[(int)element];
+    }
+
 	// Update is called once per frame
 	void Update () {
         //rb.velocity = rb.velocity = Vector2.up;      

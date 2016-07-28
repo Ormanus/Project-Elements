@@ -161,7 +161,7 @@ public class CharacterSelection : MonoBehaviour {
                 Inventory.inventory = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, int>>();
             }
             Inventory.inventory.Clear();
-            SceneManager.LoadScene("GameScene");
+            SceneManager.LoadScene("InterLevelScene");
         }
 
 		Inventory.varihahmolle = new Color(sliderRedValue / 255, sliderGreenValue / 255, sliderBlueValue / 255, 1f);

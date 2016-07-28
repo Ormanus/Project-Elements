@@ -1,0 +1,6 @@
+Approaching the end!
+But beware, because here 
+a programming error lets
+enemies move
+through
+walls.

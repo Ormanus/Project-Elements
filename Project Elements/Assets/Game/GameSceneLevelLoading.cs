@@ -66,6 +66,7 @@ struct AnimatedMesh
 public class GameSceneLevelLoading : MonoBehaviour
 {
     public static int levelNumber = 0;
+    public static int maxLevel;
 
     public GameObject[] enemies;
     public GameObject goal;
@@ -95,6 +96,8 @@ public class GameSceneLevelLoading : MonoBehaviour
 
     void Start()
     {
+        maxLevel = levels.Length - 1;
+
         if(levelNumber >= levels.Length)
         {
             levelNumber = 0;

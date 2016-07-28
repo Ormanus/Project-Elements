@@ -57,23 +57,27 @@ public class ItemBar : MonoBehaviour {
             {
                 GUI.DrawTexture(new Rect(Display.main.renderingWidth - 40, 8 + i * 40, 32, 32), selection);
             }
+            GUI.DrawTexture(new Rect(Display.main.renderingWidth - 40, 8 + i * 40, 32, 32), findTexture(i));
+        }
+    }
 
-            int index = -1;
-            for(int j = 0; j < itemNames.Length; j++)
+    private Texture2D findTexture(int choise)
+    {
+        int index = -1;
+        for (int j = 0; j < itemNames.Length; j++)
+        {
+            if (itemNames[j] == Inventory.inventory[choise].Key)
             {
-                if(itemNames[j] == Inventory.inventory[i].Key)
-                {
-                    index = j;
-                }
+                index = j;
             }
-            if(index != -1)
-            {
-                GUI.DrawTexture(new Rect(Display.main.renderingWidth - 40, 8 + i * 40, 32, 32), itemTextures[index]);
-            }
-            else
-            {
-                GUI.DrawTexture(new Rect(Display.main.renderingWidth - 40, 8 + i * 40, 32, 32), defaultTexture);
-            }
+        }
+        if (index != -1)
+        {
+            return itemTextures[index];
+        }
+        else
+        {
+            return defaultTexture;
         }
     }
 
@@ -115,7 +119,21 @@ public class ItemBar : MonoBehaviour {
                 }
                 else if (Inventory.inventory[theChosenOne].Key == "Fire Orb")
                 {
-                    Instantiate(orb);
+                    GameObject o = Instantiate(orb);
+                    o.GetComponent<OrbShooting>().element = Element.Fire;
+                    o.GetComponent<SpriteRenderer>().sprite = Sprite.Create(findTexture(theChosenOne), new Rect(0, 0, 64, 64), new Vector2(0, 0));
+                }
+                else if (Inventory.inventory[theChosenOne].Key == "Ice Orb")
+                {
+                    GameObject o = Instantiate(orb);
+                    o.GetComponent<OrbShooting>().element = Element.Ice;
+                    o.GetComponent<SpriteRenderer>().sprite = Sprite.Create(findTexture(theChosenOne), new Rect(0, 0, 64, 64), new Vector2(0, 0));
+                }
+                else if (Inventory.inventory[theChosenOne].Key == "Air Orb")
+                {
+                    GameObject o = Instantiate(orb);
+                    o.GetComponent<OrbShooting>().element = Element.Air;
+                    o.GetComponent<SpriteRenderer>().sprite = Sprite.Create(findTexture(theChosenOne), new Rect(0, 0, 64, 64), new Vector2(0, 0));
                 }
                 else
                 {

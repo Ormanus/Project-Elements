@@ -33,7 +33,7 @@ public class Player : MonoBehaviour {
 
     Vector3 mousePos;
     Rigidbody2D rb;
-    Element element;
+    public Element element;
     Element previousElement;
     int selectedItem;
     Vector3 objectPos;
@@ -84,7 +84,11 @@ public class Player : MonoBehaviour {
             SoundManager.volumeLevel = 0.2F;
 		}
         elementTimer = 0.0f;
-	}
+
+        //Inventory.inventory.Add(new KeyValuePair<string, int>("Fire Orb", 50));
+        //Inventory.inventory.Add(new KeyValuePair<string, int>("Ice Orb", 50));
+        //Inventory.inventory.Add(new KeyValuePair<string, int>("Air Orb", 50));
+    }
 	
     void FixedUpdate()
     {
@@ -96,22 +100,18 @@ public class Player : MonoBehaviour {
         if (Input.GetAxisRaw("Horizontal") > 0.5f)
         {
             rb.velocity += Vector2.right * (Inventory.nopeus + addition) * multiplier;
-            //transform.Translate(Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Horizontal") < -0.5f)
         {
             rb.velocity += -Vector2.right * (Inventory.nopeus + addition) * multiplier;
-            //transform.Translate(-Vector2.right * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") > 0.5f)
         {
             rb.velocity += Vector2.up * (Inventory.nopeus + addition) * multiplier;
-            //transform.Translate(Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
         if (Input.GetAxisRaw("Vertical") < -0.5f)
         {
             rb.velocity += -Vector2.up * (Inventory.nopeus + addition) * multiplier;
-            //transform.Translate(-Vector2.up * Time.deltaTime * Inventory.nopeus / 10, Space.World);
         }
 
         Void.transform.Rotate(new Vector3(0.0f, 0, 0.1f));
@@ -124,17 +124,14 @@ public class Player : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.5f)
         {
             //create bullet
-            //Bulletspawn = GameObject.Find("BulletSpawn").transform;
-
             Vector2 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - BulletSpawn.position;
 
             float direction = Mathf.Atan2(delta.y, delta.x) + 3.14159265f * 2.0f;
 
             GameObject obj = (GameObject)Instantiate(BulletPrefab, BulletSpawn.position, BulletSpawn.rotation);
-            obj.GetComponent<SpriteRenderer>().sprite = bulletSprites[(int)(elementTimer != 0 ? previousElement : element)];
             Bullet bullet = obj.GetComponent<Bullet>();
+            bullet.setElement(elementTimer != 0 ? previousElement : element);
             bullet.direction = direction;
-            bullet.element = (elementTimer != 0 ? previousElement : element);
             switch(element)
             {
                 case Element.Fire:
@@ -277,11 +274,8 @@ public class Player : MonoBehaviour {
             DestroyObject(shield);
         }
 
-
         anim.SetFloat("MoveX",Input.GetAxisRaw("Horizontal"));
         anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
-
-
     }
 
     void OnCollisionStay2D(Collision2D other)
@@ -308,9 +302,9 @@ public class Player : MonoBehaviour {
         else if(other.gameObject.tag == "Finish" && Inventory.key)
         {
             GameSceneLevelLoading.levelNumber++;
-            if((GameSceneLevelLoading.levelNumber) % 3 == 2)
+            if(GameSceneLevelLoading.levelNumber == GameSceneLevelLoading.maxLevel)
             {
-                SceneManager.LoadScene("ShopScene");
+                SceneManager.LoadScene("EndScreenScene");
             }
             else
             {

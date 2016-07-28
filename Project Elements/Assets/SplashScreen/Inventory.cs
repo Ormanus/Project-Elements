@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour {
 
     public static bool key = true;
 
-    public static int tradeTokens = 3;
+    public static int shopTokens = 3;
 
 
     // Use this for initialization

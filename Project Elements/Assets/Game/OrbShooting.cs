@@ -49,7 +49,7 @@ public class OrbShooting : MonoBehaviour
                         o.transform.position = gameObject.transform.position;
                         o.transform.eulerAngles = new Vector3(0, 0, 180 * Mathf.Atan2(direction.y, direction.x) / Mathf.PI);
                         Bullet b = o.GetComponent<Bullet>();
-                        b.element = element;
+                        b.setElement(element);
                         b.damage = 0.25f;
                         b.direction = Mathf.Atan2(direction.y, direction.x);
                     }
