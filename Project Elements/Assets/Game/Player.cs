@@ -53,6 +53,7 @@ public class Player : MonoBehaviour {
     private GameObject shield;
 	public Animation animationClip;
 	bool playedClipOnce = false;
+	bool isDead;
 
     protected int threetimes;
 
@@ -67,6 +68,8 @@ public class Player : MonoBehaviour {
         element = 0;
         	selectedItem = 0;
         anim = GetComponent<Animator>();
+
+		isDead = false;
 
 		animationClip = GetComponent<Animation>();
         itemBar = itemBarTransform.gameObject.GetComponent<ItemBar>();
@@ -89,16 +92,16 @@ public class Player : MonoBehaviour {
             SoundManager.volumeLevel = 0.2F;
 		}
         elementTimer = 0.0f;
-
-        //Inventory.inventory.Add(new KeyValuePair<string, int>("Fire Orb", 50));
-        //Inventory.inventory.Add(new KeyValuePair<string, int>("Ice Orb", 50));
-        //Inventory.inventory.Add(new KeyValuePair<string, int>("Air Orb", 50));
     }
 	
     void FixedUpdate()
     {
+
         rb.velocity = Vector2.zero;
 
+		if (isDead)
+			return;
+		
         float multiplier = 0.05f;
         float addition = 15.0f;
 
@@ -124,6 +127,10 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		if (isDead)
+			return;
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0) && PlayerHealth.Playermana > 0.5f)
@@ -157,7 +164,11 @@ public class Player : MonoBehaviour {
 
             //decrease mana
             PlayerHealth.Playermana -= 0.5f;
+
+			anim.SetBool ("Attack", true);
         }
+		else
+			anim.SetBool("Attack", false);
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -242,17 +253,20 @@ public class Player : MonoBehaviour {
             Instantiate(playerdeathparticle, transform.position, transform.rotation);
 			Debug.Log ("0 kerho tai ei");
 
-			//anim.SetBool ("PlayerDone", false);
+			anim.SetBool ("Gone", true);
+			StartCoroutine(odota());
 			if (playedClipOnce == false) {
-				GetComponent<Animator> ().Play ("PlayerFallIdle");
+
 				playedClipOnce = true;
 			} else {
-				StartCoroutine(odota());
+				
 				playedClipOnce = true;
 
 			}
 			//anim.runtimeAnimatorController = Resources.Load("Animations/PlayerWalk/PlayerFall") as RuntimeAnimatorController;
 			anim.enabled = true;
+
+			isDead = true;
 
 			//animation["AnimationName"].wrapMode = WrapMode.Once;
 			//animation.Play("AnimationName");
@@ -304,7 +318,8 @@ public class Player : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(1.0f);
 		//This line set the value of Animation Parameter 
-		GetComponent<Animator> ().Stop ();
+		//GetComponent<Animator> ().Stop ();
+		SceneManager.LoadScene("EndScreenScene");
 
 	}
 
