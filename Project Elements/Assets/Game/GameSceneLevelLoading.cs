@@ -96,7 +96,7 @@ public class GameSceneLevelLoading : MonoBehaviour
 
     void Start()
     {
-        maxLevel = levels.Length - 1;
+        maxLevel = levels.Length;
 
         if(levelNumber >= levels.Length)
         {
@@ -783,7 +783,7 @@ public class GameSceneLevelLoading : MonoBehaviour
             }
         }
         part.go.transform.position = new Vector3(x0, y0);
-        part.go.layer = (!isBossLevel ? 8 : 11);
+        part.go.layer = 8;
         //AstarPath path = AStar.GetComponent<AstarPath>();
         //var graph = AstarPath.active.astarData.gridGraph;
         //graph.width = part.w * 4;
