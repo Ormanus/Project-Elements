@@ -1,6 +1,3 @@
-Approaching the end!
-But beware, because here 
-a programming error lets
-enemies move
-through
-walls.
+The end is near!
+The boss level is right around the corner!
+Go forth, and punch it to the next century!
